@@ -576,6 +576,10 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
 
   if (!total) return null;
 
+  // S'il y a plus de 3 ingrédients → mode carrousel avec cartes partielles
+  // S'il y en a 3 ou moins → mode grille, toutes les cartes actives, pas de vide
+  const hasMany = total > 3;
+
   return (
     <section className="ing-section">
       <div className="ing-header">
@@ -591,36 +595,43 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
             setActiveIndex(swiper.realIndex);
             setOpenMobileIndex(null);
           }}
-          centeredSlides={true}
-          loop={total >= 4}
+          centeredSlides={hasMany}
+          loop={hasMany}
           speed={420}
           navigation={{ nextEl: ".ing-nav-next", prevEl: ".ing-nav-prev" }}
-          slidesPerView={Math.min(total, 3)}
-          spaceBetween={20}
-          breakpoints={{
-            0:   { slidesPerView: Math.min(total, 1.8), spaceBetween: 16 },
-            480: { slidesPerView: Math.min(total, 2.4), spaceBetween: 18 },
-            640: { slidesPerView: Math.min(total, 3),   spaceBetween: 20 },
-          }}
+          breakpoints={
+            hasMany
+              ? {
+                  0:   { slidesPerView: 1.4, spaceBetween: 14 },
+                  480: { slidesPerView: 2.2, spaceBetween: 16 },
+                  640: { slidesPerView: 3.2, spaceBetween: 20 },
+                  900: { slidesPerView: 3.4, spaceBetween: 20 },
+                }
+              : {
+                  0:   { slidesPerView: Math.min(total, 1.4), spaceBetween: 14 },
+                  480: { slidesPerView: Math.min(total, 2),   spaceBetween: 16 },
+                  640: { slidesPerView: total,                spaceBetween: 20 },
+                }
+          }
           className="ing-swiper"
         >
           {allIngredients.map((item, i) => {
-            const isActive = i === activeIndex;
+            const isActive = hasMany ? i === activeIndex : true;
             const mobileOpen = openMobileIndex === i;
             return (
               <SwiperSlide key={`${item.label}-${i}`} className="ing-slide">
                 <div
                   className={`ing-card ${isActive ? "ing-card--active" : ""}`}
                   onClick={() => {
-                    if (!isActive && swiperRef.current) {
+                    if (hasMany && !isActive && swiperRef.current) {
                       (i - activeIndex) > 0
                         ? swiperRef.current.slideNext()
                         : swiperRef.current.slidePrev();
                     }
                   }}
-                  role={!isActive ? "button" : undefined}
-                  tabIndex={!isActive ? 0 : undefined}
-                  aria-label={!isActive ? `Voir ${item.label}` : undefined}
+                  role={hasMany && !isActive ? "button" : undefined}
+                  tabIndex={hasMany && !isActive ? 0 : undefined}
+                  aria-label={hasMany && !isActive ? `Voir ${item.label}` : undefined}
                 >
                   <h4 className="ing-card-name">{item.label}</h4>
 
@@ -654,7 +665,7 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           })}
         </Swiper>
 
-        {total > 1 && (
+        {hasMany && (
           <>
             <button className="ing-nav-btn ing-nav-prev" aria-label="Précédent">
               <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
@@ -673,27 +684,67 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
       <style jsx>{`
         .ing-section {
           margin-top: 80px;
-          width: 100vw; position: relative;
-          left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;
+          width: 100vw;
+          position: relative;
+          left: 50%; right: 50%;
+          margin-left: -50vw; margin-right: -50vw;
           background: #fff;
           padding-bottom: 52px;
-          overflow: hidden;
         }
-        .ing-header { text-align: center; margin-bottom: 36px; padding: 0 24px; }
-        .ing-title { font-size: clamp(22px,3vw,30px); font-weight: 300; color: #1a1a1a; margin: 0 0 6px; letter-spacing: -0.02em; }
-        .ing-subtitle { font-size: 14px; color: #999; margin: 0; }
+
+        .ing-header {
+          text-align: center;
+          margin-bottom: 36px;
+          padding: 0 24px;
+        }
+        .ing-title {
+          font-size: clamp(22px, 3vw, 30px);
+          font-weight: 300;
+          color: #1a1a1a;
+          margin: 0 0 6px;
+          letter-spacing: -0.02em;
+        }
+        .ing-subtitle {
+          font-size: 14px;
+          color: #999;
+          margin: 0;
+        }
 
         .ing-wrap {
           position: relative;
-          max-width: 860px;
+          max-width: 960px;
           margin: 0 auto;
-          padding: 16px 56px 8px;
+          padding: 16px 0 8px;
+          overflow: hidden;
+          width: 100%;
         }
 
-        /* Swiper doit avoir overflow visible pour le scale de la carte active */
-        .ing-swiper { overflow: visible !important; }
+        /* Dégradés bords visibles seulement en mode carrousel */
+        .ing-wrap::before,
+        .ing-wrap::after {
+          content: "";
+          position: absolute;
+          top: 0; bottom: 0;
+          width: 60px;
+          z-index: 5;
+          pointer-events: none;
+          opacity: ${hasMany ? "1" : "0"};
+        }
+        .ing-wrap::before {
+          left: 0;
+          background: linear-gradient(to right, #fff 0%, rgba(255,255,255,0) 100%);
+        }
+        .ing-wrap::after {
+          right: 0;
+          background: linear-gradient(to left, #fff 0%, rgba(255,255,255,0) 100%);
+        }
 
-        /* Les slides prennent la largeur calculée par Swiper */
+        .ing-swiper {
+          overflow: visible !important;
+          padding: 12px 48px !important;
+          width: 100% !important;
+        }
+
         .ing-slide {
           height: auto !important;
           display: flex;
@@ -714,9 +765,9 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           padding: 16px 14px 14px;
           gap: 10px;
           cursor: pointer;
-          transform: scale(0.85);
-          opacity: 0.72;
-          filter: saturate(0.85);
+          transform: ${hasMany ? "scale(0.82)" : "scale(1)"};
+          opacity: ${hasMany ? "0.55" : "1"};
+          filter: ${hasMany ? "saturate(0.7)" : "none"};
           transform-origin: center center;
           transition:
             transform 0.38s cubic-bezier(0.34,1.26,0.64,1),
@@ -777,9 +828,9 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           text-align: center;
         }
         @media (hover: hover) and (pointer: fine) {
-          .ing-card--active:hover .ing-benefit { max-height: 100px; opacity: 1; }
+          .ing-card--active:hover .ing-benefit { max-height: 120px; opacity: 1; }
         }
-        .ing-benefit--open { max-height: 100px !important; opacity: 1 !important; }
+        .ing-benefit--open { max-height: 120px !important; opacity: 1 !important; }
 
         .ing-touch-btn {
           display: none;
@@ -813,12 +864,22 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
         }
         .ing-nav-prev { left: 8px; }
         .ing-nav-next { right: 8px; }
-        .ing-nav-btn:hover { background: #fef3e8; border-color: rgba(239,128,53,0.5); transform: translateY(-50%) scale(1.07); }
+        .ing-nav-btn:hover {
+          background: #fef3e8;
+          border-color: rgba(239,128,53,0.5);
+          transform: translateY(-50%) scale(1.07);
+        }
         .ing-nav-btn:active { transform: translateY(-50%) scale(0.94); }
 
         @media (max-width: 640px) {
-          .ing-wrap { padding: 12px 44px 8px; }
+          .ing-wrap::before,
+          .ing-wrap::after { width: 32px; }
+          .ing-swiper { padding: 12px 32px !important; }
+          .ing-nav-btn { width: 34px; height: 34px; }
+          .ing-nav-prev { left: 2px; }
+          .ing-nav-next { right: 2px; }
         }
+
         @media (prefers-reduced-motion: reduce) {
           .ing-card, .ing-img-wrap img, .ing-benefit, .ing-nav-btn { transition: none !important; }
         }
