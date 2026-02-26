@@ -57,7 +57,7 @@ export default function HomePage() {
 
   const categories = [
     { name: "Sommeil", image: "/image/nukuBleu.png", link: "/product/12" },
-    { name: "Relax", image: "/image/NukuViolet.png", link: "/product/10" },
+    { name: "Relax", image: "/image/nukuViolet.png", link: "/product/10" },
     { name: "Force & endurance", image: "/image/nukuRouge.png", link: "/product/14" },
     { name: "Cheveux", image: "/image/nukuJaune.png", link: "/product/11" },
     { name: "Digestion", image: "/image/nukuVert.png", link: "/product/13" },
