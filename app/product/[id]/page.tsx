@@ -2,16 +2,17 @@
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
 import { useCart } from "@/lib/contexts/CartContext";
 import RatingStars from "@/components/RatingStars";
 import { motion } from "framer-motion";
 import ProductReviews from "@/app/components/ProductReview";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation,Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import useEmblaCarousel from "embla-carousel-react";
+
 
 /* ============================================================================
    TYPES
@@ -559,120 +560,192 @@ function BenefitsNoMiddle({ benefits }: { benefits: string[] }) {
 /* ============================================================================
    INGREDIENTS SLIDER — Coverflow Premium
    ============================================================================ */
-function IngredientsSlider({ ingredients, productKey }: { ingredients: string[]; productKey: ProductKey | null }) {
+type Props = {
+  ingredients?: string[];
+  productKey: ProductKey | null;
+};
+
+ function IngredientsSlider({ ingredients, productKey }: Props) {
   const allIngredients = useMemo(() => {
     if (!productKey) return [];
     const out: { label: string; image: string; benefit: string }[] = [];
-    Object.entries(INGREDIENT_IMAGES).forEach(([key, value]) => {
-      if (key.startsWith(productKey + "-")) out.push({ label: value.label, image: value.path, benefit: value.benefit });
+    Object.entries(INGREDIENT_IMAGES).forEach(([key, value]: any) => {
+      if (key.startsWith(productKey + "-")) {
+        out.push({ label: value.label, image: value.path, benefit: value.benefit });
+      }
     });
     return out;
   }, [productKey]);
 
   const total = allIngredients.length;
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [openMobileIndex, setOpenMobileIndex] = useState<number | null>(null);
-  const swiperRef = useRef<any>(null);
+
+  // ─── Embla setup ───────────────────────────────────────────────────────────
+  // loop: true fonctionne parfaitement dans les deux sens avec Embla, sans config
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: total > 3,           // loop seulement si assez d'items
+    align: "center",           // carte active toujours centrée
+    containScroll: false,      // permet de voir les cartes des côtés
+    slidesToScroll: 1,         // toujours 1 slide à la fois, sans exception
+    dragFree: false,
+  });
+
+  const [activeIndex, setActiveIndex]       = useState(Math.floor(total / 2));
+  const [openBenefitIndex, setOpenBenefitIndex] = useState<number | null>(null);
+  const [isTouch, setIsTouch]               = useState(false);
+  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
+  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia("(hover: none), (pointer: coarse)").matches);
+  }, []);
+
+  // Synchronise l'index actif et l'état des boutons après chaque slide
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+    setOpenBenefitIndex(null);
+    // Avec loop=true, les deux boutons sont toujours actifs — Embla gère ça nativement
+    setPrevBtnEnabled(emblaApi.canScrollPrev());
+    setNextBtnEnabled(emblaApi.canScrollNext());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    // Démarrer sur la carte du milieu
+    emblaApi.scrollTo(Math.floor(total / 2), true);
+    emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    onSelect(); // état initial
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+    };
+  }, [emblaApi, onSelect, total]);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   if (!total) return null;
 
-  // S'il y a plus de 3 ingrédients → mode carrousel avec cartes partielles
-  // S'il y en a 3 ou moins → mode grille, toutes les cartes actives, pas de vide
-  const hasMany = total > 3;
+  // ─── Largeur max du wrap selon le nombre d'items ───────────────────────────
+  const desktopSlotsForWidth = Math.min(total >= 5 ? 5 : total || 1, 5);
+  const wrapMaxWidth =
+    desktopSlotsForWidth === 5 ? "1200px" :
+    desktopSlotsForWidth === 4 ? "980px"  :
+    desktopSlotsForWidth === 3 ? "760px"  :
+    desktopSlotsForWidth === 2 ? "520px"  : "320px";
+
+  // ─── Largeur de chaque slide en % (équivalent slidesPerView) ───────────────
+  // Embla utilise des % CSS sur chaque slide pour contrôler combien on en voit.
+  // On utilise des valeurs non-entières pour toujours avoir un "demi-slide" visible.
+  const slideWidthDesktop =
+    total <= 2 ? "100%" :
+    total === 3 ? "42%"  :   // ~2.4 slides visibles
+    total === 4 ? "30%"  :   // ~3.3 slides visibles
+    total === 5 ? "22%"  :   // ~4.5 slides visibles
+    "21%";                    // 6-7+ → ~4.8 slides visibles
+
+  const activeScale = total === 3 ? 1.14 : total >= 6 ? 1.1 : 1.08;
 
   return (
     <section className="ing-section">
-      <div className="ing-header">
-        <h3 className="ing-title">Ingrédients</h3>
-        <p className="ing-subtitle">Des actifs sélectionnés pour leur efficacité</p>
+       <div className="luxury-header">
+        <span className="luxury-badge">Formulation Expert</span>
+        <h2 className="luxury-title">Les Ingrédients</h2>
+        <div className="luxury-divider"></div>
+        <p className="luxury-subtitle">L’efficacité au cœur de la formule</p>
       </div>
 
-      <div className="ing-wrap">
-        <Swiper
-          modules={[Navigation]}
-          onSwiper={(swiper) => { swiperRef.current = swiper; }}
-          onSlideChange={(swiper) => {
-            setActiveIndex(swiper.realIndex);
-            setOpenMobileIndex(null);
-          }}
-          centeredSlides={hasMany}
-          loop={hasMany}
-          speed={420}
-          navigation={{ nextEl: ".ing-nav-next", prevEl: ".ing-nav-prev" }}
-          breakpoints={
-            hasMany
-              ? {
-                  0:   { slidesPerView: 1.4, spaceBetween: 14 },
-                  480: { slidesPerView: 2.2, spaceBetween: 16 },
-                  640: { slidesPerView: 3.2, spaceBetween: 20 },
-                  900: { slidesPerView: 3.4, spaceBetween: 20 },
-                }
-              : {
-                  0:   { slidesPerView: Math.min(total, 1.4), spaceBetween: 14 },
-                  480: { slidesPerView: Math.min(total, 2),   spaceBetween: 16 },
-                  640: { slidesPerView: total,                spaceBetween: 20 },
-                }
-          }
-          className="ing-swiper"
-        >
-          {allIngredients.map((item, i) => {
-            const isActive = hasMany ? i === activeIndex : true;
-            const mobileOpen = openMobileIndex === i;
-            return (
-              <SwiperSlide key={`${item.label}-${i}`} className="ing-slide">
+
+      <div
+        className="ing-wrap"
+        data-few={total <= 3 ? "true" : undefined}
+        style={{ ["--active-scale" as any]: activeScale } as React.CSSProperties}
+      >
+        {/* Zone scrollable Embla */}
+        <div className="ing-viewport" ref={emblaRef}>
+          <div className="ing-container">
+            {allIngredients.map((item, i) => {
+              const isActive    = i === activeIndex;
+              const benefitOpen = isTouch && openBenefitIndex === i;
+
+              return (
                 <div
-                  className={`ing-card ${isActive ? "ing-card--active" : ""}`}
-                  onClick={() => {
-                    if (hasMany && !isActive && swiperRef.current) {
-                      (i - activeIndex) > 0
-                        ? swiperRef.current.slideNext()
-                        : swiperRef.current.slidePrev();
-                    }
-                  }}
-                  role={hasMany && !isActive ? "button" : undefined}
-                  tabIndex={hasMany && !isActive ? 0 : undefined}
-                  aria-label={hasMany && !isActive ? `Voir ${item.label}` : undefined}
+                  key={`${item.label}-${i}`}
+                  className="ing-slide"
                 >
-                  <h4 className="ing-card-name">{item.label}</h4>
+                  <div
+                    className={`ing-card ${isActive ? "ing-card--active" : ""}`}
+                    onClick={() => {
+                      if (!isActive) emblaApi?.scrollTo(i);
+                    }}
+                    role={!isActive ? "button" : undefined}
+                    tabIndex={!isActive ? 0 : undefined}
+                    aria-label={!isActive ? `Voir ${item.label}` : undefined}
+                  >
+                    <h4 className="ing-card-name">{item.label}</h4>
 
-                  <div className="ing-img-wrap">
-                    <img src={item.image} alt={item.label} loading="lazy" draggable={false} />
+                    <div className="ing-img-wrap">
+                      <img
+                        src={item.image}
+                        alt={item.label}
+                        loading="lazy"
+                        draggable={false}
+                      />
+                    </div>
+
+                    <div className={`ing-benefit ${benefitOpen ? "ing-benefit--open" : ""}`}>
+                      <p>{item.benefit}</p>
+                    </div>
+
+                    {isActive && isTouch && (
+                      <button
+                        type="button"
+                        className={`ing-touch-btn ${benefitOpen ? "ing-touch-btn--open" : ""}`}
+                        aria-label={benefitOpen ? "Masquer" : "Voir le bienfait"}
+                        onPointerDown={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          setOpenBenefitIndex(benefitOpen ? null : i);
+                        }}
+                      >
+                        {benefitOpen ? (
+                          <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+                            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+                          </svg>
+                        ) : (
+                          <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+                            <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+                          </svg>
+                        )}
+                      </button>
+                    )}
                   </div>
-
-                  <div className={`ing-benefit ${mobileOpen ? "ing-benefit--open" : ""}`}>
-                    <p>{item.benefit}</p>
-                  </div>
-
-                  {isActive && (
-                    <button
-                      type="button"
-                      className={`ing-touch-btn ${mobileOpen ? "ing-touch-btn--open" : ""}`}
-                      aria-label={mobileOpen ? "Masquer" : "Voir le bienfait"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setOpenMobileIndex(mobileOpen ? null : i);
-                      }}
-                    >
-                      {mobileOpen
-                        ? <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
-                        : <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
-                      }
-                    </button>
-                  )}
                 </div>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+              );
+            })}
+          </div>
+        </div>
 
-        {hasMany && (
+        {/* Flèches — uniquement desktop */}
+        {!isTouch && (
           <>
-            <button className="ing-nav-btn ing-nav-prev" aria-label="Précédent">
+            <button
+              className="ing-nav-btn ing-nav-prev"
+              onClick={scrollPrev}
+              disabled={!prevBtnEnabled && !(total > 3)}
+              aria-label="Précédent"
+            >
               <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
                 <path d="M12.5 5L7.5 10l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-            <button className="ing-nav-btn ing-nav-next" aria-label="Suivant">
+            <button
+              className="ing-nav-btn ing-nav-next"
+              onClick={scrollNext}
+              disabled={!nextBtnEnabled && !(total > 3)}
+              aria-label="Suivant"
+            >
               <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
                 <path d="M7.5 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -682,6 +755,10 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
       </div>
 
       <style jsx>{`
+      .luxury-header { text-align: center; margin-bottom: 50px; }
+        .luxury-badge { text-transform: uppercase; letter-spacing: 3px; font-size: 11px; color: #b58e58; font-weight: 700; }
+        .luxury-title { font-size: 40px; font-weight: 300; margin: 10px 0; }
+        .luxury-divider { width: 40px; height: 1px; background: #b58e58; margin: 15px auto; }
         .ing-section {
           margin-top: 80px;
           width: 100vw;
@@ -692,43 +769,26 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           padding-bottom: 52px;
         }
 
-        .ing-header {
-          text-align: center;
-          margin-bottom: 36px;
-          padding: 0 24px;
-        }
-        .ing-title {
-          font-size: clamp(22px, 3vw, 30px);
-          font-weight: 300;
-          color: #1a1a1a;
-          margin: 0 0 6px;
-          letter-spacing: -0.02em;
-        }
-        .ing-subtitle {
-          font-size: 14px;
-          color: #999;
-          margin: 0;
-        }
+        
 
+        /* ─── Wrap ─────────────────────────────────────────────────────────── */
         .ing-wrap {
           position: relative;
-          max-width: 960px;
+          max-width: ${wrapMaxWidth};
           margin: 0 auto;
-          padding: 16px 0 8px;
-          overflow: hidden;
+          padding: 20px 0 8px;
           width: 100%;
         }
 
-        /* Dégradés bords visibles seulement en mode carrousel */
+        /* Voiles latéraux */
         .ing-wrap::before,
         .ing-wrap::after {
           content: "";
           position: absolute;
           top: 0; bottom: 0;
-          width: 60px;
+          width: 40px;
           z-index: 5;
           pointer-events: none;
-          opacity: ${hasMany ? "1" : "0"};
         }
         .ing-wrap::before {
           left: 0;
@@ -738,21 +798,44 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           right: 0;
           background: linear-gradient(to left, #fff 0%, rgba(255,255,255,0) 100%);
         }
+        .ing-wrap[data-few="true"]::before,
+        .ing-wrap[data-few="true"]::after { display: none; }
 
-        .ing-swiper {
-          overflow: visible !important;
-          padding: 12px 48px !important;
-          width: 100% !important;
+        /* ─── Embla ─────────────────────────────────────────────────────────── */
+        /* Le viewport masque ce qui dépasse — on le laisse overflow visible
+           pour voir les cartes des côtés (effet "peek") */
+        .ing-viewport {
+          overflow: hidden;
+          padding: 16px 0;
         }
 
+        .ing-container {
+          display: flex;
+          /* Embla gère le touch/drag — pas de user-select sur le conteneur */
+          user-select: none;
+          -webkit-touch-callout: none;
+          gap: 20px;
+        }
+
+        /* ─── Slide ──────────────────────────────────────────────────────────  */
         .ing-slide {
-          height: auto !important;
+          /* Largeur responsive via CSS vars / media queries */
+          flex: 0 0 50%;       /* mobile : ~2 slides visibles */
+          min-width: 0;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        /* ── Carte base ── */
+        @media (min-width: 480px) {
+          .ing-slide { flex: 0 0 36%; }   /* tablet : ~2.8 slides */
+        }
+
+        @media (min-width: 900px) {
+          .ing-slide { flex: 0 0 ${slideWidthDesktop}; }
+        }
+
+        /* ─── Carte ──────────────────────────────────────────────────────────  */
         .ing-card {
           width: 100%;
           background: linear-gradient(180deg, #fff 0%, #faf8f4 100%);
@@ -765,23 +848,22 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           padding: 16px 14px 14px;
           gap: 10px;
           cursor: pointer;
-          transform: ${hasMany ? "scale(0.82)" : "scale(1)"};
-          opacity: ${hasMany ? "0.55" : "1"};
-          filter: ${hasMany ? "saturate(0.7)" : "none"};
+          transform: scale(0.82);
+          opacity: 0.50;
+          filter: saturate(0.6) brightness(1.02);
           transform-origin: center center;
           transition:
-            transform 0.38s cubic-bezier(0.34,1.26,0.64,1),
-            opacity   0.32s ease,
-            box-shadow 0.32s ease,
-            filter    0.32s ease;
+            transform 0.4s cubic-bezier(0.34,1.26,0.64,1),
+            opacity   0.35s ease,
+            box-shadow 0.35s ease,
+            filter    0.35s ease;
         }
 
-        /* ── Carte active ── */
         .ing-card--active {
-          transform: scale(1);
+          transform: scale(var(--active-scale, 1.08));
           opacity: 1;
           filter: none;
-          box-shadow: 0 10px 34px rgba(180,130,80,0.18), 0 3px 10px rgba(0,0,0,0.06);
+          box-shadow: 0 12px 36px rgba(180,130,80,0.18), 0 4px 12px rgba(0,0,0,0.07);
           cursor: default;
         }
 
@@ -791,6 +873,11 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           color: #2f261f;
           margin: 0;
           text-align: center;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .ing-card--active .ing-card-name { opacity: 1; }
         }
 
         .ing-img-wrap {
@@ -800,24 +887,24 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           overflow: hidden;
         }
         .ing-img-wrap img {
-          width: 100%;
-          height: 100%;
+          width: 100%; height: 100%;
           object-fit: cover;
           display: block;
           pointer-events: none;
           user-select: none;
-          transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1);
+          transition: transform 0.32s ease;
         }
         @media (hover: hover) and (pointer: fine) {
-          .ing-card--active:hover .ing-img-wrap img { transform: scale(1.07); }
+          .ing-card--active:hover .ing-img-wrap img { transform: scale(1.06); }
         }
 
+        /* ─── Benefit ────────────────────────────────────────────────────────  */
         .ing-benefit {
           width: 100%;
           max-height: 0;
           overflow: hidden;
           opacity: 0;
-          transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.28s ease;
+          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
         }
         .ing-benefit p {
           margin: 0;
@@ -826,32 +913,42 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           color: #5a3e2b;
           font-style: italic;
           text-align: center;
+          padding: 4px 0;
         }
         @media (hover: hover) and (pointer: fine) {
-          .ing-card--active:hover .ing-benefit { max-height: 120px; opacity: 1; }
+          .ing-card--active .ing-img-wrap:hover ~ .ing-benefit {
+            max-height: 120px;
+            opacity: 1;
+          }
         }
-        .ing-benefit--open { max-height: 120px !important; opacity: 1 !important; }
+        .ing-benefit--open {
+          max-height: 120px !important;
+          opacity: 1 !important;
+        }
 
+        /* ─── Bouton touch ───────────────────────────────────────────────────  */
         .ing-touch-btn {
-          display: none;
-          width: 24px; height: 24px;
+          width: 28px; height: 28px;
           border-radius: 50%;
           border: 1.5px solid rgba(180,130,80,0.4);
           background: #fff;
           color: #3b2a22;
-          align-items: center; justify-content: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
-          transition: background 0.2s, border-color 0.2s;
           flex-shrink: 0;
+          touch-action: manipulation;
+          -webkit-tap-highlight-color: transparent;
         }
         .ing-touch-btn--open { background: #ef8035; border-color: #ef8035; color: #fff; }
-        @media (hover: none), (pointer: coarse) { .ing-touch-btn { display: flex; } }
 
+        /* ─── Flèches ────────────────────────────────────────────────────────  */
         .ing-nav-btn {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-          width: 40px; height: 40px;
+          width: 42px; height: 42px;
           border-radius: 50%;
           border: 1.5px solid rgba(180,130,80,0.3);
           background: #fff;
@@ -862,26 +959,33 @@ function IngredientsSlider({ ingredients, productKey }: { ingredients: string[];
           transition: all 0.2s ease;
           z-index: 10;
         }
-        .ing-nav-prev { left: 8px; }
-        .ing-nav-next { right: 8px; }
-        .ing-nav-btn:hover {
+        .ing-nav-btn:disabled {
+          opacity: 0.3;
+          cursor: default;
+        }
+        .ing-nav-prev { left: 4px; }
+        .ing-nav-next { right: 4px; }
+        .ing-nav-btn:not(:disabled):hover {
           background: #fef3e8;
           border-color: rgba(239,128,53,0.5);
           transform: translateY(-50%) scale(1.07);
         }
-        .ing-nav-btn:active { transform: translateY(-50%) scale(0.94); }
+        .ing-nav-btn:not(:disabled):active { transform: translateY(-50%) scale(0.94); }
 
-        @media (max-width: 640px) {
+        /* ─── Mobile ─────────────────────────────────────────────────────────  */
+        @media (hover: none), (pointer: coarse) {
+          .ing-nav-btn { display: none !important; }
           .ing-wrap::before,
-          .ing-wrap::after { width: 32px; }
-          .ing-swiper { padding: 12px 32px !important; }
-          .ing-nav-btn { width: 34px; height: 34px; }
-          .ing-nav-prev { left: 2px; }
-          .ing-nav-next { right: 2px; }
+          .ing-wrap::after { width: 30px; }
+          .ing-card--active .ing-card-name { opacity: 1; }
+        }
+
+        @media (max-width: 899px) {
+          .ing-wrap { max-width: 100% !important; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .ing-card, .ing-img-wrap img, .ing-benefit, .ing-nav-btn { transition: none !important; }
+          .ing-card, .ing-img-wrap img, .ing-benefit { transition: none !important; }
         }
       `}</style>
     </section>
@@ -1350,9 +1454,10 @@ export default function ProductDetailPage() {
         </div>
 
         {/* ── Slider d'ingrédients ── */}
-        {productKey && (
-          <IngredientsSlider ingredients={product.ingredients ?? []} productKey={productKey} />
-        )}
+       {/* — slider d'ingrédients — */}
+{productKey && (
+  <IngredientsSlider productKey={productKey} />
+)}
 
         {/* ── Sections produit ── */}
         {productKey && PRODUCT_CONFIG[productKey] && (
