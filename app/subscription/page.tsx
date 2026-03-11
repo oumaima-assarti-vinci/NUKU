@@ -166,9 +166,7 @@ function ProductCard({ product, idx }: { product: Product; idx: number }) {
             ) : (
               <div className="text-neutral-300 text-sm h-32">Image indisponible</div>
             )}
-            <span className="absolute top-0 right-0 bg-[#ef8035] text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
-              −20%
-            </span>
+           
           </div>
 
           {/* Nom */}
@@ -186,9 +184,7 @@ function ProductCard({ product, idx }: { product: Product; idx: number }) {
           </div>
 
           {/* Bouton toujours visible */}
-          <button className="w-full py-2 md:py-2.5 bg-neutral-900 text-white rounded-full text-xs md:text-sm font-medium transition-all duration-200 hover:bg-neutral-700 active:scale-[0.98]">
-            Ajouter à ma routine
-          </button>
+          
         </div>
       </Link>
     </motion.div>
