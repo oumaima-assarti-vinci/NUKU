@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
 type Product = {
@@ -15,14 +15,46 @@ type Product = {
 };
 
 export default function HomePage() {
-  const defaultCurrentSlide = 0;
   const [showPopup, setShowPopup] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(defaultCurrentSlide);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Swipe / drag
+  const touchStartX = useRef<number | null>(null);
+  const mouseStartX = useRef<number | null>(null);
+  const isDragging = useRef(false);
+
+  const goNext = () => setCurrentSlide((prev) => (prev + 1) % 3);
+  const goPrev = () => setCurrentSlide((prev) => (prev + 2) % 3);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? goNext() : goPrev();
+    touchStartX.current = null;
+  };
+  const handleMouseDown = (e: React.MouseEvent) => {
+    mouseStartX.current = e.clientX;
+    isDragging.current = true;
+  };
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!isDragging.current || mouseStartX.current === null) return;
+    const diff = mouseStartX.current - e.clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? goNext() : goPrev();
+    mouseStartX.current = null;
+    isDragging.current = false;
+  };
+  const handleMouseLeave = () => {
+    isDragging.current = false;
+    mouseStartX.current = null;
+  };
+
   useEffect(() => {
-    const hasVisited = localStorage.getItem("hasVisited");
+    const hasVisited: string | null = localStorage.getItem("hasVisited");
     if (!hasVisited) {
       setTimeout(() => setShowPopup(true), 3000);
       localStorage.setItem("hasVisited", "true");
@@ -36,7 +68,7 @@ export default function HomePage() {
   useEffect(() => {
     (async () => {
       const { data, error } = await supabase.from("products").select("*");
-      if (!error && data) setProducts(data);
+      if (!error && data) setProducts(data as Product[]);
       setLoading(false);
     })();
   }, []);
@@ -101,52 +133,68 @@ export default function HomePage() {
       )}
 
       {/* ================= HERO SLIDER ================= */}
-      <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[400px] sm:min-h-[520px] h-[calc(100vh-80px)] max-h-[900px] overflow-hidden">
-
-        {/* SLIDE 0 */}
+      <section
+        className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[400px] sm:min-h-[520px] h-[calc(100vh-64px)] max-h-[900px] overflow-hidden cursor-grab active:cursor-grabbing select-none"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* SLIDE 0 — Abonnement */}
         <div className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === 0 ? "opacity-100" : "opacity-0"}`}>
-          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 70% 45%, rgba(255,204,92,0.45) 0%, rgba(255,220,130,0.35) 25%, rgba(255,245,220,0.85) 55%, #fff7e6 75%), linear-gradient(90deg, #fff7e6 0%, #fffaf0 40%, #fff7e6 100%)` }} />
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-6 sm:inset-8 md:inset-12 rounded-[32px] sm:rounded-[48px] shadow-[0_0_0_1px_rgba(0,0,0,0.04),0_60px_120px_rgba(0,0,0,0.05)]" />
-          </div>
-          <img src="/image/fille.png" alt="Abonnement NUKU" className="absolute right-[2vw] lg:right-[4vw] top-1/2 -translate-y-1/2 w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)]" />
-          <div className="relative z-10 flex items-center h-full">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 w-full">
-              <div className="max-w-[520px] pl-6 md:pl-16 lg:pl-24">
-                <h1 className="font-black text-[clamp(36px,7vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-4 sm:mb-6">
+          <div
+            className="absolute inset-0"
+            style={{ background: `radial-gradient(circle at 70% 45%, rgba(255,204,92,0.45) 0%, rgba(255,220,130,0.35) 25%, rgba(255,245,220,0.85) 55%, #fff7e6 75%)` }}
+          />
+          <img
+            src="/image/fille.png"
+            alt="Abonnement NUKU"
+            className="absolute right-0 sm:right-[2vw] lg:right-[4vw] bottom-0 sm:top-1/2 sm:-translate-y-1/2 w-[70vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)] opacity-40 sm:opacity-100"
+          />
+          <div className="relative z-10 flex items-end sm:items-center h-full pb-16 sm:pb-0">
+            <div className="max-w-[1400px] mx-auto px-5 sm:px-6 w-full">
+              <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
+                <h1 className="font-black text-[clamp(38px,7vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
                   Votre routine<br />
                   <span className="text-[#ffb703]">simplifiée.</span>
                 </h1>
-                <p className="text-base sm:text-lg text-[#6b6780] mb-6 sm:mb-8 leading-relaxed font-light">
+                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">
+                  -20% sur chaque commande.<br />Livraison offerte chaque mois.
+                </p>
+                <p className="hidden sm:block text-lg text-[#6b6780] mb-8 leading-relaxed font-light">
                   Livraison offerte chaque mois.<br />-20% sur chaque commande.<br />La tranquillité, sans y penser.
                 </p>
-                <Link href="/subscription" className="inline-flex bg-[#ffb703] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ffa200] transition-colors text-sm sm:text-base">
-                  Je m'abonne et économise 20%
+                <Link href="/subscription" className="inline-flex bg-[#ffb703] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ffa200] transition-colors text-xs sm:text-base">
+                  Je m'abonne — 20% off
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        {/* SLIDE 1 */}
+        {/* SLIDE 1 — Soul */}
         <div className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === 1 ? "opacity-100" : "opacity-0"}`}>
-          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 72% 48%, rgba(135,85,205,0.50) 0%, rgba(165,130,220,0.38) 20%, rgba(245,240,236,0.90) 46%, #f5f0ec 70%), linear-gradient(90deg, #f5f0ec 0%, #fbf9f7 40%, #f5f0ec 100%)` }} />
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute inset-6 sm:inset-12 rounded-[32px] sm:rounded-[48px] shadow-[0_0_0_1px_rgba(0,0,0,0.04),0_60px_120px_rgba(0,0,0,0.04)]" />
-          </div>
-          <div className="absolute right-[5%] sm:right-[8%] md:right-[10%] top-[50%] sm:top-[46%] -translate-y-1/2 w-[30vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
+          <div
+            className="absolute inset-0"
+            style={{ background: `radial-gradient(circle at 72% 48%, rgba(135,85,205,0.50) 0%, rgba(165,130,220,0.38) 20%, rgba(245,240,236,0.90) 46%, #f5f0ec 70%)` }}
+          />
+          <div className="absolute right-[4%] sm:right-[8%] md:right-[10%] bottom-[12%] sm:top-[50%] sm:-translate-y-1/2 w-[38vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
             <img src="/image/violet.png" alt="NUKU Soul" className="w-full h-auto drop-shadow-[0_20px_40px_rgba(120,90,180,0.2)]" />
           </div>
-          <div className="relative z-10 flex items-center h-full">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 w-full">
-              <div className="max-w-[520px] pl-6 md:pl-16 lg:pl-24">
-                <h1 className="font-black text-[clamp(34px,8vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-6">
+          <div className="relative z-10 flex items-end sm:items-center h-full pb-16 sm:pb-0">
+            <div className="max-w-[1400px] mx-auto px-5 sm:px-6 md:px-8 w-full">
+              <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
+                <h1 className="font-black text-[clamp(38px,8vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
                   Esprit <span className="text-[#b7a6d8]">apaisé</span>,<br />mieux-être.
                 </h1>
-                <p className="text-[clamp(15px,3.5vw,18px)] leading-[1.7] text-[#6b6780] mb-8 font-light">
-                  Pour soulager le stress et clarifier l'esprit,<br className="hidden sm:block" />avec nos gummies à l'Ashwagandha.
+                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light">
+                  Gummies à l'Ashwagandha.
                 </p>
-                <Link href="/product/1" className="inline-flex bg-[#ff7a3d] text-white px-8 py-4 rounded-full text-sm font-black tracking-wide uppercase hover:bg-[#ff6624] transition-colors">
+                <p className="hidden sm:block text-[clamp(15px,3.5vw,18px)] leading-[1.7] text-[#6b6780] mb-8 font-light">
+                  Pour soulager le stress et clarifier l'esprit,<br />avec nos gummies à l'Ashwagandha.
+                </p>
+                <Link href="/product/1" className="inline-flex bg-[#ff7a3d] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-xs sm:text-sm font-black tracking-wide uppercase hover:bg-[#ff6624] transition-colors">
                   Découvrir Soul
                 </Link>
               </div>
@@ -154,11 +202,22 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* SLIDE 2 */}
+        {/* SLIDE 2 — Performance */}
         {heroSlides.map((slide, index) => (
           <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === index + 2 ? "opacity-100" : "opacity-0"}`}>
-            <div className="absolute inset-0" style={{ background: `radial-gradient(1400px 900px at 78% 42%, rgba(47,96,201,0.75) 0%, rgba(47,96,201,0) 60%), radial-gradient(1400px 900px at 82% 42%, rgba(247,191,13,0.78) 0%, rgba(247,191,13,0) 60%), radial-gradient(1400px 900px at 86% 42%, rgba(227,59,47,0.78) 0%, rgba(227,59,47,0) 60%), radial-gradient(1400px 900px at 90% 42%, rgba(44,175,95,0.76) 0%, rgba(44,175,95,0) 60%), radial-gradient(1400px 900px at 94% 42%, rgba(107,63,178,0.80) 0%, rgba(107,63,178,0) 60%), linear-gradient(to left, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.90) 62%, rgba(255,255,255,1) 100%)` }} />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(1200px 420px at 50% 102%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0) 70%)` }} />
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `
+                  radial-gradient(1400px 900px at 78% 42%, rgba(47,96,201,0.75) 0%, rgba(47,96,201,0) 60%),
+                  radial-gradient(1400px 900px at 82% 42%, rgba(247,191,13,0.78) 0%, rgba(247,191,13,0) 60%),
+                  radial-gradient(1400px 900px at 86% 42%, rgba(227,59,47,0.78) 0%, rgba(227,59,47,0) 60%),
+                  radial-gradient(1400px 900px at 90% 42%, rgba(44,175,95,0.76) 0%, rgba(44,175,95,0) 60%),
+                  radial-gradient(1400px 900px at 94% 42%, rgba(107,63,178,0.80) 0%, rgba(107,63,178,0) 60%),
+                  linear-gradient(to left, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.90) 62%, rgba(255,255,255,1) 100%)
+                `
+              }}
+            />
             <div className="relative z-10 h-full">
               <div className="max-w-[1400px] mx-auto h-full grid md:grid-cols-2 items-center px-6 gap-6">
                 <div className="max-w-xl text-neutral-900">
@@ -173,7 +232,11 @@ export default function HomePage() {
                   </Link>
                 </div>
                 <div className="relative flex justify-end items-end">
-                  <img src={slide.image} alt={slide.title} className="pointer-events-none select-none h-[58vh] sm:h-[66vh] md:h-[74vh] lg:h-[82vh] xl:h-[88vh] w-auto object-contain drop-shadow-[0_18px_36px_rgba(0,0,0,0.18)] ml-auto translate-x-[12%] md:translate-x-[18%] lg:translate-x-[22%] brightness-[1.05] contrast-[1.10] saturate-[1.15]" />
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="pointer-events-none select-none h-[58vh] sm:h-[66vh] md:h-[74vh] lg:h-[82vh] w-auto object-contain drop-shadow-[0_18px_36px_rgba(0,0,0,0.18)] ml-auto translate-x-[12%] md:translate-x-[18%] brightness-[1.05] contrast-[1.10] saturate-[1.15]"
+                  />
                 </div>
               </div>
             </div>
@@ -183,14 +246,19 @@ export default function HomePage() {
         {/* Indicateurs */}
         <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-10">
           {[0, 1, 2].map((i) => (
-            <button key={i} onClick={() => setCurrentSlide(i)} className={`h-1 rounded-full transition-all ${currentSlide === i ? "w-8 sm:w-12 bg-white" : "w-6 sm:w-8 bg-white/50"}`} aria-label={`Aller au slide ${i + 1}`} />
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              className={`h-1 rounded-full transition-all ${currentSlide === i ? "w-8 sm:w-12 bg-white" : "w-6 sm:w-8 bg-white/50"}`}
+              aria-label={`Aller au slide ${i + 1}`}
+            />
           ))}
         </div>
       </section>
 
       {/* ================= LOGO ================= */}
       <section className="py-6 sm:py-10 bg-white">
-        <div className="flex flex-col items-center gap-4 sm:gap-6">
+        <div className="flex flex-col items-center">
           <img src="/image/logo.png" alt="NUKU" className="h-16 sm:h-20 md:h-24 opacity-90" />
         </div>
       </section>
@@ -224,12 +292,10 @@ export default function HomePage() {
       </section>
 
       {/* ================= PICTOGRAMMES ================= */}
-      {/* Desktop : W shape (inchangé) | Mobile : une ligne, pas de scroll */}
       <section className="py-6 sm:py-10 px-4 sm:px-6 bg-white">
         <div className="max-w-[1400px] mx-auto">
-
-          {/* MOBILE : une seule ligne, 5 icônes qui tiennent sans scroll */}
-          <div className="flex sm:hidden justify-between items-center gap-1 w-full">
+          {/* MOBILE : une seule ligne, 5 icônes sans scroll */}
+          <div className="flex sm:hidden justify-between items-center w-full">
             {[
               { src: "/image/vegan.png", label: "Vegan" },
               { src: "/image/lieu.png", label: "Belgique" },
@@ -243,21 +309,19 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
           {/* DESKTOP : W shape */}
-          <div className="hidden sm:flex flex-col items-center gap-0">
-            <div className="flex justify-center items-center gap-8 sm:gap-16 lg:gap-40 flex-nowrap">
+          <div className="hidden sm:flex flex-col items-center">
+            <div className="flex justify-center items-center gap-8 sm:gap-16 lg:gap-40">
               {["/image/vegan.png", "/image/lieu.png", "/image/ogm.png"].map((src, idx) => (
                 <img key={idx} src={src} alt="" className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-44 lg:h-44 object-contain opacity-90" />
               ))}
             </div>
-            <div className="flex justify-center gap-8 sm:gap-16 lg:gap-40 flex-nowrap -mt-2 sm:-mt-4 lg:-mt-8">
+            <div className="flex justify-center gap-8 sm:gap-16 lg:gap-40 -mt-4 lg:-mt-8">
               {["/image/colorant.png", "/image/sucre.png"].map((src, idx) => (
                 <img key={idx} src={src} alt="" className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-44 lg:h-44 object-contain opacity-90" />
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
@@ -267,8 +331,7 @@ export default function HomePage() {
           <h2 className="text-center font-black text-[clamp(26px,6vw,52px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-6 sm:mb-10">
             De quoi avez-vous besoin ?
           </h2>
-
-          {/* MOBILE : scroll horizontal avec snap */}
+          {/* MOBILE : scroll horizontal */}
           <div className="flex sm:hidden gap-3 overflow-x-auto pb-3 snap-x snap-mandatory" style={{ scrollbarWidth: "none" }}>
             {categories.map((category, index) => (
               <Link key={index} href={category.link} className="flex-none snap-start flex flex-col items-center gap-2 bg-white rounded-2xl shadow-md p-3 w-[100px]">
@@ -279,7 +342,6 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
-
           {/* DESKTOP : ligne fixe */}
           <div className="hidden sm:flex flex-nowrap justify-center items-center gap-2 md:gap-4">
             {categories.map((category, index) => (
@@ -293,7 +355,6 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
-
         </div>
       </section>
 
@@ -334,10 +395,9 @@ export default function HomePage() {
               Des témoignages authentiques de notre communauté
             </p>
           </div>
-
           <div
             className="flex gap-4 overflow-x-auto px-4 sm:px-6 pb-4 snap-x snap-mandatory"
-            style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+            style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
           >
             {[
               { name: "Claire D.", initials: "CD", verified: true, title: "Simple et efficace", text: "J'ai intégré NUKU à ma routine depuis un mois et je sens une vraie différence. Simple et agréable à prendre." },
@@ -350,7 +410,6 @@ export default function HomePage() {
               <div key={index} className="flex-none w-[260px] sm:w-[300px] snap-start">
                 <div className="bg-white rounded-2xl p-5 h-full shadow-sm hover:shadow-lg transition-all duration-300 border border-neutral-100">
                   <div className="flex items-center gap-3 mb-4">
-                    {/* Avatar neutre warm */}
                     <div className="w-10 h-10 rounded-full bg-[#e8e0d5] flex items-center justify-center flex-shrink-0">
                       <span className="text-[#8a7a6a] font-black text-xs">{review.initials}</span>
                     </div>
@@ -375,7 +434,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
           <div className="text-center mt-8 sm:mt-12 px-4 sm:px-6">
             <p className="text-sm text-neutral-500 mb-5 font-light">
               Rejoignez notre communauté et partagez votre expérience
