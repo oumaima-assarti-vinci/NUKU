@@ -219,7 +219,7 @@ export default function SubscriptionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f5f0ec] to-[#ebe6e0] pt-[73px]">
+    <div className="min-h-screen bg-gradient-to-b from-[ #ffffff] to-[ #ffffff] pt-[73px]">
       {/* HERO */}
       <section className="pt-32 pb-20 px-6 relative overflow-visible">
         <div className="max-w-[1200px] mx-auto">

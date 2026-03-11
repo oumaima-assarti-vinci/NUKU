@@ -232,7 +232,7 @@ export default function BuildPackPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f5f0ec] pt-[73px]">
+      <div className="min-h-screen flex items-center justify-center bg-[ #ffffff] pt-[73px]">
         <div className="relative w-16 h-16">
           <div className="absolute inset-0 border-4 border-neutral-200 rounded-full" />
           <div className="absolute inset-0 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin" />
@@ -244,11 +244,11 @@ export default function BuildPackPage() {
   const isPackComplete = totalSelected === packSize;
 
   return (
-    <div className="bg-[#f5f0ec] text-neutral-900 min-h-screen pt-[73px]">
+    <div className="bg-[ #ffffff] text-neutral-900 min-h-screen pt-[73px]">
       <CartSidebar isOpen={cartOpen} onClose={() => setCartOpen(false)} />
 
       {/* HERO */}
-      <section className="py-16 md:py-24 bg-[#f5f0ec] relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-[#ffffff] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
 
           {/* TITRE */}

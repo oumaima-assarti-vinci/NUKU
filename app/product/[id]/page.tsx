@@ -838,7 +838,7 @@ type Props = {
         /* ─── Carte ──────────────────────────────────────────────────────────  */
         .ing-card {
           width: 100%;
-          background: linear-gradient(180deg, #fff 0%, #faf8f4 100%);
+          background: linear-gradient(180deg, #fff 0%, #ffffff 100%);
           border-radius: 20px;
           border: none;
           box-shadow: 0 4px 18px rgba(0,0,0,0.07);
@@ -966,7 +966,7 @@ type Props = {
         .ing-nav-prev { left: 4px; }
         .ing-nav-next { right: 4px; }
         .ing-nav-btn:not(:disabled):hover {
-          background: #fef3e8;
+          background: #ffffff;
           border-color: rgba(239,128,53,0.5);
           transform: translateY(-50%) scale(1.07);
         }
@@ -996,68 +996,301 @@ type Props = {
    ============================================================================ */
 function ProductRoutineSection({ config }: { config: ProductConfig }) {
   const { folder, emoji, routineTitle, routineSubtitle, routineIntro, routineSub, routineTips, routineNote } = config;
+
+  const formattedTitle = routineTitle.replace(/Optimiser/i, "Optimisez");
+
+  const cleanTips = routineTips.map((tip: string) =>
+    tip
+      .replace(/de de /g, "de ")
+      .replace(/\((deel|travall|actualites|travail|discuss-ons|intensitées)[^)]*/gi, "")
+      .trim()
+  );
+
   return (
-    <section className="routine-section" aria-labelledby={`routine-title-${folder}`} data-folder={folder}>
-      <div className="bokeh-bg" aria-hidden="true" />
-      <div className="content">
-        <div className="left">
-          <h2 id={`routine-title-${folder}`}>{routineTitle}</h2>
-          <p className="intro"><strong>NUKU {folder.toUpperCase()}</strong>{" "}{routineIntro.replace(/^NUKU \w+ /, "")}</p>
-          <p className="sub">{routineSub}</p>
-          <figure className="left-photo" aria-label={`Photo ${folder}`}>
-            <img src={`/image/${folder}/${folder}1.png`} alt={`Moment avec NUKU ${folder.toUpperCase()}`} loading="lazy" decoding="async" />
-          </figure>
-        </div>
-        <div className="right">
-          <div className="routine-stack stack-1" aria-hidden="true" />
-          <div className="routine-stack stack-2" aria-hidden="true" />
-          <div className="card" role="region" aria-label={routineSubtitle}>
-            <span className="card-grad" aria-hidden="true" />
-            <span className="card-sheen" aria-hidden="true" />
-            <h3><span className="card-emoji" aria-hidden="true">{emoji}</span>{routineSubtitle}</h3>
-            <ul>{routineTips.map((tip, i) => <li key={i}>{tip}</li>)}</ul>
-            <p className="note">{routineNote}</p>
+    <section className="routine-container">
+      <div className="layout-wrapper">
+
+        {/* GAUCHE */}
+        <div className="left-content">
+          <div className="text-header">
+            <p className="eyebrow">Rituel recommandé</p>
+            <h2>{formattedTitle}</h2>
+            <div className="intro-block">
+              <p className="intro-text">
+                NUKU {folder.toUpperCase()} {routineIntro.replace(/^NUKU \w+ /, "")}
+              </p>
+              {routineSub && <p className="sub-text">{routineSub}</p>}
+            </div>
+          </div>
+
+          <div className="image-frame">
+            <img
+              src={`/image/${folder}/${folder}1.png`}
+              alt="Rituel"
+              className="hero-img"
+            />
+            <div className="image-overlay" />
           </div>
         </div>
+
+        {/* DROITE */}
+        <div className="card-wrapper">
+          <div className="ritual-card">
+            <div className="card-header">
+              <span className="icon">{emoji}</span>
+              <div>
+                <p className="card-label">Protocole</p>
+                <h3>{routineSubtitle.toUpperCase()}</h3>
+              </div>
+            </div>
+
+            <div className="tips-list">
+              {cleanTips.map((tip: string, i: number) => (
+                <div key={i} className="tip-item">
+                  <div className="tip-body">
+                    <div className="tip-line" />
+                    <p className="tip-description">{tip}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {routineNote && (
+              <div className="footer-note-wrapper">
+                <div className="note-divider" />
+                <p className="footer-note">✦ {routineNote}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
       </div>
+
       <style jsx>{`
-        *{ box-sizing:border-box; }
-        .routine-section{ position:relative; padding:110px 0 140px; background:#ffffff; isolation:isolate; overflow:clip; }
-        .bokeh-bg{ position:absolute; inset:0; z-index:0; pointer-events:none; background: radial-gradient(ellipse 70% 60% at 15% 50%,rgba(220,200,185,.35) 0%,transparent 65%), radial-gradient(ellipse 50% 45% at 5% 85%,rgba(210,185,160,.28) 0%,transparent 60%), radial-gradient(ellipse 55% 65% at 90% 55%,rgba(235,210,175,.30) 0%,transparent 65%); animation:bokehPulse 10s ease-in-out infinite alternate; }
-        @keyframes bokehPulse{from{opacity:.200;}to{opacity:1;}}
-        .content{ position:relative; z-index:1; max-width:1380px; margin:0 auto; padding:0 54px; display:grid; grid-template-columns:1.30fr 1.15fr; gap:clamp(16px,3.5vw,44px); align-items:start; overflow:visible; }
-        .left, .right{ position:relative; overflow:visible; }
-        .left{ max-width:900px; display:flex; flex-direction:column; gap:10px; overflow:hidden; }
-        .left h2{ font-family:"Cormorant Garamond",serif; font-weight:600; font-size:clamp(36px,4.2vw,56px); line-height:1.15; letter-spacing:0.01em; color:#3b2a22; margin:0 0 18px; }
-        .intro{ font-family:Georgia,"Times New Roman",serif; font-size:17px; line-height:1.85; color:#49372d; margin:0 0 6px; }
-        .intro strong{ font-weight:700; color:#3b2a22; }
-        .sub{ font-family:Georgia,"Times New Roman",serif; font-style:italic; font-size:15.8px; line-height:1.7; color:#5a4535; margin:0 0 10px; }
-        .left-photo{ margin:12px 0 0; height:460px; width:120%; margin-left:-9%; position:relative; overflow:hidden; border-radius:18px; z-index:1; box-shadow:0 24px 60px rgba(0,0,0,.10); background:#fff; }
-        .left-photo::before{ content:""; position:absolute; inset:0; border-radius:inherit; z-index:1; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.35); pointer-events:none; }
-        .left-photo img{ position:absolute; inset:0; margin:auto; width:125%; height:125%; object-fit:cover; object-position:center -5%; border-radius:18px; z-index:0; filter:brightness(.96) contrast(1.06) saturate(1.06); transform:translate(-1%,4%); display:block; }
-        .right{ display:flex; flex-direction:row; align-items:flex-end; position:relative; border-radius:90px; width:100%; background-size:70%; background-position:right 90%; background-repeat:no-repeat; background-image: linear-gradient(to right, rgb(255,255,255) 0%, rgb(255,255,255) 25%, rgba(245,239,232,0.5) 50%, rgba(245,239,232,0.0) 100%), url('/image/${folder}/${folder}2.png'); }
-        .routine-stack{ position:absolute; right:0; top:50%; width:90%; border-radius:28px; background:linear-gradient(135deg,#f4ece2,#efe3d7); filter:blur(.2px); box-shadow:0 20px 50px rgba(0,0,0,.08); pointer-events:none; z-index:0; }
-        .stack-1{ opacity:.64; transform:translate(32px,-50%); }
-        .stack-2{ opacity:.40; transform:translate(56px,-48%); }
-        .right .card{ position:relative; z-index:5; width:min(1180px,160%); transform:translate(-10%,0%); padding:40px 40px 100px; border-radius:80px; border:5px solid rgba(255,255,255,0.85); box-shadow:0 34px 72px rgba(0,0,0,0.14),22px 26px 68px rgba(0,0,0,0.12),0 10px 16px rgba(0,0,0,0.10),inset 0 1px 0 rgba(255,255,255,0.85); overflow:hidden; background:transparent; min-height:500px; }
-        .card-grad{ position:absolute; inset:0; z-index:1; pointer-events:none; border-radius:inherit; background:linear-gradient(180deg,rgba(255,255,255,0.96) 0%,rgba(255,255,255,0.82) 30%,rgba(255,255,255,0.58) 55%,rgba(255,255,255,0.28) 80%,rgba(255,255,255,0.00) 100%); }
-        .card-sheen{ position:absolute; right:0; top:0; height:40%; width:60%; z-index:2; border-top-right-radius:28px; background:linear-gradient(225deg,rgba(255,189,120,0.42) 0%,rgba(255,206,160,0.24) 30%,rgba(255,232,210,0.12) 56%,rgba(255,255,255,0.00) 100%); filter:blur(0.3px); pointer-events:none; }
-        .right .card > *{ position:relative; z-index:3; }
-        .card h3{ font-family:"Cormorant Garamond",serif; font-weight:600; font-size:clamp(26px,2.8vw,36px); line-height:1.2; letter-spacing:0.005em; color:#2f261f; margin:0 0 22px; text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased; text-shadow:0 1px 0 rgba(255,255,255,0.65); }
-        .card-emoji{ margin-right:10px; font-size:24px; display:inline-block; transform:translateY(-2px); }
-        .card ul{ list-style:none; padding:0; margin:0 0 12px; }
-        .card li{ position:relative; padding:14px 20px 14px 52px; margin-bottom:10px; font-family:Georgia,"Times New Roman",serif; font-size:16px; line-height:1.75; color:#3f362f; background:rgba(255,255,255,0.75); border-radius:14px; border:none; box-shadow:none; }
-        .card li::before{ content:""; position:absolute; left:18px; top:50%; transform:translateY(-50%); width:11px; height:11px; border-radius:50%; background:radial-gradient(circle at 30% 30%,#ffe1bf 0%,#f7b573 60%,#ef8035 100%); border:1px solid rgba(255,255,255,.85); box-shadow:0 2px 6px rgba(239,128,53,.30); }
-        .note{ font-family:Georgia,"Times New Roman",serif; font-size:14px; font-style:italic; line-height:1.68; color:#3f362f; opacity:.95; margin:10px 0 0; text-shadow:0 1px 0 rgba(255,255,255,0.55); }
-        @media(max-width:1200px){ .content{ grid-template-columns:1fr; gap:24px; } .right{ justify-content:center; } .routine-stack{ display:none; } .right .card{ transform:none; width:100%; margin-top:-12px; } }
-        @media(max-width:900px){ .content{ padding:0 26px; } .left-photo{ height:280px; } }
-        @media(max-width:640px){ .left h2{ font-size:clamp(32px,7vw,42px); } .right .card{ padding:26px 22px 28px; border-radius:20px; box-shadow:0 18px 36px rgba(0,0,0,.08); } .card h3{ font-size:22px; } .card li{ font-size:14px; } .left-photo{ height:200px; border-radius:14px; } }
-        @media(prefers-reduced-motion:reduce){ .bokeh-bg{ animation:none; } }
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap');
+
+        .routine-container {
+          padding: 60px 40px;
+          background: #ffffff;
+          display: flex;
+          justify-content: center;
+        }
+
+        .layout-wrapper {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          max-width: 1140px;
+          width: 100%;
+          gap: 80px;
+          align-items: start;
+        }
+
+        /* ─── GAUCHE ─── */
+        .left-content {
+          position: sticky;
+          top: 80px;
+        }
+
+        .eyebrow {
+          font-family: "DM Sans", sans-serif;
+          font-size: 11px;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #c5a27d;
+          margin: 0 0 20px;
+          font-weight: 400;
+        }
+
+        .text-header h2 {
+          font-family: "Cormorant Garamond", serif;
+          font-size: 52px;
+          font-weight: 300;
+          color: #1a1a1a;
+          margin: 0 0 28px;
+          line-height: 1.05;
+          letter-spacing: -0.01em;
+        }
+
+        .intro-text {
+          font-family: "DM Sans", sans-serif;
+          font-size: 15px;
+          line-height: 1.8;
+          color: #555;
+          font-weight: 300;
+          margin: 0;
+        }
+
+        .sub-text {
+          font-family: "Cormorant Garamond", serif;
+          font-style: italic;
+          font-size: 19px;
+          font-weight: 300;
+          color: #9a8a78;
+          margin: 18px 0 0;
+          line-height: 1.5;
+        }
+
+        .image-frame {
+          position: relative;
+          margin-top: 48px;
+          border-radius: 3px;
+          overflow: hidden;
+          aspect-ratio: 3/4;
+          max-width: 420px;
+          box-shadow: 16px 16px 0px #ede8e1, 0 20px 60px rgba(0, 0, 0, 0.10);
+        }
+
+        .hero-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.8s ease;
+        }
+
+        .image-frame:hover .hero-img {
+          transform: scale(1.03);
+        }
+
+        .image-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to bottom,
+            transparent 60%,
+            rgba(26, 18, 8, 0.18) 100%
+          );
+          pointer-events: none;
+        }
+
+        /* ─── DROITE ─── */
+        .ritual-card {
+          padding: 32px 52px;
+          background: #ffffff;
+          border: 1px solid #ede8e1;
+          border-radius: 3px;
+          box-shadow: 0 2px 40px rgba(180, 155, 120, 0.08);
+        }
+
+        .card-header {
+          display: flex;
+          align-items: flex-start;
+          gap: 18px;
+          margin-bottom: 24px;
+          padding-bottom: 20px;
+          border-bottom: 1px solid #f0ebe3;
+        }
+
+        .icon {
+          font-size: 22px;
+          line-height: 1;
+          margin-top: 3px;
+          flex-shrink: 0;
+        }
+
+        .card-label {
+          font-family: "DM Sans", sans-serif;
+          font-size: 10px;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #c5a27d;
+          margin: 0 0 6px;
+          font-weight: 400;
+        }
+
+        .card-header h3 {
+          font-family: "DM Sans", sans-serif;
+          font-size: 12px;
+          letter-spacing: 0.14em;
+          font-weight: 400;
+          color: #1a1a1a;
+          margin: 0;
+          line-height: 1.4;
+        }
+
+        .tips-list {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+        }
+
+        .tip-item {
+          padding: 12px 0;
+          border-bottom: 1px solid #f5f1ec;
+        }
+
+        .tip-item:last-child {
+          border-bottom: none;
+        }
+
+        .tip-body {
+          flex: 1;
+        }
+
+        .tip-line {
+          width: 20px;
+          height: 1px;
+          background: #e0d5c8;
+          margin-bottom: 10px;
+        }
+
+        .tip-description {
+          font-family: "DM Sans", sans-serif;
+          font-size: 14px;
+          line-height: 1.7;
+          color: #4a4a4a;
+          margin: 0;
+          font-weight: 300;
+        }
+
+        .footer-note-wrapper {
+          margin-top: 16px;
+        }
+
+        .note-divider {
+          width: 32px;
+          height: 1px;
+          background: #c5a27d;
+          margin: 0 auto 12px;
+          opacity: 0.5;
+        }
+
+        .footer-note {
+          font-family: "Cormorant Garamond", serif;
+          font-style: italic;
+          font-size: 15px;
+          font-weight: 300;
+          color: #9a8a78;
+          text-align: center;
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+          .layout-wrapper {
+            grid-template-columns: 1fr;
+            gap: 48px;
+          }
+          .left-content {
+            position: static;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .routine-container {
+            padding: 40px 24px;
+          }
+          .text-header h2 {
+            font-size: 38px;
+          }
+          .ritual-card {
+            padding: 24px 20px;
+          }
+        }
       `}</style>
     </section>
   );
 }
-
 /* ============================================================================
    PRODUCT MYTHS SECTION
    ============================================================================ */
