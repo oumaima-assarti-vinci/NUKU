@@ -170,7 +170,7 @@ function ProductCard({ product, idx }: { product: Product; idx: number }) {
           </div>
 
           {/* Nom */}
-          <p className="text-[11px] md:text-xs tracking-[0.14em] uppercase text-neutral-500 font-medium mb-1.5">{product.nom}</p>
+          <p className="text-[50px] md:text-xs tracking-[0.14em] uppercase text-neutral-500 font-medium mb-1.9">{product.nom}</p>
 
           {/* Prix */}
           <div className="flex items-baseline justify-center gap-1.5 mb-4">

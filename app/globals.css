@@ -1,7 +1,7 @@
 /* app/globals.css — Tailwind v4 */
 
-/* Les @import doivent tous être en premier */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;700&display=swap');
+/* Import de Inter (pour les titres) et DM Sans (pour le corps) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=DM+Sans:wght@300;400;500;700&display=swap');
 @import "tailwindcss";
 
 /* ========================= 
@@ -9,9 +9,14 @@
    ========================= */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --foreground: #1a1a1a;
+  /* Police moderne sans-serif comme sur l'image */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'DM Sans', Arial, sans-serif;
+  
+  /* Couleurs extraites de l'image */
+  --brand-accent: #f87171; /* Le rose/rouge des numéros 1, 2, 3 */
+  --text-muted: #4b5563;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,24 +33,36 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Titres — serif Cormorant comme Create */
-h1, h2, h3, h4, h5, h6 {
+/* Titres — Look "Gimmy" (Inter, Gras, Serré) */
+h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-weight: 700; /* Très gras pour le titre principal */
+  letter-spacing: -0.04em; /* Lettres resserrées comme sur l'image */
   line-height: 1.1;
+  color: var(--foreground);
 }
 
-h1.font-black,
-h2.font-black,
-h3.font-black,
-h4.font-black {
-  font-weight: 600;
+/* Texte d'introduction sous le titre */
+.intro-text {
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Style des numéros (1, 2, 3) */
+.step-number {
+  color: var(--brand-accent);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
 
 /* ========================= 
@@ -76,7 +93,7 @@ h4.font-black {
 }
 
 /* ========================= 
-   SCROLLBAR CARROUSEL
+   UTILITAIRES SCROLLBAR
    ========================= */
 section div[style*="overflow-x-auto"]::-webkit-scrollbar {
   height: 6px;
@@ -89,10 +106,6 @@ section div[style*="overflow-x-auto"]::-webkit-scrollbar-track {
 section div[style*="overflow-x-auto"]::-webkit-scrollbar-thumb {
   background: #d1d5db;
   border-radius: 10px;
-}
-
-section div[style*="overflow-x-auto"]::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
 }
 
 section div[style*="overflow-x-auto"] {
