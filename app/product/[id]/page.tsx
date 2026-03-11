@@ -7,12 +7,7 @@ import { useCart } from "@/lib/contexts/CartContext";
 import RatingStars from "@/components/RatingStars";
 import { motion } from "framer-motion";
 import ProductReviews from "@/app/components/ProductReview";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation,Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
 import useEmblaCarousel from "embla-carousel-react";
-
 
 /* ============================================================================
    TYPES
@@ -35,7 +30,6 @@ type DbProduct = {
 };
 
 type ProductKey = "sleep" | "shine" | "source" | "strength" | "soul";
-
 type ProductHighlight = { emoji: string; text: string };
 
 type ProductConfig = {
@@ -103,7 +97,6 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { id: 10, question: "À quel moment faut-il les consommer ?", answer: "Il est conseillé de prendre les 2 gummies le soir, avant le coucher, dans le cadre d'un rituel de détente." },
     ],
   },
-
   shine: {
     key: "shine",
     folder: "shine",
@@ -114,7 +107,7 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { emoji: "🧬", text: "Structure du cheveu" },
       { emoji: "✨", text: "Maintien des cheveux" },
     ],
-    routineTitle: "✨ Optimiser votre rituel beauté — NUKU SHINE",
+    routineTitle: "Optimiser votre rituel beauté — NUKU SHINE",
     routineSubtitle: "Beauté & soutien interne pour des cheveux plus forts",
     routineIntro: "NUKU SHINE accompagne la beauté des cheveux lorsqu'il est utilisé de façon régulière et sur la durée. La formule agit de l'intérieur et ne remplace pas les soins externes.",
     routineSub: "La constance et la patience jouent un rôle plus important que la recherche d'un résultat rapide.",
@@ -143,7 +136,6 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { id: 7, question: "Que puis-je faire en plus de SHINE pour prendre soin de mes cheveux ?", answer: "Alimentation variée, hydratation, sommeil, gestion du stress et soins capillaires doux. Les compléments agissent toujours en soutien." },
     ],
   },
-
   source: {
     key: "source",
     folder: "source",
@@ -154,7 +146,7 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { emoji: "💨", text: "Ballonnements" },
       { emoji: "⚖️", text: "Équilibre digestif" },
     ],
-    routineTitle: "🌿 Optimiser votre confort digestif au quotidien — NUKU SOURCE",
+    routineTitle: "Optimiser votre confort digestif au quotidien — NUKU SOURCE",
     routineSubtitle: "Digestion & légèreté au quotidien",
     routineIntro: "NUKU SOURCE accompagne la digestion, le confort et la sensation de légèreté lorsqu'il est intégré dans une routine quotidienne cohérente. Il ne s'agit pas d'une solution immédiate ou radicale.",
     routineSub: "La régularité et la cohérence des habitudes influencent davantage l'expérience que la recherche d'un effet immédiat.",
@@ -182,7 +174,6 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { id: 7, question: "Que puis-je faire en plus pour ma digestion ?", answer: "Alimentation riche en fibres, hydratation, activité physique, mastication lente et limitation des excès." },
     ],
   },
-
   strength: {
     key: "strength",
     folder: "strength",
@@ -193,7 +184,7 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { emoji: "🏃", text: "Performance physique" },
       { emoji: "🧠", text: "Soutien cognitif" },
     ],
-    routineTitle: "💪 Comment utiliser NUKU STRENGTH au quotidien",
+    routineTitle: "Comment utiliser NUKU STRENGTH au quotidien",
     routineSubtitle: "Énergie · Performance · Clarté mentale",
     routineIntro: "NUKU STRENGTH accompagne l'énergie, la performance et la concentration dans la durée. La créatine joue un rôle essentiel dans la disponibilité énergétique, y compris au niveau cérébral.",
     routineSub: "Ce n'est pas la prise ponctuelle qui compte, mais la constance jour après jour.",
@@ -225,7 +216,6 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { id: 8, question: "Que faire en plus de STRENGTH ?", answer: "Sommeil, hydratation, alimentation équilibrée, progression et récupération physique et mentale." },
     ],
   },
-
   soul: {
     key: "soul",
     folder: "soul",
@@ -236,7 +226,7 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
       { emoji: "🧠", text: "Calme mental" },
       { emoji: "🌿", text: "Équilibre émotionnel" },
     ],
-    routineTitle: "🌿 Optimiser votre équilibre au quotidien — NUKU SOUL",
+    routineTitle: "Optimiser votre équilibre au quotidien — NUKU SOUL",
     routineSubtitle: "Calme intérieur · Adaptation au stress · Stabilité émotionnelle",
     routineIntro: "NUKU SOUL accompagne le calme intérieur et l'équilibre émotionnel lorsqu'il est utilisé dans le rythme réel du quotidien. Il ne s'agit pas de supprimer le stress, mais de mieux vivre les journées chargées.",
     routineSub: "Le contexte, la régularité et le rythme personnel influencent davantage l'expérience que la recherche d'un effet instantané.",
@@ -271,35 +261,35 @@ const PRODUCT_CONFIG: Record<ProductKey, ProductConfig> = {
    INGREDIENT IMAGES
    ============================================================================ */
 const INGREDIENT_IMAGES: Record<string, { path: string; label: string; benefit: string }> = {
-  "sleep-melatonine":   { path: "/image/sleep/melatonin.jpg",     label: "Mélatonine",    benefit: "Aide à réduire le temps d'endormissement et à réguler le rythme veille-sommeil." },
-  "sleep-theanine":     { path: "/image/sleep/l-theanine.jpg",    label: "L-théanine",    benefit: "Favorise la détente et la relaxation sans provoquer de somnolence." },
-  "sleep-gaba":         { path: "/image/sleep/gaba.jpg",          label: "GABA",          benefit: "Aide à apaiser le mental et à favoriser un état de calme propice au sommeil." },
-  "sleep-valeriane":    { path: "/image/sleep/valeriane.jpg",     label: "Valériane",     benefit: "Contribue à un sommeil de qualité et facilite l'endormissement." },
-  "sleep-passiflore":   { path: "/image/sleep/passiflore.jpg",    label: "Passiflore",    benefit: "Aide à réduire le stress et la nervosité pour mieux se préparer au sommeil." },
-  "sleep-magnesium":    { path: "/image/sleep/magnesium.jpg",     label: "Magnésium",     benefit: "Réduit la fatigue et contribue au fonctionnement normal du système nerveux." },
-  "sleep-vitb6":        { path: "/image/sleep/vitamine-b6.jpg",   label: "Vitamine B6",   benefit: "Contribue au fonctionnement normal du système nerveux et réduit la fatigue." },
-  "shine-biotine":      { path: "/image/shine/Biotine .jpg",               label: "Biotine",              benefit: "Contribue au maintien de cheveux normaux et d'ongles normaux." },
-  "shine-roquette":     { path: "/image/shine/Extrait de roquette .jpg",   label: "Extrait de roquette",  benefit: "Riche en antioxydants, soutient l'éclat et la vitalité de la peau." },
-  "shine-msm":          { path: "/image/shine/MSM.jpg",                    label: "MSM",                  benefit: "Contribue à la souplesse de la peau et au maintien du collagène." },
-  "shine-silicium":     { path: "/image/shine/Silicium.jpg",               label: "Silicium",             benefit: "Soutient la résistance des cheveux, des ongles et l'élasticité de la peau." },
-  "shine-vitb6":        { path: "/image/shine/Vitamine B6.jpg",            label: "Vitamine B6",          benefit: "Contribue au fonctionnement normal du système nerveux et à la réduction de la fatigue." },
-  "shine-zinc":         { path: "/image/shine/Zinc.jpg",                   label: "Zinc",                 benefit: "Contribue au maintien d'une peau normale et à la protection contre le stress oxydatif." },
-  "shine-vitd3":        { path: "/image/shine/Vitamine D3.jpg",            label: "Vitamine D3",          benefit: "Contribue au maintien d'une fonction musculaire normale et soutient le système immunitaire." },
-  "source-chlorella":   { path: "/image/source/Chlorella .jpg",                        label: "Chlorella",    benefit: "Microalgue riche en chlorophylle, soutient la détoxification naturelle de l'organisme." },
-  "source-curcuma":     { path: "/image/source/Curcuma.jpg",                           label: "Curcuma",      benefit: "Contribue à réduire l'inflammation et soutient les défenses naturelles de l'organisme." },
-  "source-pissenlit":   { path: "/image/source/Extrait de racine de pissenlit .jpg",   label: "Pissenlit",    benefit: "Soutient la fonction hépatique et contribue à la digestion normale." },
-  "source-artichaut":   { path: "/image/source/artichaut.jpg",                         label: "Artichaut",    benefit: "Favorise une digestion normale et contribue au bon fonctionnement du foie." },
-  "source-matcha":      { path: "/image/source/Matcha.jpg",                            label: "Matcha",       benefit: "Source d'antioxydants, soutient l'énergie et la concentration au quotidien." },
-  "source-vitb6":       { path: "/image/source/Vitamine B6.jpg",                       label: "Vitamine B6",  benefit: "Contribue au fonctionnement normal du système nerveux et au métabolisme énergétique." },
-  "strength-creatine":  { path: "/image/strength/monohydrate.jpg",     label: "Créatine monohydrate",   benefit: "Augmente les performances physiques lors d'exercices intenses et répétés." },
-  "strength-vitb12":    { path: "/image/strength/Vitamine B12.jpg",    label: "Vitamine B12",           benefit: "Contribue à réduire la fatigue et soutient le métabolisme énergétique normal." },
-  "strength-vitd3":     { path: "/image/strength/Vitamine D3.jpg",     label: "Vitamine D3",            benefit: "Contribue au maintien d'une fonction musculaire normale et soutient la récupération." },
-  "soul-ashwagandha":   { path: "/image/soul/Ashwagandha ksm 66.jpg",  label: "Ashwagandha KSM-66",  benefit: "Aide à réduire le stress et à améliorer la résistance mentale et physique au stress." },
-  "soul-gaba":          { path: "/image/soul/Gaba.jpg",                label: "GABA",                benefit: "Aide à apaiser le mental et à favoriser un état de calme et de sérénité." },
-  "soul-theanine":      { path: "/image/soul/L-theanine.jpg",          label: "L-théanine",          benefit: "Favorise la détente et la relaxation sans provoquer de somnolence." },
-  "soul-rhodiola":      { path: "/image/soul/Rhodiola.jpg",            label: "Rhodiola",            benefit: "Contribue à réduire la fatigue et soutient l'équilibre émotionnel." },
-  "soul-safran":        { path: "/image/soul/Safran.jpg",              label: "Safran",              benefit: "Contribue à l'équilibre de l'humeur et favorise un état émotionnel positif." },
-  "soul-vitb6":         { path: "/image/soul/Vitamine b6.jpg",         label: "Vitamine B6",         benefit: "Contribue au fonctionnement normal du système nerveux." },
+  "sleep-melatonine":  { path: "/image/sleep/melatonin.jpg",    label: "Mélatonine",   benefit: "Aide à réduire le temps d'endormissement et à réguler le rythme veille-sommeil." },
+  "sleep-theanine":    { path: "/image/sleep/l-theanine.jpg",   label: "L-théanine",   benefit: "Favorise la détente et la relaxation sans provoquer de somnolence." },
+  "sleep-gaba":        { path: "/image/sleep/gaba.jpg",         label: "GABA",         benefit: "Aide à apaiser le mental et à favoriser un état de calme propice au sommeil." },
+  "sleep-valeriane":   { path: "/image/sleep/valeriane.jpg",    label: "Valériane",    benefit: "Contribue à un sommeil de qualité et facilite l'endormissement." },
+  "sleep-passiflore":  { path: "/image/sleep/passiflore.jpg",   label: "Passiflore",   benefit: "Aide à réduire le stress et la nervosité pour mieux se préparer au sommeil." },
+  "sleep-magnesium":   { path: "/image/sleep/magnesium.jpg",    label: "Magnésium",    benefit: "Réduit la fatigue et contribue au fonctionnement normal du système nerveux." },
+  "sleep-vitb6":       { path: "/image/sleep/vitamine-b6.jpg",  label: "Vitamine B6",  benefit: "Contribue au fonctionnement normal du système nerveux et réduit la fatigue." },
+  "shine-biotine":     { path: "/image/shine/Biotine .jpg",              label: "Biotine",             benefit: "Contribue au maintien de cheveux normaux et d'ongles normaux." },
+  "shine-roquette":    { path: "/image/shine/Extrait de roquette .jpg",  label: "Extrait de roquette", benefit: "Riche en antioxydants, soutient l'éclat et la vitalité de la peau." },
+  "shine-msm":         { path: "/image/shine/MSM.jpg",                   label: "MSM",                 benefit: "Contribue à la souplesse de la peau et au maintien du collagène." },
+  "shine-silicium":    { path: "/image/shine/Silicium.jpg",              label: "Silicium",            benefit: "Soutient la résistance des cheveux, des ongles et l'élasticité de la peau." },
+  "shine-vitb6":       { path: "/image/shine/Vitamine B6.jpg",           label: "Vitamine B6",         benefit: "Contribue au fonctionnement normal du système nerveux et à la réduction de la fatigue." },
+  "shine-zinc":        { path: "/image/shine/Zinc.jpg",                  label: "Zinc",                benefit: "Contribue au maintien d'une peau normale et à la protection contre le stress oxydatif." },
+  "shine-vitd3":       { path: "/image/shine/Vitamine D3.jpg",           label: "Vitamine D3",         benefit: "Contribue au maintien d'une fonction musculaire normale et soutient le système immunitaire." },
+  "source-chlorella":  { path: "/image/source/Chlorella .jpg",                       label: "Chlorella",   benefit: "Microalgue riche en chlorophylle, soutient la détoxification naturelle de l'organisme." },
+  "source-curcuma":    { path: "/image/source/Curcuma.jpg",                          label: "Curcuma",     benefit: "Contribue à réduire l'inflammation et soutient les défenses naturelles de l'organisme." },
+  "source-pissenlit":  { path: "/image/source/Extrait de racine de pissenlit .jpg",  label: "Pissenlit",   benefit: "Soutient la fonction hépatique et contribue à la digestion normale." },
+  "source-artichaut":  { path: "/image/source/artichaut.jpg",                        label: "Artichaut",   benefit: "Favorise une digestion normale et contribue au bon fonctionnement du foie." },
+  "source-matcha":     { path: "/image/source/Matcha.jpg",                           label: "Matcha",      benefit: "Source d'antioxydants, soutient l'énergie et la concentration au quotidien." },
+  "source-vitb6":      { path: "/image/source/Vitamine B6.jpg",                      label: "Vitamine B6", benefit: "Contribue au fonctionnement normal du système nerveux et au métabolisme énergétique." },
+  "strength-creatine": { path: "/image/strength/monohydrate.jpg",    label: "Créatine monohydrate", benefit: "Augmente les performances physiques lors d'exercices intenses et répétés." },
+  "strength-vitb12":   { path: "/image/strength/Vitamine B12.jpg",   label: "Vitamine B12",         benefit: "Contribue à réduire la fatigue et soutient le métabolisme énergétique normal." },
+  "strength-vitd3":    { path: "/image/strength/Vitamine D3.jpg",    label: "Vitamine D3",          benefit: "Contribue au maintien d'une fonction musculaire normale et soutient la récupération." },
+  "soul-ashwagandha":  { path: "/image/soul/Ashwagandha ksm 66.jpg", label: "Ashwagandha KSM-66", benefit: "Aide à réduire le stress et à améliorer la résistance mentale et physique au stress." },
+  "soul-gaba":         { path: "/image/soul/Gaba.jpg",               label: "GABA",               benefit: "Aide à apaiser le mental et à favoriser un état de calme et de sérénité." },
+  "soul-theanine":     { path: "/image/soul/L-theanine.jpg",         label: "L-théanine",         benefit: "Favorise la détente et la relaxation sans provoquer de somnolence." },
+  "soul-rhodiola":     { path: "/image/soul/Rhodiola.jpg",           label: "Rhodiola",           benefit: "Contribue à réduire la fatigue et soutient l'équilibre émotionnel." },
+  "soul-safran":       { path: "/image/soul/Safran.jpg",             label: "Safran",             benefit: "Contribue à l'équilibre de l'humeur et favorise un état émotionnel positif." },
+  "soul-vitb6":        { path: "/image/soul/Vitamine b6.jpg",        label: "Vitamine B6",        benefit: "Contribue au fonctionnement normal du système nerveux." },
 };
 
 /* ============================================================================
@@ -307,9 +297,9 @@ const INGREDIENT_IMAGES: Record<string, { path: string; label: string; benefit: 
    ============================================================================ */
 const productColors = [
   "from-purple-100/50 to-purple-50/30", "from-green-100/50 to-green-50/30",
-  "from-blue-100/50 to-blue-50/30",   "from-amber-100/50 to-amber-50/30",
-  "from-rose-100/50 to-rose-50/30",   "from-teal-100/50 to-teal-50/30",
-  "from-indigo-100/50 to-indigo-50/30","from-orange-100/50 to-orange-50/30",
+  "from-blue-100/50 to-blue-50/30",     "from-amber-100/50 to-amber-50/30",
+  "from-rose-100/50 to-rose-50/30",     "from-teal-100/50 to-teal-50/30",
+  "from-indigo-100/50 to-indigo-50/30", "from-orange-100/50 to-orange-50/30",
 ];
 
 function colorIndexFromId(id: number, len: number) {
@@ -342,10 +332,6 @@ function getProductKey(product: DbProduct): ProductKey | null {
 
 /* ============================================================================
    PRODUCT IMAGE GALLERY
-   - Grande image principale avec fond dégradé
-   - Miniatures cliquables en dessous
-   - Flèches gauche / droite
-   - Animation fade au changement d'image
    ============================================================================ */
 function ProductImageGallery({ images }: { images: string[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -354,7 +340,6 @@ function ProductImageGallery({ images }: { images: string[] }) {
   const goTo = (index: number) => {
     const next = (index + images.length) % images.length;
     setCurrentIndex(next);
-    // Centre la miniature active dans le scroll
     const container = thumbsRef.current;
     if (container) {
       const thumb = container.children[next] as HTMLElement;
@@ -366,7 +351,6 @@ function ProductImageGallery({ images }: { images: string[] }) {
 
   return (
     <div className="pg-wrap">
-    
       <div className="pg-main">
         <img
           key={currentIndex}
@@ -376,7 +360,6 @@ function ProductImageGallery({ images }: { images: string[] }) {
           draggable={false}
           loading="lazy"
         />
-
         {images.length > 1 && (
           <>
             <button className="pg-arrow pg-arrow-prev" onClick={() => goTo(currentIndex - 1)} aria-label="Image précédente">
@@ -393,8 +376,6 @@ function ProductImageGallery({ images }: { images: string[] }) {
           </>
         )}
       </div>
-
-      {/* ── Miniatures ── */}
       {images.length > 1 && (
         <div className="pg-thumbs" ref={thumbsRef} role="list" aria-label="Sélecteur d'images">
           {images.map((src, i) => (
@@ -411,88 +392,30 @@ function ProductImageGallery({ images }: { images: string[] }) {
           ))}
         </div>
       )}
-
       <style jsx>{`
-        .pg-wrap {
-          display: flex; flex-direction: column; gap: 12px;
-          width: 100%; user-select: none;
-        }
-
-        /* ── Cadre principal ── */
-        .pg-main {
-          position: relative; width: 100%; aspect-ratio: 1 / 1;
-          border-radius: 32px; overflow: hidden;
-          display: flex; align-items: center; justify-content: center;
-          background: transparent;
-        }
-
-        .pg-img {
-          height: 90%; width: 90%; object-fit: contain;
-          position: relative; z-index: 1;
-          filter: drop-shadow(0 20px 35px rgba(0,0,0,0.22));
-          animation: pgFade 0.22s ease;
-        }
-        @keyframes pgFade {
-          from { opacity: 0.4; transform: scale(0.97); }
-          to   { opacity: 1;   transform: scale(1); }
-        }
-
-        /* ── Flèches ── */
-        .pg-arrow {
-          position: absolute; top: 50%; transform: translateY(-50%);
-          z-index: 10; width: 44px; height: 44px; border-radius: 50%;
-          border: none; background: rgba(255,255,255,0.90); color: #1a1a1a;
-          display: flex; align-items: center; justify-content: center;
-          cursor: pointer; box-shadow: 0 2px 14px rgba(0,0,0,0.13);
-          transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-        }
-        .pg-arrow:hover { background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.18); }
-        .pg-arrow:active { transform: translateY(-50%) scale(0.91); }
-        .pg-arrow-prev { left: 14px; }
-        .pg-arrow-next { right: 14px; }
-
-        /* ── Compteur ── */
-        .pg-counter {
-          position: absolute; bottom: 14px; right: 16px; z-index: 10;
-          background: rgba(0,0,0,0.42); color: #fff;
-          font-size: 12px; font-weight: 600;
-          padding: 3px 11px; border-radius: 20px;
-          backdrop-filter: blur(6px); letter-spacing: 0.05em;
-        }
-
-        /* ── Miniatures ── */
-        .pg-thumbs {
-          display: flex; gap: 8px;
-          overflow-x: auto; scroll-behavior: smooth;
-          padding-bottom: 2px; scrollbar-width: none;
-        }
-        .pg-thumbs::-webkit-scrollbar { display: none; }
-
-        .pg-thumb {
-          flex-shrink: 0; width: 72px; height: 72px;
-          border-radius: 12px; overflow: hidden;
-          border: 2px solid transparent; background: #f0ede8;
-          cursor: pointer; padding: 0; opacity: 0.60;
-          transition: opacity 0.2s, border-color 0.2s, transform 0.2s;
-        }
-        .pg-thumb:hover { opacity: 0.85; transform: scale(1.04); }
-        .pg-thumb-active { border-color: #ef8035; opacity: 1; transform: scale(1.05); }
-        .pg-thumb img {
-          width: 100%; height: 100%; object-fit: cover;
-          display: block; pointer-events: none;
-        }
-
-        @media (max-width: 480px) {
-          .pg-thumb { width: 58px; height: 58px; }
-          .pg-arrow { width: 38px; height: 38px; }
-        }
+        .pg-wrap { display:flex; flex-direction:column; gap:12px; width:100%; user-select:none; }
+        .pg-main { position:relative; width:100%; aspect-ratio:1/1; border-radius:32px; overflow:hidden; display:flex; align-items:center; justify-content:center; background:transparent; }
+        .pg-img { height:90%; width:90%; object-fit:contain; position:relative; z-index:1; filter:drop-shadow(0 20px 35px rgba(0,0,0,0.22)); animation:pgFade 0.22s ease; }
+        @keyframes pgFade { from{opacity:0.4;transform:scale(0.97);} to{opacity:1;transform:scale(1);} }
+        .pg-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:10; width:44px; height:44px; border-radius:50%; border:none; background:rgba(255,255,255,0.90); color:#1a1a1a; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 2px 14px rgba(0,0,0,0.13); transition:background 0.2s, box-shadow 0.2s, transform 0.2s; }
+        .pg-arrow:hover { background:#fff; box-shadow:0 4px 20px rgba(0,0,0,0.18); }
+        .pg-arrow:active { transform:translateY(-50%) scale(0.91); }
+        .pg-arrow-prev { left:14px; } .pg-arrow-next { right:14px; }
+        .pg-counter { position:absolute; bottom:14px; right:16px; z-index:10; background:rgba(0,0,0,0.42); color:#fff; font-size:12px; font-weight:600; padding:3px 11px; border-radius:20px; backdrop-filter:blur(6px); letter-spacing:0.05em; }
+        .pg-thumbs { display:flex; gap:8px; overflow-x:auto; scroll-behavior:smooth; padding-bottom:2px; scrollbar-width:none; }
+        .pg-thumbs::-webkit-scrollbar { display:none; }
+        .pg-thumb { flex-shrink:0; width:72px; height:72px; border-radius:12px; overflow:hidden; border:2px solid transparent; background:#f0ede8; cursor:pointer; padding:0; opacity:0.60; transition:opacity 0.2s, border-color 0.2s, transform 0.2s; }
+        .pg-thumb:hover { opacity:0.85; transform:scale(1.04); }
+        .pg-thumb-active { border-color:#ef8035; opacity:1; transform:scale(1.05); }
+        .pg-thumb img { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
+        @media(max-width:480px) { .pg-thumb{width:58px;height:58px;} .pg-arrow{width:38px;height:38px;} }
       `}</style>
     </div>
   );
 }
 
 /* ============================================================================
-   HIGHLIGHTS GRID — grille 2x2 avec emoji
+   HIGHLIGHTS GRID
    ============================================================================ */
 function ProductHighlights({ highlights }: { highlights: ProductHighlight[] }) {
   return (
@@ -513,7 +436,7 @@ function ProductHighlights({ highlights }: { highlights: ProductHighlight[] }) {
 }
 
 /* ============================================================================
-   BENEFITS (fallback si pas de productKey)
+   BENEFITS (fallback)
    ============================================================================ */
 function getBenefitEmoji(text: string) {
   const t = text.toLowerCase();
@@ -558,14 +481,11 @@ function BenefitsNoMiddle({ benefits }: { benefits: string[] }) {
 }
 
 /* ============================================================================
-   INGREDIENTS SLIDER — Coverflow Premium
+   INGREDIENTS SLIDER — Embla Coverflow
    ============================================================================ */
-type Props = {
-  ingredients?: string[];
-  productKey: ProductKey | null;
-};
+type IngredientsProps = { ingredients?: string[]; productKey: ProductKey | null };
 
- function IngredientsSlider({ ingredients, productKey }: Props) {
+function IngredientsSlider({ ingredients, productKey }: IngredientsProps) {
   const allIngredients = useMemo(() => {
     if (!productKey) return [];
     const out: { label: string; image: string; benefit: string }[] = [];
@@ -579,19 +499,17 @@ type Props = {
 
   const total = allIngredients.length;
 
-  // ─── Embla setup ───────────────────────────────────────────────────────────
-  // loop: true fonctionne parfaitement dans les deux sens avec Embla, sans config
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: total > 3,           // loop seulement si assez d'items
-    align: "center",           // carte active toujours centrée
-    containScroll: false,      // permet de voir les cartes des côtés
-    slidesToScroll: 1,         // toujours 1 slide à la fois, sans exception
+    loop: total > 3,
+    align: "center",
+    containScroll: false,
+    slidesToScroll: 1,
     dragFree: false,
   });
 
-  const [activeIndex, setActiveIndex]       = useState(Math.floor(total / 2));
+  const [activeIndex, setActiveIndex] = useState(Math.floor(total / 2));
   const [openBenefitIndex, setOpenBenefitIndex] = useState<number | null>(null);
-  const [isTouch, setIsTouch]               = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
@@ -599,27 +517,21 @@ type Props = {
     setIsTouch(window.matchMedia("(hover: none), (pointer: coarse)").matches);
   }, []);
 
-  // Synchronise l'index actif et l'état des boutons après chaque slide
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setActiveIndex(emblaApi.selectedScrollSnap());
     setOpenBenefitIndex(null);
-    // Avec loop=true, les deux boutons sont toujours actifs — Embla gère ça nativement
     setPrevBtnEnabled(emblaApi.canScrollPrev());
     setNextBtnEnabled(emblaApi.canScrollNext());
   }, [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
-    // Démarrer sur la carte du milieu
     emblaApi.scrollTo(Math.floor(total / 2), true);
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
-    onSelect(); // état initial
-    return () => {
-      emblaApi.off("select", onSelect);
-      emblaApi.off("reInit", onSelect);
-    };
+    onSelect();
+    return () => { emblaApi.off("select", onSelect); emblaApi.off("reInit", onSelect); };
   }, [emblaApi, onSelect, total]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
@@ -627,96 +539,53 @@ type Props = {
 
   if (!total) return null;
 
-  // ─── Largeur max du wrap selon le nombre d'items ───────────────────────────
   const desktopSlotsForWidth = Math.min(total >= 5 ? 5 : total || 1, 5);
-  const wrapMaxWidth =
-    desktopSlotsForWidth === 5 ? "1200px" :
-    desktopSlotsForWidth === 4 ? "980px"  :
-    desktopSlotsForWidth === 3 ? "760px"  :
-    desktopSlotsForWidth === 2 ? "520px"  : "320px";
-
-  // ─── Largeur de chaque slide en % (équivalent slidesPerView) ───────────────
-  // Embla utilise des % CSS sur chaque slide pour contrôler combien on en voit.
-  // On utilise des valeurs non-entières pour toujours avoir un "demi-slide" visible.
-  const slideWidthDesktop =
-    total <= 2 ? "100%" :
-    total === 3 ? "42%"  :   // ~2.4 slides visibles
-    total === 4 ? "30%"  :   // ~3.3 slides visibles
-    total === 5 ? "22%"  :   // ~4.5 slides visibles
-    "21%";                    // 6-7+ → ~4.8 slides visibles
-
+  const wrapMaxWidth = desktopSlotsForWidth === 5 ? "1200px" : desktopSlotsForWidth === 4 ? "980px" : desktopSlotsForWidth === 3 ? "760px" : desktopSlotsForWidth === 2 ? "520px" : "320px";
+  const slideWidthDesktop = total <= 2 ? "100%" : total === 3 ? "42%" : total === 4 ? "30%" : total === 5 ? "22%" : "21%";
   const activeScale = total === 3 ? 1.14 : total >= 6 ? 1.1 : 1.08;
 
   return (
     <section className="ing-section">
-       <div className="luxury-header">
+      <div className="luxury-header">
         <span className="luxury-badge">Formulation Expert</span>
         <h2 className="luxury-title">Les Ingrédients</h2>
         <div className="luxury-divider"></div>
-        <p className="luxury-subtitle">L’efficacité au cœur de la formule</p>
+        <p className="luxury-subtitle">L'efficacité au cœur de la formule</p>
       </div>
 
-
-      <div
-        className="ing-wrap"
-        data-few={total <= 3 ? "true" : undefined}
-        style={{ ["--active-scale" as any]: activeScale } as React.CSSProperties}
-      >
-        {/* Zone scrollable Embla */}
+      <div className="ing-wrap" data-few={total <= 3 ? "true" : undefined} style={{ ["--active-scale" as any]: activeScale } as React.CSSProperties}>
         <div className="ing-viewport" ref={emblaRef}>
           <div className="ing-container">
             {allIngredients.map((item, i) => {
-              const isActive    = i === activeIndex;
+              const isActive = i === activeIndex;
               const benefitOpen = isTouch && openBenefitIndex === i;
-
               return (
-                <div
-                  key={`${item.label}-${i}`}
-                  className="ing-slide"
-                >
+                <div key={`${item.label}-${i}`} className="ing-slide">
                   <div
                     className={`ing-card ${isActive ? "ing-card--active" : ""}`}
-                    onClick={() => {
-                      if (!isActive) emblaApi?.scrollTo(i);
-                    }}
+                    onClick={() => { if (!isActive) emblaApi?.scrollTo(i); }}
                     role={!isActive ? "button" : undefined}
                     tabIndex={!isActive ? 0 : undefined}
                     aria-label={!isActive ? `Voir ${item.label}` : undefined}
                   >
                     <h4 className="ing-card-name">{item.label}</h4>
-
                     <div className="ing-img-wrap">
-                      <img
-                        src={item.image}
-                        alt={item.label}
-                        loading="lazy"
-                        draggable={false}
-                      />
+                      <img src={item.image} alt={item.label} loading="lazy" draggable={false} />
                     </div>
-
                     <div className={`ing-benefit ${benefitOpen ? "ing-benefit--open" : ""}`}>
                       <p>{item.benefit}</p>
                     </div>
-
                     {isActive && isTouch && (
                       <button
                         type="button"
                         className={`ing-touch-btn ${benefitOpen ? "ing-touch-btn--open" : ""}`}
                         aria-label={benefitOpen ? "Masquer" : "Voir le bienfait"}
-                        onPointerDown={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          setOpenBenefitIndex(benefitOpen ? null : i);
-                        }}
+                        onPointerDown={(e) => { e.stopPropagation(); e.preventDefault(); setOpenBenefitIndex(benefitOpen ? null : i); }}
                       >
                         {benefitOpen ? (
-                          <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
-                            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
-                          </svg>
+                          <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
                         ) : (
-                          <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
-                            <path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
-                          </svg>
+                          <svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
                         )}
                       </button>
                     )}
@@ -727,299 +596,87 @@ type Props = {
           </div>
         </div>
 
-        {/* Flèches — uniquement desktop */}
         {!isTouch && (
           <>
-            <button
-              className="ing-nav-btn ing-nav-prev"
-              onClick={scrollPrev}
-              disabled={!prevBtnEnabled && !(total > 3)}
-              aria-label="Précédent"
-            >
-              <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                <path d="M12.5 5L7.5 10l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <button className="ing-nav-btn ing-nav-prev" onClick={scrollPrev} disabled={!prevBtnEnabled && !(total > 3)} aria-label="Précédent">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M12.5 5L7.5 10l5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
-            <button
-              className="ing-nav-btn ing-nav-next"
-              onClick={scrollNext}
-              disabled={!nextBtnEnabled && !(total > 3)}
-              aria-label="Suivant"
-            >
-              <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                <path d="M7.5 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <button className="ing-nav-btn ing-nav-next" onClick={scrollNext} disabled={!nextBtnEnabled && !(total > 3)} aria-label="Suivant">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M7.5 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
           </>
         )}
       </div>
 
       <style jsx>{`
-      .luxury-header { text-align: center; margin-bottom: 50px; }
-        .luxury-badge { text-transform: uppercase; letter-spacing: 3px; font-size: 11px; color: #b58e58; font-weight: 700; }
-        .luxury-title { font-size: 40px; font-weight: 300; margin: 10px 0; }
-        .luxury-divider { width: 40px; height: 1px; background: #b58e58; margin: 15px auto; }
-        .ing-section {
-          margin-top: 80px;
-          width: 100vw;
-          position: relative;
-          left: 50%; right: 50%;
-          margin-left: -50vw; margin-right: -50vw;
-          background: #fff;
-          padding-bottom: 52px;
-        }
-
-        
-
-        /* ─── Wrap ─────────────────────────────────────────────────────────── */
-        .ing-wrap {
-          position: relative;
-          max-width: ${wrapMaxWidth};
-          margin: 0 auto;
-          padding: 20px 0 8px;
-          width: 100%;
-        }
-
-        /* Voiles latéraux */
-        .ing-wrap::before,
-        .ing-wrap::after {
-          content: "";
-          position: absolute;
-          top: 0; bottom: 0;
-          width: 40px;
-          z-index: 5;
-          pointer-events: none;
-        }
-        .ing-wrap::before {
-          left: 0;
-          background: linear-gradient(to right, #fff 0%, rgba(255,255,255,0) 100%);
-        }
-        .ing-wrap::after {
-          right: 0;
-          background: linear-gradient(to left, #fff 0%, rgba(255,255,255,0) 100%);
-        }
-        .ing-wrap[data-few="true"]::before,
-        .ing-wrap[data-few="true"]::after { display: none; }
-
-        /* ─── Embla ─────────────────────────────────────────────────────────── */
-        /* Le viewport masque ce qui dépasse — on le laisse overflow visible
-           pour voir les cartes des côtés (effet "peek") */
-        .ing-viewport {
-          overflow: hidden;
-          padding: 16px 0;
-        }
-
-        .ing-container {
-          display: flex;
-          /* Embla gère le touch/drag — pas de user-select sur le conteneur */
-          user-select: none;
-          -webkit-touch-callout: none;
-          gap: 20px;
-        }
-
-        /* ─── Slide ──────────────────────────────────────────────────────────  */
-        .ing-slide {
-          /* Largeur responsive via CSS vars / media queries */
-          flex: 0 0 50%;       /* mobile : ~2 slides visibles */
-          min-width: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        @media (min-width: 480px) {
-          .ing-slide { flex: 0 0 36%; }   /* tablet : ~2.8 slides */
-        }
-
-        @media (min-width: 900px) {
-          .ing-slide { flex: 0 0 ${slideWidthDesktop}; }
-        }
-
-        /* ─── Carte ──────────────────────────────────────────────────────────  */
-        .ing-card {
-          width: 100%;
-          background: linear-gradient(180deg, #fff 0%, #ffffff 100%);
-          border-radius: 20px;
-          border: none;
-          box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 16px 14px 14px;
-          gap: 10px;
-          cursor: pointer;
-          transform: scale(0.82);
-          opacity: 0.50;
-          filter: saturate(0.6) brightness(1.02);
-          transform-origin: center center;
-          transition:
-            transform 0.4s cubic-bezier(0.34,1.26,0.64,1),
-            opacity   0.35s ease,
-            box-shadow 0.35s ease,
-            filter    0.35s ease;
-        }
-
-        .ing-card--active {
-          transform: scale(var(--active-scale, 1.08));
-          opacity: 1;
-          filter: none;
-          box-shadow: 0 12px 36px rgba(180,130,80,0.18), 0 4px 12px rgba(0,0,0,0.07);
-          cursor: default;
-        }
-
-        .ing-card-name {
-          font-size: 13px;
-          font-weight: 700;
-          color: #2f261f;
-          margin: 0;
-          text-align: center;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        @media (hover: hover) and (pointer: fine) {
-          .ing-card--active .ing-card-name { opacity: 1; }
-        }
-
-        .ing-img-wrap {
-          width: 100%;
-          aspect-ratio: 1 / 1;
-          border-radius: 14px;
-          overflow: hidden;
-        }
-        .ing-img-wrap img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          display: block;
-          pointer-events: none;
-          user-select: none;
-          transition: transform 0.32s ease;
-        }
-        @media (hover: hover) and (pointer: fine) {
-          .ing-card--active:hover .ing-img-wrap img { transform: scale(1.06); }
-        }
-
-        /* ─── Benefit ────────────────────────────────────────────────────────  */
-        .ing-benefit {
-          width: 100%;
-          max-height: 0;
-          overflow: hidden;
-          opacity: 0;
-          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
-        }
-        .ing-benefit p {
-          margin: 0;
-          font-size: 12px;
-          line-height: 1.65;
-          color: #5a3e2b;
-          font-style: italic;
-          text-align: center;
-          padding: 4px 0;
-        }
-        @media (hover: hover) and (pointer: fine) {
-          .ing-card--active .ing-img-wrap:hover ~ .ing-benefit {
-            max-height: 120px;
-            opacity: 1;
-          }
-        }
-        .ing-benefit--open {
-          max-height: 120px !important;
-          opacity: 1 !important;
-        }
-
-        /* ─── Bouton touch ───────────────────────────────────────────────────  */
-        .ing-touch-btn {
-          width: 28px; height: 28px;
-          border-radius: 50%;
-          border: 1.5px solid rgba(180,130,80,0.4);
-          background: #fff;
-          color: #3b2a22;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          flex-shrink: 0;
-          touch-action: manipulation;
-          -webkit-tap-highlight-color: transparent;
-        }
-        .ing-touch-btn--open { background: #ef8035; border-color: #ef8035; color: #fff; }
-
-        /* ─── Flèches ────────────────────────────────────────────────────────  */
-        .ing-nav-btn {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 42px; height: 42px;
-          border-radius: 50%;
-          border: 1.5px solid rgba(180,130,80,0.3);
-          background: #fff;
-          color: #3b2a22;
-          display: flex; align-items: center; justify-content: center;
-          cursor: pointer;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-          transition: all 0.2s ease;
-          z-index: 10;
-        }
-        .ing-nav-btn:disabled {
-          opacity: 0.3;
-          cursor: default;
-        }
-        .ing-nav-prev { left: 4px; }
-        .ing-nav-next { right: 4px; }
-        .ing-nav-btn:not(:disabled):hover {
-          background: #ffffff;
-          border-color: rgba(239,128,53,0.5);
-          transform: translateY(-50%) scale(1.07);
-        }
-        .ing-nav-btn:not(:disabled):active { transform: translateY(-50%) scale(0.94); }
-
-        /* ─── Mobile ─────────────────────────────────────────────────────────  */
-        @media (hover: none), (pointer: coarse) {
-          .ing-nav-btn { display: none !important; }
-          .ing-wrap::before,
-          .ing-wrap::after { width: 30px; }
-          .ing-card--active .ing-card-name { opacity: 1; }
-        }
-
-        @media (max-width: 899px) {
-          .ing-wrap { max-width: 100% !important; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .ing-card, .ing-img-wrap img, .ing-benefit { transition: none !important; }
-        }
+        .luxury-header { text-align:center; margin-bottom:50px; padding-top:52px; }
+        .luxury-badge { text-transform:uppercase; letter-spacing:3px; font-size:11px; color:#b58e58; font-weight:700; }
+        .luxury-title { font-size:40px; font-weight:300; margin:10px 0; }
+        .luxury-divider { width:40px; height:1px; background:#b58e58; margin:15px auto; }
+        .luxury-subtitle { font-size:14px; color:#888; font-weight:300; }
+        .ing-section { margin-top:80px; width:100vw; position:relative; left:50%; right:50%; margin-left:-50vw; margin-right:-50vw; background:#fff; padding-bottom:52px; }
+        .ing-wrap { position:relative; max-width:${wrapMaxWidth}; margin:0 auto; padding:20px 0 8px; width:100%; }
+        .ing-wrap::before,.ing-wrap::after { content:""; position:absolute; top:0; bottom:0; width:40px; z-index:5; pointer-events:none; }
+        .ing-wrap::before { left:0; background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%); }
+        .ing-wrap::after { right:0; background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%); }
+        .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after { display:none; }
+        .ing-viewport { overflow:hidden; padding:16px 0; }
+        .ing-container { display:flex; user-select:none; -webkit-touch-callout:none; gap:20px; }
+        .ing-slide { flex:0 0 50%; min-width:0; display:flex; align-items:center; justify-content:center; }
+        @media(min-width:480px) { .ing-slide{flex:0 0 36%;} }
+        @media(min-width:900px) { .ing-slide{flex:0 0 ${slideWidthDesktop};} }
+        .ing-card { width:100%; background:#fff; border-radius:20px; border:none; box-shadow:0 4px 18px rgba(0,0,0,0.07); display:flex; flex-direction:column; align-items:center; padding:16px 14px 14px; gap:10px; cursor:pointer; transform:scale(0.82); opacity:0.50; filter:saturate(0.6) brightness(1.02); transform-origin:center center; transition:transform 0.4s cubic-bezier(0.34,1.26,0.64,1),opacity 0.35s ease,box-shadow 0.35s ease,filter 0.35s ease; }
+        .ing-card--active { transform:scale(var(--active-scale,1.08)); opacity:1; filter:none; box-shadow:0 12px 36px rgba(180,130,80,0.18),0 4px 12px rgba(0,0,0,0.07); cursor:default; }
+        .ing-card-name { font-size:13px; font-weight:700; color:#2f261f; margin:0; text-align:center; opacity:0; transition:opacity 0.3s ease; }
+        @media(hover:hover) and (pointer:fine) { .ing-card--active .ing-card-name{opacity:1;} }
+        @media(hover:none),(pointer:coarse) { .ing-card--active .ing-card-name{opacity:1;} }
+        .ing-img-wrap { width:100%; aspect-ratio:1/1; border-radius:14px; overflow:hidden; }
+        .ing-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; user-select:none; transition:transform 0.32s ease; }
+        @media(hover:hover) and (pointer:fine) { .ing-card--active:hover .ing-img-wrap img{transform:scale(1.06);} }
+        .ing-benefit { width:100%; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.3s ease; }
+        .ing-benefit p { margin:0; font-size:12px; line-height:1.65; color:#5a3e2b; font-style:italic; text-align:center; padding:4px 0; }
+        @media(hover:hover) and (pointer:fine) { .ing-card--active .ing-img-wrap:hover ~ .ing-benefit{max-height:120px;opacity:1;} }
+        .ing-benefit--open { max-height:120px!important; opacity:1!important; }
+        .ing-touch-btn { width:28px; height:28px; border-radius:50%; border:1.5px solid rgba(180,130,80,0.4); background:#fff; color:#3b2a22; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+        .ing-touch-btn--open { background:#ef8035; border-color:#ef8035; color:#fff; }
+        .ing-nav-btn { position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; border:1.5px solid rgba(180,130,80,0.3); background:#fff; color:#3b2a22; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,0.07); transition:all 0.2s ease; z-index:10; }
+        .ing-nav-btn:disabled { opacity:0.3; cursor:default; }
+        .ing-nav-prev { left:4px; } .ing-nav-next { right:4px; }
+        .ing-nav-btn:not(:disabled):hover { background:#fff; border-color:rgba(239,128,53,0.5); transform:translateY(-50%) scale(1.07); }
+        .ing-nav-btn:not(:disabled):active { transform:translateY(-50%) scale(0.94); }
+        @media(hover:none),(pointer:coarse) { .ing-nav-btn{display:none!important;} .ing-wrap::before,.ing-wrap::after{width:30px;} }
+        @media(max-width:899px) { .ing-wrap{max-width:100%!important;} }
+        @media(prefers-reduced-motion:reduce) { .ing-card,.ing-img-wrap img,.ing-benefit{transition:none!important;} }
       `}</style>
     </section>
   );
 }
+
 /* ============================================================================
-   PRODUCT ROUTINE SECTION — style Create (épuré, serif léger)
+   PRODUCT ROUTINE SECTION — V1 (épuré, Cormorant, sticky desktop)
    ============================================================================ */
 function ProductRoutineSection({ config }: { config: ProductConfig }) {
   const { folder, emoji, routineTitle, routineSubtitle, routineIntro, routineSub, routineTips, routineNote } = config;
-  const formattedTitle = routineTitle.replace(/Optimiser/i, "Optimisez").replace(/^[^\s]+ /, "");
-  const cleanTips = routineTips.map((tip: string) => tip.trim());
+  // Nettoie le titre (retire les emojis en début)
+  const cleanTitle = routineTitle.replace(/^[\p{Emoji}\s]+/u, "").replace(/Optimiser/i, "Optimisez");
+  const cleanTips = routineTips.map((tip) => tip.trim());
 
   return (
     <section className="routine-section">
       <div className="routine-inner">
 
-        {/* ── GAUCHE : texte + image ── */}
+        {/* ── GAUCHE : texte + image (sticky sur desktop) ── */}
         <div className="routine-left">
           <p className="routine-eyebrow">Rituel recommandé</p>
-          <h2 className="routine-title">{formattedTitle}</h2>
+          <h2 className="routine-title">{cleanTitle}</h2>
           <p className="routine-intro">{routineIntro}</p>
           {routineSub && <p className="routine-sub">{routineSub}</p>}
-
           <div className="routine-img-wrap">
-            <img
-              src={`/image/${folder}/${folder}1.png`}
-              alt="Rituel"
-              className="routine-img"
-            />
+            <img src={`/image/${folder}/${folder}1.png`} alt="Rituel" className="routine-img" />
           </div>
         </div>
 
-        {/* ── DROITE : tips style Create ── */}
+        {/* ── DROITE : card protocole ── */}
         <div className="routine-right">
           <div className="routine-card-header">
             <span className="routine-emoji">{emoji}</span>
@@ -1030,7 +687,7 @@ function ProductRoutineSection({ config }: { config: ProductConfig }) {
           </div>
 
           <ol className="routine-tips">
-            {cleanTips.map((tip: string, i: number) => (
+            {cleanTips.map((tip, i) => (
               <li key={i} className="routine-tip">
                 <p>{tip}</p>
               </li>
@@ -1041,190 +698,35 @@ function ProductRoutineSection({ config }: { config: ProductConfig }) {
             <p className="routine-note">"{routineNote}"</p>
           )}
         </div>
-
       </div>
 
       <style jsx>{`
-        .routine-section {
-          padding: 80px 24px;
-          background: #fff;
-        }
-
-        .routine-inner {
-          max-width: 1100px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 80px;
-          align-items: start;
-        }
-
-        /* ── LEFT ── */
-        .routine-left {
-          position: sticky;
-          top: 90px;
-        }
-
-        .routine-eyebrow {
-          font-size: 11px;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #b58e58;
-          margin: 0 0 16px;
-          font-weight: 400;
-        }
-
-        .routine-title {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(34px, 4vw, 52px);
-          font-weight: 300;
-          line-height: 1.1;
-          color: #1a1a1a;
-          margin: 0 0 24px;
-          letter-spacing: -0.01em;
-        }
-
-        .routine-intro {
-          font-size: 15px;
-          line-height: 1.75;
-          color: #666;
-          font-weight: 300;
-          margin: 0 0 16px;
-        }
-
-        .routine-sub {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-style: italic;
-          font-size: 18px;
-          color: #9a8a78;
-          margin: 0;
-          line-height: 1.5;
-          font-weight: 300;
-        }
-
-        .routine-img-wrap {
-          margin-top: 40px;
-          border-radius: 4px;
-          overflow: hidden;
-          aspect-ratio: 3/4;
-          max-width: 400px;
-        }
-
-        .routine-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.7s ease;
-        }
-
-        .routine-img-wrap:hover .routine-img {
-          transform: scale(1.03);
-        }
-
-        /* ── RIGHT ── */
-        .routine-card-header {
-          display: flex;
-          align-items: flex-start;
-          gap: 14px;
-          padding-bottom: 24px;
-          border-bottom: 1px solid #e8e0d6;
-          margin-bottom: 8px;
-        }
-
-        .routine-emoji {
-          font-size: 22px;
-          flex-shrink: 0;
-          margin-top: 2px;
-        }
-
-        .routine-card-label {
-          font-size: 10px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: #b58e58;
-          margin: 0 0 4px;
-          font-weight: 400;
-        }
-
-        .routine-card-subtitle {
-          font-size: 12px;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: #1a1a1a;
-          margin: 0;
-          font-weight: 400;
-          line-height: 1.4;
-        }
-
-        /* Tips — style Create : liste propre, lignes fines */
-        .routine-tips {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        .routine-tip {
-          padding: 20px 0;
-          border-bottom: 1px solid #f0ece6;
-        }
-
-        .routine-tip:last-child {
-          border-bottom: none;
-        }
-
-        .routine-tip p {
-          font-size: 14px;
-          line-height: 1.75;
-          color: #4a4a4a;
-          margin: 0;
-          font-weight: 300;
-        }
-
-        .routine-note {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-style: italic;
-          font-size: 16px;
-          font-weight: 300;
-          color: #9a8a78;
-          margin: 32px 0 0;
-          line-height: 1.6;
-          text-align: center;
-          padding-top: 24px;
-          border-top: 1px solid #e8e0d6;
-        }
-
-        /* ── MOBILE ── */
-        @media (max-width: 768px) {
-          .routine-section {
-            padding: 48px 20px;
-          }
-
-          .routine-inner {
-            grid-template-columns: 1fr;
-            gap: 40px;
-          }
-
-          .routine-left {
-            position: static;
-          }
-
-          /* Sur mobile : on cache l'image — trop long sinon */
-          .routine-img-wrap {
-            display: none;
-          }
-
-          .routine-title {
-            font-size: 32px;
-          }
-
-          .routine-tip {
-            padding: 16px 0;
-          }
-
-          .routine-tip p {
-            font-size: 14px;
-          }
+        .routine-section { padding:80px 24px; background:#fff; }
+        .routine-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+        .routine-left { position:sticky; top:90px; }
+        .routine-eyebrow { font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#b58e58; margin:0 0 16px; font-weight:400; }
+        .routine-title { font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(34px,4vw,52px); font-weight:300; line-height:1.1; color:#1a1a1a; margin:0 0 24px; letter-spacing:-0.01em; }
+        .routine-intro { font-size:15px; line-height:1.75; color:#666; font-weight:300; margin:0 0 16px; }
+        .routine-sub { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:18px; color:#9a8a78; margin:0; line-height:1.5; font-weight:300; }
+        .routine-img-wrap { margin-top:40px; border-radius:4px; overflow:hidden; aspect-ratio:3/4; max-width:400px; }
+        .routine-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.7s ease; }
+        .routine-img-wrap:hover .routine-img { transform:scale(1.03); }
+        .routine-card-header { display:flex; align-items:flex-start; gap:14px; padding-bottom:24px; border-bottom:1px solid #e8e0d6; margin-bottom:8px; }
+        .routine-emoji { font-size:22px; flex-shrink:0; margin-top:2px; }
+        .routine-card-label { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#b58e58; margin:0 0 4px; font-weight:400; }
+        .routine-card-subtitle { font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:#1a1a1a; margin:0; font-weight:400; line-height:1.4; }
+        .routine-tips { list-style:none; padding:0; margin:0; }
+        .routine-tip { padding:20px 0; border-bottom:1px solid #f0ece6; }
+        .routine-tip:last-child { border-bottom:none; }
+        .routine-tip p { font-size:14px; line-height:1.75; color:#4a4a4a; margin:0; font-weight:300; }
+        .routine-note { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:16px; font-weight:300; color:#9a8a78; margin:32px 0 0; line-height:1.6; text-align:center; padding-top:24px; border-top:1px solid #e8e0d6; }
+        @media(max-width:768px) {
+          .routine-section { padding:48px 20px; }
+          .routine-inner { grid-template-columns:1fr; gap:40px; }
+          .routine-left { position:static; }
+          .routine-img-wrap { display:none; }
+          .routine-title { font-size:32px; }
+          .routine-tip { padding:16px 0; }
         }
       `}</style>
     </section>
@@ -1232,199 +734,131 @@ function ProductRoutineSection({ config }: { config: ProductConfig }) {
 }
 
 /* ============================================================================
-   MYTH ACCORDION — style Create (ligne séparatrice, pas de carte beige)
+   MYTH ACCORDION — V2 (numérotation orange, ResizeObserver, pop animation)
    ============================================================================ */
 function MythAccordion({ id, myth, reality, defaultOpen = false }: { id: number; myth: string; reality: string; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px";
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!ref.current || !isOpen) return;
+    const el = ref.current;
+    const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isOpen]);
 
   return (
-    <div className={`myth-item ${isOpen ? "open" : ""}`}>
+    <div className={`acc-item ${isOpen ? "open" : ""}`}>
       <button
-        className="myth-btn"
+        className="acc-btn"
         onClick={() => setIsOpen(v => !v)}
+        onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setIsOpen(v => !v); }}}
         aria-expanded={isOpen}
+        aria-controls={`reality-${id}`}
       >
-        <span className="myth-q">{myth}</span>
-        <span className="myth-icon" aria-hidden>{isOpen ? "−" : "+"}</span>
+        <span className="num" aria-hidden="true">{id}</span>
+        <span className="q">{myth}</span>
+        <span className={`plus ${isOpen ? "rot" : ""}`} aria-hidden="true">{isOpen ? "×" : "+"}</span>
       </button>
-
-      {isOpen && (
-        <div className="myth-body">
-          <p><strong>Réalité.</strong> {reality}</p>
-        </div>
-      )}
-
+      <div id={`reality-${id}`} className="acc-body" ref={ref} role="region" aria-live="polite">
+        <p className="a"><strong>Réalité.</strong> {reality}</p>
+      </div>
       <style jsx>{`
-        .myth-item {
-          border-bottom: 1px solid #e8e2da;
-        }
-
-        .myth-btn {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          padding: 22px 0;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          text-align: left;
-        }
-
-        .myth-q {
-          font-size: 15px;
-          font-weight: 400;
-          color: #2a2a2a;
-          line-height: 1.5;
-          flex: 1;
-        }
-
-        .myth-icon {
-          font-size: 22px;
-          color: #b58e58;
-          font-weight: 300;
-          flex-shrink: 0;
-          line-height: 1;
-        }
-
-        .myth-body {
-          padding: 0 0 20px;
-        }
-
-        .myth-body p {
-          font-size: 14px;
-          line-height: 1.75;
-          color: #666;
-          margin: 0;
-          font-weight: 300;
-        }
-
-        .myth-body strong {
-          color: #b58e58;
-          font-weight: 600;
-        }
+        .acc-item{border-radius:18px;background:linear-gradient(180deg,#fffdfb 0%,#f9f4ed 100%);border:1.4px solid #e5d8c7;box-shadow:inset 0 0 12px rgba(255,237,220,.45),inset 0 1px 1px rgba(255,255,255,.6);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
+        @media(hover:hover){.acc-item:hover{box-shadow:0 10px 30px rgba(0,0,0,.10),inset 0 0 14px rgba(255,240,225,.45);transform:translateY(-1px);}}
+        .acc-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdf8f3 100%);border-color:#dacbb9;box-shadow:0 10px 22px rgba(0,0,0,.07),inset 0 0 24px rgba(255,235,215,.5);}
+        .acc-btn{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:18px 22px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
+        .acc-btn:hover{background:rgba(255,248,236,.7);}
+        .acc-btn:focus-visible{outline:2px solid #ff7b42;outline-offset:-2px;border-radius:12px;}
+        .num{width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:800;font-size:16px;border-radius:50%;background:linear-gradient(135deg,#ffb98f 0%,#ff8d58 100%);box-shadow:0 5px 18px rgba(255,135,90,.42),inset 0 1px 0 rgba(255,255,255,.45);}
+        .q{font-weight:600;color:#3f372f;font-size:15.5px;line-height:1.55;letter-spacing:-0.01em;}
+        .plus{font-size:22px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;}
+        .plus.rot{color:#ff7b42;animation:pop .25s ease-out;}
+        @keyframes pop{0%{transform:scale(.85);}60%{transform:scale(1.1);}100%{transform:scale(1);}}
+        .acc-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,transform .25s ease;opacity:0;transform:translateY(-4px);}
+        .acc-item.open .acc-body{opacity:1;transform:translateY(0);}
+        .a{margin:0;padding:0 22px 18px 74px;color:#6a5f57;font-size:15.3px;line-height:1.72;letter-spacing:-0.005em;}
+        .a strong{color:#ff7b42;font-weight:600;}
+        @media(max-width:640px){.acc-btn{padding:16px 18px;gap:14px;}.num{width:32px;height:32px;font-size:14px;}.q{font-size:14.5px;}.a{padding:0 18px 16px 18px;font-size:14px;}}
+        @media(min-width:1024px){.acc-btn{padding:20px 24px;gap:18px;}.num{width:36px;height:36px;font-size:16px;}.q{font-size:16px;}.a{padding:4px 24px 22px 80px;font-size:15.5px;}}
+        @media(prefers-reduced-motion:reduce){.acc-item,.acc-btn,.acc-body,.plus{transition:none!important;animation:none!important;}}
       `}</style>
     </div>
   );
 }
 
 /* ============================================================================
-   PRODUCT MYTHS SECTION — style Create
+   PRODUCT MYTHS SECTION — V2 (glassmorphism, image flottante, card stacks)
    ============================================================================ */
 function ProductMythsSection({ config }: { config: ProductConfig }) {
   const { folder, mythsTitle, myths } = config;
+  const fewItems = myths.length <= 2;
 
   return (
-    <section className="myths-section">
-      <div className="myths-inner">
-
-        {/* Image — visible desktop uniquement */}
-        <div className="myths-img-col">
-          <div className="myths-img-wrap">
-            <img
-              src={`/image/${folder}/${folder}3.jpg`}
-              alt={`Photo ${folder}`}
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        {/* Contenu */}
-        <div className="myths-content">
-          <p className="myths-eyebrow">Science & Réalités</p>
-          <h2 className="myths-title">{mythsTitle}</h2>
-
-          <div className="myths-list">
+    <section className="myths-section" aria-labelledby={`myths-title-${folder}`}>
+      <div className="ambient" aria-hidden="true" />
+      <div className="myths-wrapper">
+        <figure className="myths-img">
+          <img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" decoding="async" />
+        </figure>
+        <div className="card-stack stack-1" aria-hidden="true" />
+        <div className="card-stack stack-2" aria-hidden="true" />
+        <article className={`myths-card ${fewItems ? "is-compact" : ""}`} role="region" aria-labelledby={`myths-title-${folder}`}>
+          <span className="card-border" aria-hidden="true" />
+          <h2 id={`myths-title-${folder}`} className="myths-title">
+            <span className="moon" aria-hidden="true">🌙</span>
+            <span>{mythsTitle}</span>
+          </h2>
+          <div className="myths-accordion">
             {myths.map(item => (
-              <MythAccordion
-                key={item.id}
-                id={item.id}
-                myth={item.myth}
-                reality={item.reality}
-                defaultOpen={item.id === 1}
-              />
+              <MythAccordion key={item.id} id={item.id} myth={item.myth} reality={item.reality} defaultOpen={item.id === 1} />
             ))}
           </div>
-        </div>
-
+        </article>
       </div>
-
       <style jsx>{`
-        .myths-section {
-          padding: 80px 24px;
-          background: #fff;
-          border-top: 1px solid #f0ece6;
+        .myths-section{position:relative;width:100%;padding:clamp(70px,8vw,110px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
+        .ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.65;background:radial-gradient(1200px 460px at 60% 85%,rgba(255,236,220,.65),transparent 70%),radial-gradient(900px 360px at 80% 30%,rgba(255,240,230,.55),transparent 70%);filter:blur(.3px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
+        .myths-wrapper{position:relative;max-width:1240px;margin:0 auto;min-height:600px;z-index:1;}
+        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:360px;height:520px;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.4);box-shadow:0 22px 60px rgba(0,0,0,.07),0 10px 30px rgba(0,0,0,.05),0 0 46px rgba(255,230,210,.6),0 10px 22px rgba(189,171,154,.28) inset;z-index:2;background:#000;}
+        .myths-img img{width:100%;height:100%;object-fit:cover;display:block;}
+        .card-stack{position:absolute;right:0;top:50%;background:linear-gradient(135deg,#f4ece2,#efe3d7);filter:blur(.2px);width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.08);z-index:1;}
+        .stack-1{opacity:.75;transform:translate(32px,-50%);}
+        .stack-2{opacity:.48;transform:translate(60px,-48%);}
+        .myths-card{position:relative;margin-left:260px;padding:54px 56px;border-radius:30px;background:rgba(255,252,248,.82);border:1.6px solid rgba(240,224,210,.9);backdrop-filter:blur(14px) saturate(140%);box-shadow:0 30px 90px rgba(0,0,0,.08),0 12px 42px rgba(0,0,0,.06),0 0 60px rgba(255,230,210,.75),0 12px 30px rgba(189,171,154,.35) inset;overflow:hidden;z-index:3;}
+        .myths-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,245,235,.55) 0%,rgba(255,253,250,0) 18%);opacity:.55;mix-blend-mode:screen;pointer-events:none;}
+        .card-border{position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 36px rgba(255,236,220,.6),inset 0 2px 4px rgba(255,255,255,.9),inset 0 -2px 6px rgba(255,240,230,.55);}
+        .myths-card.is-compact{padding:36px 40px;}
+        .myths-title{margin:0 0 26px;font-size:28px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:12px;text-shadow:0 1px 1px rgba(255,255,255,.8),0 0 4px rgba(255,235,220,.6);position:relative;z-index:1;}
+        .moon{font-size:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
+        .myths-accordion{display:flex;flex-direction:column;gap:16px;position:relative;z-index:1;}
+        @media(max-width:900px){
+          .myths-wrapper{display:flex;flex-direction:column;gap:18px;min-height:auto;}
+          .myths-img{position:relative;transform:none;width:100%;max-width:420px;height:420px;margin:0 auto;border-radius:24px;}
+          .card-stack{display:none;}
+          .myths-card{margin-left:0;margin-top:-18px;padding:34px 30px;border-radius:24px;}
+          .myths-title{font-size:24px;margin-bottom:20px;}
+          .moon{font-size:26px;}
+          .myths-accordion{gap:12px;}
         }
-
-        .myths-inner {
-          max-width: 1100px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1fr 1.2fr;
-          gap: 80px;
-          align-items: start;
+        @media(max-width:480px){
+          .myths-section{padding:48px 16px;}
+          .myths-img{height:300px;max-width:100%;}
+          .myths-card{padding:24px 18px;border-radius:18px;}
+          .myths-title{font-size:20px;}
         }
-
-        .myths-img-col {
-          position: sticky;
-          top: 90px;
-        }
-
-        .myths-img-wrap {
-          border-radius: 4px;
-          overflow: hidden;
-          aspect-ratio: 3/4;
-        }
-
-        .myths-img-wrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-
-        .myths-eyebrow {
-          font-size: 11px;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #b58e58;
-          margin: 0 0 16px;
-          font-weight: 400;
-        }
-
-        .myths-title {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(28px, 3.5vw, 44px);
-          font-weight: 300;
-          line-height: 1.15;
-          color: #1a1a1a;
-          margin: 0 0 36px;
-          letter-spacing: -0.01em;
-        }
-
-        .myths-list {
-          border-top: 1px solid #e8e2da;
-        }
-
-        @media (max-width: 768px) {
-          .myths-section {
-            padding: 48px 20px;
-          }
-
-          .myths-inner {
-            grid-template-columns: 1fr;
-            gap: 32px;
-          }
-
-          .myths-img-col {
-            display: none;
-          }
-
-          .myths-title {
-            font-size: 28px;
-            margin-bottom: 24px;
-          }
+        @media(min-width:1400px){
+          .myths-img{width:400px;height:580px;}
+          .myths-card{margin-left:300px;padding:52px 56px;}
+          .card-stack{width:74%;height:76%;}
+          .myths-title{font-size:30px;}
         }
       `}</style>
     </section>
@@ -1432,210 +866,111 @@ function ProductMythsSection({ config }: { config: ProductConfig }) {
 }
 
 /* ============================================================================
-   FAQ ITEM — style Create (ligne séparatrice, fond blanc)
+   FAQ ITEM — V2 (ResizeObserver, animations fluides, warm premium)
    ============================================================================ */
 function FAQItem({ id, question, answer, defaultOpen = false }: { id: number; question: string; answer: string; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px";
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!ref.current || !isOpen) return;
+    const el = ref.current;
+    const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isOpen]);
 
   return (
     <div className={`faq-item ${isOpen ? "open" : ""}`}>
       <button
         className="faq-btn"
         onClick={() => setIsOpen(v => !v)}
+        onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setIsOpen(v => !v); }}}
         aria-expanded={isOpen}
         aria-controls={`faq-answer-${id}`}
       >
         <span className="faq-q">{question}</span>
-        <span className="faq-icon" aria-hidden>{isOpen ? "−" : "+"}</span>
+        <span className={`faq-plus ${isOpen ? "rot" : ""}`} aria-hidden="true">{isOpen ? "−" : "+"}</span>
       </button>
-
-      {isOpen && (
-        <div id={`faq-answer-${id}`} className="faq-body">
-          <p>{answer}</p>
-        </div>
-      )}
-
+      <div id={`faq-answer-${id}`} className="faq-body" ref={ref} role="region" aria-live="polite">
+        <p className="faq-a">{answer}</p>
+      </div>
       <style jsx>{`
-        .faq-item {
-          border-bottom: 1px solid #e8e2da;
-        }
-
-        .faq-btn {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          padding: 22px 0;
-          background: transparent;
-          border: none;
-          cursor: pointer;
-          text-align: left;
-        }
-
-        .faq-q {
-          font-size: 15px;
-          font-weight: 400;
-          color: #2a2a2a;
-          line-height: 1.5;
-          flex: 1;
-        }
-
-        .faq-icon {
-          font-size: 22px;
-          color: #b58e58;
-          font-weight: 300;
-          flex-shrink: 0;
-          line-height: 1;
-        }
-
-        .faq-body {
-          padding: 0 0 20px;
-        }
-
-        .faq-body p {
-          font-size: 14px;
-          line-height: 1.75;
-          color: #666;
-          margin: 0;
-          font-weight: 300;
-        }
-
-        @media (max-width: 640px) {
-          .faq-btn {
-            padding: 18px 0;
-          }
-
-          .faq-q {
-            font-size: 14px;
-          }
-        }
+        .faq-item{border-radius:16px;background:linear-gradient(180deg,#fffefb 0%,#faf6f0 100%);border:1.4px solid #e8dcc9;box-shadow:inset 0 0 10px rgba(255,240,228,.4),inset 0 1px 1px rgba(255,255,255,.7);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
+        @media(hover:hover){.faq-item:hover{box-shadow:0 8px 24px rgba(0,0,0,.08),inset 0 0 12px rgba(255,240,228,.45);transform:translateY(-1px);}}
+        .faq-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdfaf5 100%);border-color:#dccebb;box-shadow:0 8px 20px rgba(0,0,0,.06),inset 0 0 20px rgba(255,237,218,.5);}
+        .faq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
+        .faq-btn:hover{background:rgba(255,250,240,.6);}
+        .faq-btn:focus-visible{outline:2px solid #ff7b42;outline-offset:-2px;border-radius:12px;}
+        .faq-q{flex:1;font-weight:600;color:#3f372f;font-size:15px;line-height:1.5;letter-spacing:-0.01em;}
+        .faq-plus{flex-shrink:0;width:28px;height:28px;display:grid;place-items:center;font-size:20px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;border-radius:50%;background:rgba(255,250,245,.6);}
+        .faq-plus.rot{color:#ff7b42;background:rgba(255,123,66,.1);animation:popFaq .25s ease-out;}
+        @keyframes popFaq{0%{transform:scale(.88);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
+        .faq-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,transform .25s ease;opacity:0;transform:translateY(-4px);}
+        .faq-item.open .faq-body{opacity:1;transform:translateY(0);}
+        .faq-a{margin:0;padding:4px 20px 18px 20px;color:#6a5f57;font-size:14.5px;line-height:1.7;letter-spacing:-0.005em;}
+        @media(max-width:640px){.faq-btn{padding:16px 18px;gap:12px;}.faq-q{font-size:14.5px;}.faq-plus{width:26px;height:26px;font-size:18px;}.faq-a{padding:4px 18px 16px 18px;font-size:14px;}}
+        @media(min-width:1024px){.faq-btn{padding:20px 22px;}.faq-q{font-size:15.5px;}.faq-a{padding:6px 22px 20px 22px;font-size:15px;}}
+        @media(prefers-reduced-motion:reduce){.faq-item,.faq-btn,.faq-body,.faq-plus{transition:none!important;animation:none!important;}}
       `}</style>
     </div>
   );
 }
 
 /* ============================================================================
-   PRODUCT FAQ SECTION — style Create
+   PRODUCT FAQ SECTION — V2 (grille 2 colonnes desktop, ambiance lumineuse)
    ============================================================================ */
 function ProductFAQSection({ config }: { config: ProductConfig }) {
   const { folder, faqTitle, faqSubtitle, faqs } = config;
 
   return (
-    <section className="faq-section">
-      <div className="faq-inner">
-
-        <div className="faq-header">
-          <p className="faq-eyebrow">Questions fréquentes</p>
-          <h2 className="faq-title">{faqTitle}</h2>
+    <section className="faq-section" aria-labelledby={`faq-title-${folder}`}>
+      <div className="faq-ambient" aria-hidden="true" />
+      <div className="faq-container">
+        <header className="faq-header">
+          <h2 id={`faq-title-${folder}`} className="faq-main-title">
+            <span className="faq-icon" aria-hidden="true">💬</span>
+            <span>{faqTitle}</span>
+          </h2>
           {faqSubtitle && <p className="faq-subtitle">{faqSubtitle}</p>}
-        </div>
-
-        <div className="faq-list">
-          <div className="faq-top-border" />
+        </header>
+        <div className="faq-grid">
           {faqs.map(item => (
-            <FAQItem
-              key={item.id}
-              id={item.id}
-              question={item.question}
-              answer={item.answer}
-              defaultOpen={item.id === 1}
-            />
+            <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} defaultOpen={item.id === 1} />
           ))}
         </div>
-
-        <p className="faq-contact">
-          Une autre question ?{" "}
-          <a href="/contact">Contactez notre équipe</a>
-        </p>
-
+        <footer className="faq-footer">
+          <p className="faq-footer-text">
+            Une autre question ?{" "}
+            <a href="/contact" className="faq-footer-link">Contactez notre équipe</a>
+          </p>
+        </footer>
       </div>
-
       <style jsx>{`
-        .faq-section {
-          padding: 80px 24px;
-          background: #fff;
-          border-top: 1px solid #f0ece6;
-        }
-
-        .faq-inner {
-          max-width: 760px;
-          margin: 0 auto;
-        }
-
-        .faq-header {
-          margin-bottom: 48px;
-        }
-
-        .faq-eyebrow {
-          font-size: 11px;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #b58e58;
-          margin: 0 0 16px;
-          font-weight: 400;
-        }
-
-        .faq-title {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(32px, 4vw, 52px);
-          font-weight: 300;
-          line-height: 1.1;
-          color: #1a1a1a;
-          margin: 0 0 12px;
-          letter-spacing: -0.01em;
-        }
-
-        .faq-subtitle {
-          font-size: 15px;
-          color: #888;
-          font-weight: 300;
-          margin: 0;
-          line-height: 1.6;
-        }
-
-        .faq-list {
-          /* top border séparé pour que le premier item ait aussi sa ligne */
-        }
-
-        .faq-top-border {
-          border-top: 1px solid #e8e2da;
-        }
-
-        .faq-contact {
-          margin-top: 48px;
-          font-size: 14px;
-          color: #888;
-          font-weight: 300;
-        }
-
-        .faq-contact a {
-          color: #b58e58;
-          font-weight: 500;
-          text-decoration: none;
-        }
-
-        .faq-contact a:hover {
-          text-decoration: underline;
-        }
-
-        @media (max-width: 640px) {
-          .faq-section {
-            padding: 48px 20px;
-          }
-
-          .faq-header {
-            margin-bottom: 32px;
-          }
-
-          .faq-title {
-            font-size: 30px;
-          }
-        }
+        .faq-section{position:relative;width:100%;padding:clamp(70px,8vw,110px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
+        .faq-ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.5;background:radial-gradient(1000px 400px at 50% 90%,rgba(255,236,220,.5),transparent 65%),radial-gradient(800px 320px at 50% 10%,rgba(254,240,230,.4),transparent 65%);filter:blur(.4px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
+        .faq-container{position:relative;max-width:960px;margin:0 auto;z-index:1;}
+        .faq-header{text-align:center;margin-bottom:clamp(40px,6vw,60px);}
+        .faq-main-title{margin:0 0 12px;font-size:clamp(28px,4vw,36px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:14px;text-shadow:0 1px 1px rgba(255,255,255,.8);}
+        .faq-icon{font-size:clamp(32px,4.5vw,40px);filter:drop-shadow(0 2px 4px rgba(0,0,0,.06));flex-shrink:0;margin-top:0.1em;}
+        .faq-subtitle{margin:0;font-size:clamp(14px,1.8vw,16px);color:#6a5f57;font-weight:400;letter-spacing:.01em;}
+        .faq-grid{display:grid;grid-template-columns:1fr;gap:16px;}
+        @media(min-width:768px){.faq-grid{grid-template-columns:repeat(2,1fr);gap:20px;}}
+        .faq-footer{margin-top:clamp(50px,7vw,70px);text-align:center;padding-top:32px;border-top:1px solid rgba(233,221,205,.6);}
+        .faq-footer-text{margin:0;font-size:15px;color:#6a5f57;}
+        .faq-footer-link{color:#ff7b42;font-weight:600;text-decoration:none;transition:color .2s ease;}
+        .faq-footer-link:hover{color:#ff8d58;text-decoration:underline;}
       `}</style>
     </section>
   );
 }
+
 /* ============================================================================
    ACCORDION GÉNÉRIQUE
    ============================================================================ */
@@ -1700,7 +1035,6 @@ export default function ProductDetailPage() {
 
   const productKey = useMemo(() => product ? getProductKey(product) : null, [product]);
 
-  // ── Toutes les images du produit (images[] depuis DB) ──
   const productImages = useMemo(() => {
     if (!product?.images?.length) {
       return ["https://images.unsplash.com/photo-1556228852-80c63843f03c?w=800&h=800&fit=crop&auto=format&q=60"];
@@ -1711,7 +1045,6 @@ export default function ProductDetailPage() {
   const unitPrice  = product?.prix ?? 0;
   const subPrice   = unitPrice * 0.8;
   const priceLabel = useMemo(() => euroFmt.format(purchaseType === "subscription" ? subPrice : unitPrice), [purchaseType, subPrice, unitPrice]);
-  const bgColor    = useMemo(() => { if (!product?.id) return productColors[0]; return productColors[colorIndexFromId(product.id, productColors.length)]; }, [product?.id]);
 
   const handleAddToCart = useCallback(() => {
     if (!product) return;
@@ -1734,7 +1067,9 @@ export default function ProductDetailPage() {
       {subscriptionMode && (
         <div className="max-w-[1400px] mx-auto w-full px-6 pb-4">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
             Mode abonnement activé
           </div>
         </div>
@@ -1747,16 +1082,19 @@ export default function ProductDetailPage() {
       )}
 
       <section className="max-w-[1400px] mx-auto w-full px-6 pb-20">
+
         {/* ── Hero produit ── */}
         <div className="grid lg:grid-cols-2 gap-12">
-
-          {/* ▼▼▼ GALERIE remplace l'ancienne image unique ▼▼▼ */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <ProductImageGallery images={productImages} />
           </motion.div>
-          {/* ▲▲▲ FIN GALERIE ▲▲▲ */}
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-5 md:space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-5 md:space-y-6"
+          >
             <div>
               <h1 className="text-4xl md:text-[42px] font-semibold tracking-tight mb-4 text-neutral-800">{product.nom}</h1>
               {count > 0 && (
@@ -1782,19 +1120,25 @@ export default function ProductDetailPage() {
             <div className="grid sm:grid-cols-2 gap-4 py-6">
               {product.gummies_per_jar && (
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                  </svg>
                   <p className="text-sm text-neutral-700">{product.gummies_per_jar} gummies/potje</p>
                 </div>
               )}
               {product.flavor && (
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
                   <p className="text-sm text-neutral-700">{product.flavor}</p>
                 </div>
               )}
               {product.shipping_note && (
                 <div className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 01-1 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 01-1 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+                  </svg>
                   <p className="text-sm text-neutral-700">{product.shipping_note}</p>
                 </div>
               )}
@@ -1803,7 +1147,7 @@ export default function ProductDetailPage() {
             {/* ── Achat / Abonnement ── */}
             <fieldset className="space-y-3 mt-1 md:mt-2" aria-label="Type d'achat">
               {!subscriptionMode && (
-                <label className={`relative flex items-center justify-between p-5 border-2 rounded-2xl transition-colors ${purchaseType === "unique" ? "border-neutral-900 bg-white shadow-lg cursor-pointer" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80 cursor-pointer"}`}>
+                <label className={`relative flex items-center justify-between p-5 border-2 rounded-2xl transition-colors cursor-pointer ${purchaseType === "unique" ? "border-neutral-900 bg-white shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
                   <div>
                     <span className="text-lg font-semibold block">Achat unique</span>
                     <span className="text-sm text-neutral-600">Commande ponctuelle</span>
@@ -1815,7 +1159,9 @@ export default function ProductDetailPage() {
                 </label>
               )}
               <label className={`relative flex items-center justify-between p-5 border-2 rounded-2xl cursor-pointer transition-colors ${purchaseType === "subscription" ? "border-green-500 bg-green-50 shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
-                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">{subscriptionMode ? "Mode abonnement" : "Recommandé"}</span>
+                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  {subscriptionMode ? "Mode abonnement" : "Recommandé"}
+                </span>
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-semibold">Abonnement</span>
@@ -1833,7 +1179,11 @@ export default function ProductDetailPage() {
               </label>
             </fieldset>
 
-            <button onClick={handleAddToCart} className="w-full py-5 bg-gradient-to-b from-neutral-900 to-neutral-800 text-white font-semibold text-lg rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-xl" aria-live="polite">
+            <button
+              onClick={handleAddToCart}
+              className="w-full py-5 bg-gradient-to-b from-neutral-900 to-neutral-800 text-white font-semibold text-lg rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-xl"
+              aria-live="polite"
+            >
               {subscriptionMode ? "Ajouter à ma routine" : "Ajouter au panier"} — {priceLabel}
             </button>
 
@@ -1842,7 +1192,9 @@ export default function ProductDetailPage() {
                 {(product.ingredients?.length ?? 0) > 0 && (
                   <AccordionItem title="Ingrédients">
                     <ul className="flex flex-wrap gap-2">
-                      {product.ingredients!.map((ing, i) => <li key={`${ing}-${i}`} className="px-4 py-2 bg-neutral-100 rounded-full text-sm text-neutral-700">{ing}</li>)}
+                      {product.ingredients!.map((ing, i) => (
+                        <li key={`${ing}-${i}`} className="px-4 py-2 bg-neutral-100 rounded-full text-sm text-neutral-700">{ing}</li>
+                      ))}
                     </ul>
                   </AccordionItem>
                 )}
@@ -1857,10 +1209,7 @@ export default function ProductDetailPage() {
         </div>
 
         {/* ── Slider d'ingrédients ── */}
-       {/* — slider d'ingrédients — */}
-{productKey && (
-  <IngredientsSlider productKey={productKey} />
-)}
+        {productKey && <IngredientsSlider productKey={productKey} />}
 
         {/* ── Sections produit ── */}
         {productKey && PRODUCT_CONFIG[productKey] && (
