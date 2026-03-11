@@ -338,27 +338,22 @@ export default function SubscriptionPage() {
             Construisez votre routine
           </h2>
 
-          {/* Rangée 1 — desktop: 3 col / mobile: 2 col */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-5 md:gap-x-8 gap-y-8 md:gap-y-0">
+          {/* Rangée 1 : 3 produits */}
+          <div className="grid grid-cols-3 gap-x-4 md:gap-x-8">
             {products.slice(0, 3).map((product, idx) => (
               <ProductCard key={product.id} product={product} idx={idx} />
             ))}
           </div>
-
-          {/* Rangée 2 desktop : disposition W (6 col) */}
-          <div className="hidden md:grid grid-cols-6 gap-x-8 mt-10">
+          {/* Rangée 2 : disposition W — Strength centré entre col1-col2, Soul centré entre col2-col3 */}
+          <div className="grid grid-cols-6 gap-x-4 md:gap-x-8 mt-6 md:mt-10">
+            {/* col 2 sur 6 = entre Shine et Sleep */}
             <div className="col-start-2 col-span-2">
               {products[3] && <ProductCard product={products[3]} idx={3} />}
             </div>
+            {/* col 4 sur 6 = entre Sleep et Source */}
             <div className="col-start-4 col-span-2">
               {products[4] && <ProductCard product={products[4]} idx={4} />}
             </div>
-          </div>
-
-          {/* Rangée 2 mobile : 2 col côte à côte */}
-          <div className="grid grid-cols-2 md:hidden gap-x-5 gap-y-8 mt-8">
-            {products[3] && <ProductCard product={products[3]} idx={3} />}
-            {products[4] && <ProductCard product={products[4]} idx={4} />}
           </div>
         </div>
       </section>
