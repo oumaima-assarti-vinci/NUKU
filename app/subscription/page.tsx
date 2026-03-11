@@ -338,27 +338,33 @@ export default function SubscriptionPage() {
             Construisez votre routine
           </h2>
 
-          {/* Rangée 1 — desktop: 3 col / mobile: 2 col */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-5 md:gap-x-8 gap-y-8 md:gap-y-0">
-            {products.slice(0, 3).map((product, idx) => (
-              <ProductCard key={product.id} product={product} idx={idx} />
-            ))}
+          {/* Disposition X — grille 3 col sur 3 rangées */}
+
+          {/* Rangée 1 : produit 1 gauche + produit 2 droite */}
+          <div className="grid grid-cols-3 gap-x-5 md:gap-x-8">
+            <div className="col-start-1">
+              {products[0] && <ProductCard product={products[0]} idx={0} />}
+            </div>
+            <div className="col-start-3">
+              {products[1] && <ProductCard product={products[1]} idx={1} />}
+            </div>
           </div>
 
-          {/* Rangée 2 desktop : disposition W (6 col) */}
-          <div className="hidden md:grid grid-cols-6 gap-x-8 mt-10">
-            <div className="col-start-2 col-span-2">
+          {/* Rangée 2 : produit 3 centré */}
+          <div className="grid grid-cols-3 gap-x-5 md:gap-x-8 mt-8 md:mt-10">
+            <div className="col-start-2">
+              {products[2] && <ProductCard product={products[2]} idx={2} />}
+            </div>
+          </div>
+
+          {/* Rangée 3 : produit 4 gauche + produit 5 droite */}
+          <div className="grid grid-cols-3 gap-x-5 md:gap-x-8 mt-8 md:mt-10">
+            <div className="col-start-1">
               {products[3] && <ProductCard product={products[3]} idx={3} />}
             </div>
-            <div className="col-start-4 col-span-2">
+            <div className="col-start-3">
               {products[4] && <ProductCard product={products[4]} idx={4} />}
             </div>
-          </div>
-
-          {/* Rangée 2 mobile : 2 col côte à côte */}
-          <div className="grid grid-cols-2 md:hidden gap-x-5 gap-y-8 mt-8">
-            {products[3] && <ProductCard product={products[3]} idx={3} />}
-            {products[4] && <ProductCard product={products[4]} idx={4} />}
           </div>
         </div>
       </section>
