@@ -20,7 +20,6 @@ export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Swipe / drag
   const touchStartX = useRef<number | null>(null);
   const mouseStartX = useRef<number | null>(null);
   const isDragging = useRef(false);
@@ -28,19 +27,14 @@ export default function HomePage() {
   const goNext = () => setCurrentSlide((prev) => (prev + 1) % 3);
   const goPrev = () => setCurrentSlide((prev) => (prev + 2) % 3);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+  const handleTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) diff > 0 ? goNext() : goPrev();
     touchStartX.current = null;
   };
-  const handleMouseDown = (e: React.MouseEvent) => {
-    mouseStartX.current = e.clientX;
-    isDragging.current = true;
-  };
+  const handleMouseDown = (e: React.MouseEvent) => { mouseStartX.current = e.clientX; isDragging.current = true; };
   const handleMouseUp = (e: React.MouseEvent) => {
     if (!isDragging.current || mouseStartX.current === null) return;
     const diff = mouseStartX.current - e.clientX;
@@ -48,10 +42,7 @@ export default function HomePage() {
     mouseStartX.current = null;
     isDragging.current = false;
   };
-  const handleMouseLeave = () => {
-    isDragging.current = false;
-    mouseStartX.current = null;
-  };
+  const handleMouseLeave = () => { isDragging.current = false; mouseStartX.current = null; };
 
   useEffect(() => {
     const hasVisited: string | null = localStorage.getItem("hasVisited");
@@ -142,16 +133,18 @@ export default function HomePage() {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
       >
+
         {/* SLIDE 0 — Abonnement */}
         <div className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === 0 ? "opacity-100" : "opacity-0"}`}>
           <div
             className="absolute inset-0"
             style={{ background: `radial-gradient(circle at 70% 45%, rgba(255,204,92,0.45) 0%, rgba(255,220,130,0.35) 25%, rgba(255,245,220,0.85) 55%, #fff7e6 75%)` }}
           />
+          {/* Image — opacity pleine sur mobile et desktop */}
           <img
             src="/image/fille.png"
             alt="Abonnement NUKU"
-            className="absolute right-0 sm:right-[2vw] lg:right-[4vw] top-1/2 -translate-y-1/2 w-[70vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)] opacity-30 sm:opacity-100"
+            className="absolute right-0 sm:right-[2vw] lg:right-[4vw] top-1/2 -translate-y-1/2 w-[55vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)]"
           />
           <div className="relative z-10 flex items-center h-full">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 w-full">
@@ -180,18 +173,25 @@ export default function HomePage() {
             className="absolute inset-0"
             style={{ background: `radial-gradient(circle at 72% 48%, rgba(135,85,205,0.50) 0%, rgba(165,130,220,0.38) 20%, rgba(245,240,236,0.90) 46%, #f5f0ec 70%)` }}
           />
-          <div className="absolute right-[4%] sm:right-[8%] md:right-[10%] top-1/2 -translate-y-1/2 w-[38vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
-            <img src="/image/violet.png" alt="NUKU Soul" className="w-full h-auto drop-shadow-[0_20px_40px_rgba(120,90,180,0.2)]" />
+          {/* Image — taille augmentée sur mobile pour qu'elle soit visible et nette */}
+          <div className="absolute right-[2%] sm:right-[8%] md:right-[10%] top-1/2 -translate-y-1/2 w-[42vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
+            <img
+              src="/image/violet.png"
+              alt="NUKU Soul"
+              className="w-full h-auto drop-shadow-[0_20px_40px_rgba(120,90,180,0.25)]"
+            />
           </div>
-          <div className="relative z-10 flex items-center sm:items-center h-full">
+          <div className="relative z-10 flex items-center h-full">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 md:px-8 w-full">
               <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
                 <h1 className="font-black text-[clamp(38px,8vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
                   Esprit <span className="text-[#b7a6d8]">apaisé</span>,<br />mieux-être.
                 </h1>
-                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light">
-                  Gummies à l'Ashwagandha.
+                {/* Sous-titre mobile — texte mis à jour */}
+                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">
+                  Pour soulager le stress et clarifier l'esprit avec nos gummies à l'Ashwagandha.
                 </p>
+                {/* Sous-titre desktop — texte mis à jour */}
                 <p className="hidden sm:block text-[clamp(15px,3.5vw,18px)] leading-[1.7] text-[#6b6780] mb-8 font-light">
                   Pour soulager le stress et clarifier l'esprit,<br />avec nos gummies à l'Ashwagandha.
                 </p>
@@ -295,7 +295,6 @@ export default function HomePage() {
       {/* ================= PICTOGRAMMES ================= */}
       <section className="py-6 sm:py-10 px-4 sm:px-6 bg-white">
         <div className="max-w-[1400px] mx-auto">
-          {/* MOBILE : une seule ligne, 5 icônes sans scroll */}
           <div className="flex sm:hidden justify-between items-center w-full">
             {[
               { src: "/image/vegan.png", label: "Vegan" },
@@ -310,7 +309,6 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-          {/* DESKTOP : W shape */}
           <div className="hidden sm:flex flex-col items-center">
             <div className="flex justify-center items-center gap-8 sm:gap-16 lg:gap-40">
               {["/image/vegan.png", "/image/lieu.png", "/image/ogm.png"].map((src, idx) => (
@@ -332,7 +330,6 @@ export default function HomePage() {
           <h2 className="text-center font-black text-[clamp(26px,6vw,52px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-6 sm:mb-10">
             De quoi avez-vous besoin ?
           </h2>
-          {/* MOBILE : scroll horizontal */}
           <div className="flex sm:hidden gap-3 overflow-x-auto pb-3 snap-x snap-mandatory" style={{ scrollbarWidth: "none" }}>
             {categories.map((category, index) => (
               <Link key={index} href={category.link} className="flex-none snap-start flex flex-col items-center gap-2 bg-white rounded-2xl shadow-md p-3 w-[100px]">
@@ -343,7 +340,6 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
-          {/* DESKTOP : ligne fixe */}
           <div className="hidden sm:flex flex-nowrap justify-center items-center gap-2 md:gap-4">
             {categories.map((category, index) => (
               <Link key={index} href={category.link} className="group flex flex-row items-center gap-2 px-3 py-3 bg-white rounded-full shadow-md hover:shadow-xl transition-all hover:scale-105 flex-shrink-0">
@@ -372,12 +368,8 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-5 md:p-7 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                  <h3 className="font-black text-base sm:text-xl md:text-2xl text-white mb-1 tracking-tight">
-                    {photo.label}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-white/90 font-light hidden sm:block">
-                    {photo.sub}
-                  </p>
+                  <h3 className="font-black text-base sm:text-xl md:text-2xl text-white mb-1 tracking-tight">{photo.label}</h3>
+                  <p className="text-xs sm:text-sm text-white/90 font-light hidden sm:block">{photo.sub}</p>
                 </div>
               </div>
             ))}
