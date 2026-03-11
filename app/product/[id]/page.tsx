@@ -795,7 +795,61 @@ function MythAccordion({ id, myth, reality, defaultOpen = false }: { id: number;
 }
 
 /* ============================================================================
-   PRODUCT MYTHS SECTION — V2 (glassmorphism, image flottante, card stacks)
+   MYTH ACCORDION MOBILE — style Create (pas de bloc, séparateurs fins)
+   ============================================================================ */
+function MythAccordionMobile({ id, myth, reality, defaultOpen = false }: { id: number; myth: string; reality: string; defaultOpen?: boolean }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px";
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!ref.current || !isOpen) return;
+    const el = ref.current;
+    const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isOpen]);
+
+  return (
+    <div className={`ma-item ${isOpen ? "open" : ""}`}>
+      <button
+        className="ma-btn"
+        onClick={() => setIsOpen(v => !v)}
+        aria-expanded={isOpen}
+        aria-controls={`ma-reality-${id}`}
+      >
+        <span className={`ma-num ${isOpen ? "ma-num--active" : ""}`}>{id}</span>
+        <span className="ma-q">{myth}</span>
+        <span className="ma-plus" aria-hidden="true">{isOpen ? "−" : "+"}</span>
+      </button>
+      <div id={`ma-reality-${id}`} className="ma-body" ref={ref} role="region">
+        <p className="ma-a">{reality}</p>
+      </div>
+      <style jsx>{`
+        .ma-item { border-bottom: 1px solid #e8e2da; }
+        .ma-btn { width:100%; display:flex; align-items:center; gap:16px; padding:20px 0; background:transparent; border:0; cursor:pointer; text-align:left; }
+        .ma-num { width:36px; height:36px; border-radius:50%; border:2px solid #ef8035; display:grid; place-items:center; font-size:15px; font-weight:700; color:#ef8035; flex-shrink:0; transition:background .2s, color .2s; }
+        .ma-num--active { background:#ef8035; color:#fff; }
+        .ma-q { flex:1; font-size:16px; font-weight:500; color:#1a1a1a; line-height:1.45; letter-spacing:-0.01em; }
+        .ma-plus { font-size:22px; color:#9a9a9a; font-weight:300; flex-shrink:0; line-height:1; }
+        .ma-body { max-height:0; overflow:hidden; transition:max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease; opacity:0; }
+        .ma-item.open .ma-body { opacity:1; }
+        .ma-a { margin:0; padding:0 0 20px 52px; font-size:14.5px; line-height:1.75; color:#666; font-weight:300; }
+        @media(prefers-reduced-motion:reduce){ .ma-body{ transition:none!important; } }
+      `}</style>
+    </div>
+  );
+}
+
+/* ============================================================================
+   PRODUCT MYTHS SECTION
+   — Desktop : glassmorphism + image flottante + card stacks (V2)
+   — Mobile  : style Create, image pleine largeur, liste propre sans bloc
    ============================================================================ */
 function ProductMythsSection({ config }: { config: ProductConfig }) {
   const { folder, mythsTitle, myths } = config;
@@ -803,62 +857,114 @@ function ProductMythsSection({ config }: { config: ProductConfig }) {
 
   return (
     <section className="myths-section" aria-labelledby={`myths-title-${folder}`}>
+
+      {/* ── Ambiance lumineuse (desktop seulement) ── */}
       <div className="ambient" aria-hidden="true" />
-      <div className="myths-wrapper">
-        <figure className="myths-img">
-          <img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" decoding="async" />
-        </figure>
-        <div className="card-stack stack-1" aria-hidden="true" />
-        <div className="card-stack stack-2" aria-hidden="true" />
-        <article className={`myths-card ${fewItems ? "is-compact" : ""}`} role="region" aria-labelledby={`myths-title-${folder}`}>
-          <span className="card-border" aria-hidden="true" />
-          <h2 id={`myths-title-${folder}`} className="myths-title">
-            <span className="moon" aria-hidden="true">🌙</span>
-            <span>{mythsTitle}</span>
-          </h2>
-          <div className="myths-accordion">
-            {myths.map(item => (
-              <MythAccordion key={item.id} id={item.id} myth={item.myth} reality={item.reality} defaultOpen={item.id === 1} />
-            ))}
-          </div>
-        </article>
+
+      {/* ══════════════════════════════════════════
+          DESKTOP : layout glassmorphism V2
+      ══════════════════════════════════════════ */}
+      <div className="myths-desktop">
+        <div className="myths-wrapper">
+          <figure className="myths-img">
+            <img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" decoding="async" />
+          </figure>
+          <div className="card-stack stack-1" aria-hidden="true" />
+          <div className="card-stack stack-2" aria-hidden="true" />
+          <article className={`myths-card ${fewItems ? "is-compact" : ""}`} role="region" aria-labelledby={`myths-title-${folder}`}>
+            <span className="card-border" aria-hidden="true" />
+            <h2 id={`myths-title-${folder}`} className="myths-title">
+              <span className="moon" aria-hidden="true">🌙</span>
+              <span>{mythsTitle}</span>
+            </h2>
+            <div className="myths-accordion">
+              {myths.map(item => (
+                <MythAccordion key={item.id} id={item.id} myth={item.myth} reality={item.reality} defaultOpen={item.id === 1} />
+              ))}
+            </div>
+          </article>
+        </div>
       </div>
+
+      {/* ══════════════════════════════════════════
+          MOBILE : style Create, pas de bloc
+      ══════════════════════════════════════════ */}
+      <div className="myths-mobile">
+        {/* Image pleine largeur, coins arrondis */}
+        <div className="mob-img-wrap">
+          <img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" />
+        </div>
+
+        {/* Titre style Create */}
+        <h2 className="mob-title">{mythsTitle}</h2>
+
+        {/* Liste style Create : séparateur fin, numéro orange cerclé */}
+        <div className="mob-list">
+          <div className="mob-list-top-border" />
+          {myths.map(item => (
+            <MythAccordionMobile
+              key={item.id}
+              id={item.id}
+              myth={item.myth}
+              reality={item.reality}
+              defaultOpen={item.id === 1}
+            />
+          ))}
+        </div>
+      </div>
+
       <style jsx>{`
-        .myths-section{position:relative;width:100%;padding:clamp(70px,8vw,110px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.65;background:radial-gradient(1200px 460px at 60% 85%,rgba(255,236,220,.65),transparent 70%),radial-gradient(900px 360px at 80% 30%,rgba(255,240,230,.55),transparent 70%);filter:blur(.3px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
-        .myths-wrapper{position:relative;max-width:1240px;margin:0 auto;min-height:600px;z-index:1;}
-        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:360px;height:520px;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.4);box-shadow:0 22px 60px rgba(0,0,0,.07),0 10px 30px rgba(0,0,0,.05),0 0 46px rgba(255,230,210,.6),0 10px 22px rgba(189,171,154,.28) inset;z-index:2;background:#000;}
-        .myths-img img{width:100%;height:100%;object-fit:cover;display:block;}
-        .card-stack{position:absolute;right:0;top:50%;background:linear-gradient(135deg,#f4ece2,#efe3d7);filter:blur(.2px);width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.08);z-index:1;}
-        .stack-1{opacity:.75;transform:translate(32px,-50%);}
-        .stack-2{opacity:.48;transform:translate(60px,-48%);}
-        .myths-card{position:relative;margin-left:260px;padding:54px 56px;border-radius:30px;background:rgba(255,252,248,.82);border:1.6px solid rgba(240,224,210,.9);backdrop-filter:blur(14px) saturate(140%);box-shadow:0 30px 90px rgba(0,0,0,.08),0 12px 42px rgba(0,0,0,.06),0 0 60px rgba(255,230,210,.75),0 12px 30px rgba(189,171,154,.35) inset;overflow:hidden;z-index:3;}
-        .myths-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,245,235,.55) 0%,rgba(255,253,250,0) 18%);opacity:.55;mix-blend-mode:screen;pointer-events:none;}
-        .card-border{position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 36px rgba(255,236,220,.6),inset 0 2px 4px rgba(255,255,255,.9),inset 0 -2px 6px rgba(255,240,230,.55);}
-        .myths-card.is-compact{padding:36px 40px;}
-        .myths-title{margin:0 0 26px;font-size:28px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:12px;text-shadow:0 1px 1px rgba(255,255,255,.8),0 0 4px rgba(255,235,220,.6);position:relative;z-index:1;}
-        .moon{font-size:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
-        .myths-accordion{display:flex;flex-direction:column;gap:16px;position:relative;z-index:1;}
-        @media(max-width:900px){
-          .myths-wrapper{display:flex;flex-direction:column;gap:18px;min-height:auto;}
-          .myths-img{position:relative;transform:none;width:100%;max-width:420px;height:420px;margin:0 auto;border-radius:24px;}
-          .card-stack{display:none;}
-          .myths-card{margin-left:0;margin-top:-18px;padding:34px 30px;border-radius:24px;}
-          .myths-title{font-size:24px;margin-bottom:20px;}
-          .moon{font-size:26px;}
-          .myths-accordion{gap:12px;}
+        .myths-section { position:relative; width:100%; background:#ffffff; overflow:hidden; isolation:isolate; }
+
+        /* ── Ambiance ── */
+        .ambient { position:absolute; inset:-10% -10% -15% -10%; opacity:.65; background:radial-gradient(1200px 460px at 60% 85%,rgba(255,236,220,.65),transparent 70%),radial-gradient(900px 360px at 80% 30%,rgba(255,240,230,.55),transparent 70%); filter:blur(.3px); mix-blend-mode:screen; pointer-events:none; z-index:0; }
+
+        /* ══ DESKTOP ══ */
+        .myths-desktop { display:block; padding:clamp(70px,8vw,110px) 20px; }
+        .myths-mobile  { display:none; }
+
+        .myths-wrapper { position:relative; max-width:1240px; margin:0 auto; min-height:600px; z-index:1; }
+        .myths-img { position:absolute; left:0; top:50%; transform:translateY(-50%); width:360px; height:520px; border-radius:28px; overflow:hidden; border:1px solid rgba(255,255,255,.4); box-shadow:0 22px 60px rgba(0,0,0,.07),0 10px 30px rgba(0,0,0,.05),0 0 46px rgba(255,230,210,.6); z-index:2; background:#000; margin:0; }
+        .myths-img img { width:100%; height:100%; object-fit:cover; display:block; }
+        .card-stack { position:absolute; right:0; top:50%; background:linear-gradient(135deg,#f4ece2,#efe3d7); filter:blur(.2px); width:72%; height:74%; border-radius:28px; box-shadow:0 20px 50px rgba(0,0,0,.08); z-index:1; }
+        .stack-1 { opacity:.75; transform:translate(32px,-50%); }
+        .stack-2 { opacity:.48; transform:translate(60px,-48%); }
+        .myths-card { position:relative; margin-left:260px; padding:54px 56px; border-radius:30px; background:rgba(255,252,248,.82); border:1.6px solid rgba(240,224,210,.9); backdrop-filter:blur(14px) saturate(140%); box-shadow:0 30px 90px rgba(0,0,0,.08),0 12px 42px rgba(0,0,0,.06),0 0 60px rgba(255,230,210,.75); overflow:hidden; z-index:3; }
+        .myths-card::before { content:""; position:absolute; inset:0; background:linear-gradient(to bottom,rgba(255,245,235,.55) 0%,rgba(255,253,250,0) 18%); opacity:.55; mix-blend-mode:screen; pointer-events:none; }
+        .card-border { position:absolute; inset:0; border-radius:inherit; pointer-events:none; box-shadow:inset 0 0 36px rgba(255,236,220,.6),inset 0 2px 4px rgba(255,255,255,.9); }
+        .myths-card.is-compact { padding:36px 40px; }
+        .myths-title { margin:0 0 26px; font-size:28px; font-weight:800; color:#3c3631; letter-spacing:-0.02em; display:flex; align-items:center; gap:12px; position:relative; z-index:1; }
+        .moon { font-size:30px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.08)); }
+        .myths-accordion { display:flex; flex-direction:column; gap:16px; position:relative; z-index:1; }
+
+        @media(min-width:1400px) {
+          .myths-img { width:400px; height:580px; }
+          .myths-card { margin-left:300px; padding:52px 56px; }
+          .card-stack { width:74%; height:76%; }
+          .myths-title { font-size:30px; }
         }
-        @media(max-width:480px){
-          .myths-section{padding:48px 16px;}
-          .myths-img{height:300px;max-width:100%;}
-          .myths-card{padding:24px 18px;border-radius:18px;}
-          .myths-title{font-size:20px;}
+
+        /* ══ MOBILE : masquer desktop, afficher mobile ══ */
+        @media(max-width:900px) {
+          .myths-desktop { display:none; }
+          .myths-mobile  { display:block; padding:48px 20px 56px; }
+
+          /* Image pleine largeur */
+          .mob-img-wrap { width:100%; border-radius:20px; overflow:hidden; aspect-ratio:4/3; margin-bottom:36px; }
+          .mob-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+
+          /* Titre style Create */
+          .mob-title { font-size:clamp(28px,7vw,36px); font-weight:700; color:#1a1a1a; letter-spacing:-0.02em; margin:0 0 28px; line-height:1.15; }
+
+          /* Liste */
+          .mob-list { }
+          .mob-list-top-border { border-top:1px solid #e8e2da; }
         }
-        @media(min-width:1400px){
-          .myths-img{width:400px;height:580px;}
-          .myths-card{margin-left:300px;padding:52px 56px;}
-          .card-stack{width:74%;height:76%;}
-          .myths-title{font-size:30px;}
+
+        @media(max-width:480px) {
+          .myths-mobile { padding:40px 20px 48px; }
+          .mob-img-wrap { border-radius:16px; margin-bottom:28px; }
+          .mob-title { font-size:26px; margin-bottom:24px; }
         }
       `}</style>
     </section>
