@@ -992,480 +992,650 @@ type Props = {
   );
 }
 /* ============================================================================
-   PRODUCT ROUTINE SECTION
+   PRODUCT ROUTINE SECTION — style Create (épuré, serif léger)
    ============================================================================ */
 function ProductRoutineSection({ config }: { config: ProductConfig }) {
   const { folder, emoji, routineTitle, routineSubtitle, routineIntro, routineSub, routineTips, routineNote } = config;
-
-  const formattedTitle = routineTitle.replace(/Optimiser/i, "Optimisez");
-
-  const cleanTips = routineTips.map((tip: string) =>
-    tip
-      .replace(/de de /g, "de ")
-      .replace(/\((deel|travall|actualites|travail|discuss-ons|intensitées)[^)]*/gi, "")
-      .trim()
-  );
+  const formattedTitle = routineTitle.replace(/Optimiser/i, "Optimisez").replace(/^[^\s]+ /, "");
+  const cleanTips = routineTips.map((tip: string) => tip.trim());
 
   return (
-    <section className="routine-container">
-      <div className="layout-wrapper">
+    <section className="routine-section">
+      <div className="routine-inner">
 
-        {/* GAUCHE */}
-        <div className="left-content">
-          <div className="text-header">
-            <p className="eyebrow">Rituel recommandé</p>
-            <h2>{formattedTitle}</h2>
-            <div className="intro-block">
-              <p className="intro-text">
-                NUKU {folder.toUpperCase()} {routineIntro.replace(/^NUKU \w+ /, "")}
-              </p>
-              {routineSub && <p className="sub-text">{routineSub}</p>}
-            </div>
-          </div>
+        {/* ── GAUCHE : texte + image ── */}
+        <div className="routine-left">
+          <p className="routine-eyebrow">Rituel recommandé</p>
+          <h2 className="routine-title">{formattedTitle}</h2>
+          <p className="routine-intro">{routineIntro}</p>
+          {routineSub && <p className="routine-sub">{routineSub}</p>}
 
-          <div className="image-frame">
+          <div className="routine-img-wrap">
             <img
               src={`/image/${folder}/${folder}1.png`}
               alt="Rituel"
-              className="hero-img"
+              className="routine-img"
             />
-            <div className="image-overlay" />
           </div>
         </div>
 
-        {/* DROITE */}
-        <div className="card-wrapper">
-          <div className="ritual-card">
-            <div className="card-header">
-              <span className="icon">{emoji}</span>
-              <div>
-                <p className="card-label">Protocole</p>
-                <h3>{routineSubtitle.toUpperCase()}</h3>
-              </div>
+        {/* ── DROITE : tips style Create ── */}
+        <div className="routine-right">
+          <div className="routine-card-header">
+            <span className="routine-emoji">{emoji}</span>
+            <div>
+              <p className="routine-card-label">Protocole</p>
+              <p className="routine-card-subtitle">{routineSubtitle}</p>
             </div>
-
-            <div className="tips-list">
-              {cleanTips.map((tip: string, i: number) => (
-                <div key={i} className="tip-item">
-                  <div className="tip-body">
-                    <div className="tip-line" />
-                    <p className="tip-description">{tip}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {routineNote && (
-              <div className="footer-note-wrapper">
-                <div className="note-divider" />
-                <p className="footer-note">✦ {routineNote}</p>
-              </div>
-            )}
           </div>
+
+          <ol className="routine-tips">
+            {cleanTips.map((tip: string, i: number) => (
+              <li key={i} className="routine-tip">
+                <p>{tip}</p>
+              </li>
+            ))}
+          </ol>
+
+          {routineNote && (
+            <p className="routine-note">"{routineNote}"</p>
+          )}
         </div>
 
       </div>
 
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap');
-
-        .routine-container {
-          padding: 60px 40px;
-          background: #ffffff;
-          display: flex;
-          justify-content: center;
+        .routine-section {
+          padding: 80px 24px;
+          background: #fff;
         }
 
-        .layout-wrapper {
+        .routine-inner {
+          max-width: 1100px;
+          margin: 0 auto;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          max-width: 1140px;
-          width: 100%;
           gap: 80px;
           align-items: start;
         }
 
-        /* ─── GAUCHE ─── */
-        .left-content {
+        /* ── LEFT ── */
+        .routine-left {
           position: sticky;
-          top: 80px;
+          top: 90px;
         }
 
-        .eyebrow {
-          font-family: "DM Sans", sans-serif;
+        .routine-eyebrow {
           font-size: 11px;
-          letter-spacing: 0.2em;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: #c5a27d;
-          margin: 0 0 20px;
+          color: #b58e58;
+          margin: 0 0 16px;
           font-weight: 400;
         }
 
-        .text-header h2 {
-          font-family: "Cormorant Garamond", serif;
-          font-size: 52px;
+        .routine-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(34px, 4vw, 52px);
           font-weight: 300;
+          line-height: 1.1;
           color: #1a1a1a;
-          margin: 0 0 28px;
-          line-height: 1.05;
+          margin: 0 0 24px;
           letter-spacing: -0.01em;
         }
 
-        .intro-text {
-          font-family: "DM Sans", sans-serif;
+        .routine-intro {
           font-size: 15px;
-          line-height: 1.8;
-          color: #555;
+          line-height: 1.75;
+          color: #666;
           font-weight: 300;
-          margin: 0;
+          margin: 0 0 16px;
         }
 
-        .sub-text {
-          font-family: "Cormorant Garamond", serif;
+        .routine-sub {
+          font-family: 'Cormorant Garamond', Georgia, serif;
           font-style: italic;
-          font-size: 19px;
-          font-weight: 300;
+          font-size: 18px;
           color: #9a8a78;
-          margin: 18px 0 0;
+          margin: 0;
           line-height: 1.5;
+          font-weight: 300;
         }
 
-        .image-frame {
-          position: relative;
-          margin-top: 48px;
-          border-radius: 3px;
+        .routine-img-wrap {
+          margin-top: 40px;
+          border-radius: 4px;
           overflow: hidden;
           aspect-ratio: 3/4;
-          max-width: 420px;
-          box-shadow: 16px 16px 0px #ede8e1, 0 20px 60px rgba(0, 0, 0, 0.10);
+          max-width: 400px;
         }
 
-        .hero-img {
+        .routine-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.8s ease;
+          transition: transform 0.7s ease;
         }
 
-        .image-frame:hover .hero-img {
+        .routine-img-wrap:hover .routine-img {
           transform: scale(1.03);
         }
 
-        .image-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            to bottom,
-            transparent 60%,
-            rgba(26, 18, 8, 0.18) 100%
-          );
-          pointer-events: none;
-        }
-
-        /* ─── DROITE ─── */
-        .ritual-card {
-          padding: 32px 52px;
-          background: #ffffff;
-          border: 1px solid #ede8e1;
-          border-radius: 3px;
-          box-shadow: 0 2px 40px rgba(180, 155, 120, 0.08);
-        }
-
-        .card-header {
+        /* ── RIGHT ── */
+        .routine-card-header {
           display: flex;
           align-items: flex-start;
-          gap: 18px;
-          margin-bottom: 24px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #f0ebe3;
+          gap: 14px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid #e8e0d6;
+          margin-bottom: 8px;
         }
 
-        .icon {
+        .routine-emoji {
           font-size: 22px;
-          line-height: 1;
-          margin-top: 3px;
           flex-shrink: 0;
+          margin-top: 2px;
         }
 
-        .card-label {
-          font-family: "DM Sans", sans-serif;
+        .routine-card-label {
           font-size: 10px;
-          letter-spacing: 0.22em;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
-          color: #c5a27d;
-          margin: 0 0 6px;
+          color: #b58e58;
+          margin: 0 0 4px;
           font-weight: 400;
         }
 
-        .card-header h3 {
-          font-family: "DM Sans", sans-serif;
+        .routine-card-subtitle {
           font-size: 12px;
-          letter-spacing: 0.14em;
-          font-weight: 400;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
           color: #1a1a1a;
           margin: 0;
+          font-weight: 400;
           line-height: 1.4;
         }
 
-        .tips-list {
-          display: flex;
-          flex-direction: column;
-          gap: 0;
+        /* Tips — style Create : liste propre, lignes fines */
+        .routine-tips {
+          list-style: none;
+          padding: 0;
+          margin: 0;
         }
 
-        .tip-item {
-          padding: 12px 0;
-          border-bottom: 1px solid #f5f1ec;
+        .routine-tip {
+          padding: 20px 0;
+          border-bottom: 1px solid #f0ece6;
         }
 
-        .tip-item:last-child {
+        .routine-tip:last-child {
           border-bottom: none;
         }
 
-        .tip-body {
-          flex: 1;
-        }
-
-        .tip-line {
-          width: 20px;
-          height: 1px;
-          background: #e0d5c8;
-          margin-bottom: 10px;
-        }
-
-        .tip-description {
-          font-family: "DM Sans", sans-serif;
+        .routine-tip p {
           font-size: 14px;
-          line-height: 1.7;
+          line-height: 1.75;
           color: #4a4a4a;
           margin: 0;
           font-weight: 300;
         }
 
-        .footer-note-wrapper {
-          margin-top: 16px;
-        }
-
-        .note-divider {
-          width: 32px;
-          height: 1px;
-          background: #c5a27d;
-          margin: 0 auto 12px;
-          opacity: 0.5;
-        }
-
-        .footer-note {
-          font-family: "Cormorant Garamond", serif;
+        .routine-note {
+          font-family: 'Cormorant Garamond', Georgia, serif;
           font-style: italic;
-          font-size: 15px;
+          font-size: 16px;
           font-weight: 300;
           color: #9a8a78;
-          text-align: center;
+          margin: 32px 0 0;
           line-height: 1.6;
-          margin: 0;
+          text-align: center;
+          padding-top: 24px;
+          border-top: 1px solid #e8e0d6;
         }
 
-        @media (max-width: 1024px) {
-          .layout-wrapper {
-            grid-template-columns: 1fr;
-            gap: 48px;
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+          .routine-section {
+            padding: 48px 20px;
           }
-          .left-content {
+
+          .routine-inner {
+            grid-template-columns: 1fr;
+            gap: 40px;
+          }
+
+          .routine-left {
             position: static;
           }
-        }
 
-        @media (max-width: 640px) {
-          .routine-container {
-            padding: 40px 24px;
+          /* Sur mobile : on cache l'image — trop long sinon */
+          .routine-img-wrap {
+            display: none;
           }
-          .text-header h2 {
-            font-size: 38px;
+
+          .routine-title {
+            font-size: 32px;
           }
-          .ritual-card {
-            padding: 24px 20px;
+
+          .routine-tip {
+            padding: 16px 0;
+          }
+
+          .routine-tip p {
+            font-size: 14px;
           }
         }
       `}</style>
     </section>
   );
 }
-/* ============================================================================
-   PRODUCT MYTHS SECTION
-   ============================================================================ */
-function ProductMythsSection({ config }: { config: ProductConfig }) {
-  const { folder, mythsTitle, myths } = config;
-  const fewItems = myths.length <= 2;
-  return (
-    <section className="myths-section" aria-labelledby={`myths-title-${folder}`}>
-      <div className="ambient" aria-hidden="true" />
-      <div className="myths-wrapper">
-        <figure className="myths-img">
-          <img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" decoding="async" />
-        </figure>
-        <div className="card-stack stack-1" aria-hidden="true" />
-        <div className="card-stack stack-2" aria-hidden="true" />
-        <article className={`myths-card ${fewItems ? "is-compact" : ""}`} role="region" aria-labelledby={`myths-title-${folder}`}>
-          <span className="card-border" aria-hidden="true" />
-          <h2 id={`myths-title-${folder}`} className="myths-title">
-            <span className="moon" aria-hidden="true">🌙</span>
-            <span>{mythsTitle}</span>
-          </h2>
-          <div className="myths-accordion">
-            {myths.map(item => (
-              <MythAccordion key={item.id} id={item.id} myth={item.myth} reality={item.reality} defaultOpen={item.id === 1} />
-            ))}
-          </div>
-        </article>
-      </div>
-      <style jsx>{`
-        .myths-section{position:relative;width:100%;padding:clamp(70px,8vw,110px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.65;background:radial-gradient(1200px 460px at 60% 85%,rgba(255,236,220,.65),transparent 70%),radial-gradient(900px 360px at 80% 30%,rgba(255,240,230,.55),transparent 70%);filter:blur(.3px);mix-blend-mode:screen;pointer-events:none;z-index:0;animation:twinkle 9s ease-in-out infinite alternate;}
-        @keyframes twinkle{0%{opacity:.55;}100%{opacity:.7;}}
-        .myths-wrapper{position:relative;max-width:1240px;margin:0 auto;min-height:600px;z-index:1;}
-        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:360px;height:520px;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.4);box-shadow:0 22px 60px rgba(0,0,0,.07),0 10px 30px rgba(0,0,0,.05),0 0 46px rgba(255,230,210,.6),0 10px 22px rgba(189,171,154,.28) inset;z-index:2;background:#000;}
-        .myths-img img{width:100%;height:100%;object-fit:cover;display:block;}
-        .card-stack{position:absolute;right:0;top:50%;background:linear-gradient(135deg,#f4ece2,#efe3d7);filter:blur(.2px);width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.08);z-index:1;}
-        .stack-1{opacity:.75;transform:translate(32px,-50%);}
-        .stack-2{opacity:.48;transform:translate(60px,-48%);}
-        .myths-card{position:relative;margin-left:260px;padding:54px 56px;border-radius:30px;background:rgba(255,252,248,.82);border:1.6px solid rgba(240,224,210,.9);backdrop-filter:blur(14px) saturate(140%);box-shadow:0 30px 90px rgba(0,0,0,.08),0 12px 42px rgba(0,0,0,.06),0 0 60px rgba(255,230,210,.75),0 12px 30px rgba(189,171,154,.35) inset;overflow:hidden;z-index:3;}
-        .myths-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,245,235,.55) 0%,rgba(255,253,250,0) 18%);opacity:.55;mix-blend-mode:screen;pointer-events:none;}
-        .card-border{position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 36px rgba(255,236,220,.6),inset 0 2px 4px rgba(255,255,255,.9),inset 0 -2px 6px rgba(255,240,230,.55);}
-        .myths-card.is-compact{padding:36px 40px;}
-        .myths-title{margin:0 0 26px;font-size:28px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:12px;text-shadow:0 1px 1px rgba(255,255,255,.8),0 0 4px rgba(255,235,220,.6);position:relative;z-index:1;}
-        .moon{font-size:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
-        .myths-accordion{display:flex;flex-direction:column;gap:16px;position:relative;z-index:1;}
-        @media(max-width:900px){.myths-wrapper{display:flex;flex-direction:column;gap:18px;min-height:auto;}.myths-img{position:relative;transform:none;width:100%;max-width:420px;height:420px;margin:0 auto;border-radius:24px;}.card-stack{display:none;}.myths-card{margin-left:0;margin-top:-18px;padding:34px 30px;border-radius:24px;}.myths-title{font-size:24px;margin-bottom:20px;}.moon{font-size:26px;}.myths-accordion{gap:12px;}}
-        @media(min-width:1400px){.myths-img{width:400px;height:580px;}.myths-card{margin-left:300px;padding:52px 56px;}.card-stack{width:74%;height:76%;right:6px;}.myths-title{font-size:30px;}}
-      `}</style>
-    </section>
-  );
-}
 
 /* ============================================================================
-   MYTH ACCORDION ITEM
+   MYTH ACCORDION — style Create (ligne séparatrice, pas de carte beige)
    ============================================================================ */
 function MythAccordion({ id, myth, reality, defaultOpen = false }: { id: number; myth: string; reality: string; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => { const el = ref.current; if (!el) return; el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px"; }, [isOpen]);
-  useEffect(() => { if (!ref.current || !isOpen) return; const el = ref.current; const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; }); ro.observe(el); return () => ro.disconnect(); }, [isOpen]);
+
   return (
-    <div className={`acc-item ${isOpen ? "open" : ""}`}>
-      <button className="acc-btn" onClick={() => setIsOpen(v => !v)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setIsOpen(v => !v); }}} aria-expanded={isOpen} aria-controls={`reality-${id}`}>
-        <span className="num" aria-hidden="true">{id}</span>
-        <span className="q">{myth}</span>
-        <span className={`plus ${isOpen ? "rot" : ""}`} aria-hidden="true">{isOpen ? "×" : "+"}</span>
+    <div className={`myth-item ${isOpen ? "open" : ""}`}>
+      <button
+        className="myth-btn"
+        onClick={() => setIsOpen(v => !v)}
+        aria-expanded={isOpen}
+      >
+        <span className="myth-q">{myth}</span>
+        <span className="myth-icon" aria-hidden>{isOpen ? "−" : "+"}</span>
       </button>
-      <div id={`reality-${id}`} className="acc-body" ref={ref} role="region" aria-live="polite">
-        <p className="a"><strong>Réalité.</strong> {reality}</p>
-      </div>
+
+      {isOpen && (
+        <div className="myth-body">
+          <p><strong>Réalité.</strong> {reality}</p>
+        </div>
+      )}
+
       <style jsx>{`
-        .acc-item{border-radius:18px;background:linear-gradient(180deg,#fffdfb 0%,#f9f4ed 100%);border:1.4px solid #e5d8c7;box-shadow:inset 0 0 12px rgba(255,237,220,.45),inset 0 1px 1px rgba(255,255,255,.6);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
-        @media(hover:hover){.acc-item:hover{box-shadow:0 10px 30px rgba(0,0,0,.10),inset 0 0 14px rgba(255,240,225,.45);transform:translateY(-1px);}}
-        .acc-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdf8f3 100%);border-color:#dacbb9;box-shadow:0 10px 22px rgba(0,0,0,.07),inset 0 0 24px rgba(255,235,215,.5);}
-        .acc-btn{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:18px 22px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
-        .acc-btn:hover{background:rgba(255,248,236,.7);}
-        .acc-btn:focus-visible{outline:2px solid #ff7b42;outline-offset:-2px;border-radius:12px;}
-        .num{width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:800;font-size:16px;border-radius:50%;background:linear-gradient(135deg,#ffb98f 0%,#ff8d58 100%);box-shadow:0 5px 18px rgba(255,135,90,.42),inset 0 1px 0 rgba(255,255,255,.45);}
-        .q{font-weight:600;color:#3f372f;font-size:15.5px;line-height:1.55;letter-spacing:-0.01em;}
-        .plus{font-size:22px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;}
-        .plus.rot{color:#ff7b42;animation:pop .25s ease-out;}
-        @keyframes pop{0%{transform:scale(.85);}60%{transform:scale(1.1);}100%{transform:scale(1);}}
-        .acc-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,transform .25s ease;background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,252,247,.8));box-shadow:inset 0 1px 0 rgba(255,255,255,.8);opacity:0;transform:translateY(-4px);}
-        .acc-item.open .acc-body{opacity:1;transform:translateY(0);}
-        .a{margin:0;padding:0 22px 18px 74px;color:#6a5f57;font-size:15.3px;line-height:1.72;letter-spacing:-0.005em;text-shadow:0 1px 0 rgba(255,255,255,.6);}
-        .a strong{color:#ff7b42;font-weight:600;}
-        @media(max-width:640px){.acc-btn{padding:16px 18px;gap:14px;}.num{width:32px;height:32px;font-size:14px;}.q{font-size:14.5px;}.a{padding:0 18px 16px 18px;font-size:14px;}}
-        @media(min-width:1024px){.acc-btn{padding:20px 24px;gap:18px;}.num{width:36px;height:36px;font-size:16px;}.q{font-size:16px;}.a{padding:4px 24px 22px 80px;font-size:15.5px;}}
-        @media(prefers-reduced-motion:reduce){.acc-item,.acc-btn,.acc-body,.plus{transition:none!important;animation:none!important;}}
+        .myth-item {
+          border-bottom: 1px solid #e8e2da;
+        }
+
+        .myth-btn {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 22px 0;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          text-align: left;
+        }
+
+        .myth-q {
+          font-size: 15px;
+          font-weight: 400;
+          color: #2a2a2a;
+          line-height: 1.5;
+          flex: 1;
+        }
+
+        .myth-icon {
+          font-size: 22px;
+          color: #b58e58;
+          font-weight: 300;
+          flex-shrink: 0;
+          line-height: 1;
+        }
+
+        .myth-body {
+          padding: 0 0 20px;
+        }
+
+        .myth-body p {
+          font-size: 14px;
+          line-height: 1.75;
+          color: #666;
+          margin: 0;
+          font-weight: 300;
+        }
+
+        .myth-body strong {
+          color: #b58e58;
+          font-weight: 600;
+        }
       `}</style>
     </div>
   );
 }
 
 /* ============================================================================
-   PRODUCT FAQ SECTION
+   PRODUCT MYTHS SECTION — style Create
    ============================================================================ */
-function ProductFAQSection({ config }: { config: ProductConfig }) {
-  const { folder, faqTitle, faqSubtitle, faqs } = config;
+function ProductMythsSection({ config }: { config: ProductConfig }) {
+  const { folder, mythsTitle, myths } = config;
+
   return (
-    <section className="faq-section" aria-labelledby={`faq-title-${folder}`}>
-      <div className="faq-ambient" aria-hidden="true" />
-      <div className="faq-container">
-        <header className="faq-header">
-          <h2 id={`faq-title-${folder}`} className="faq-main-title">
-            <span className="faq-icon" aria-hidden="true">💬</span>
-            <span>{faqTitle}</span>
-          </h2>
-          <p className="faq-subtitle">{faqSubtitle}</p>
-        </header>
-        <div className="faq-grid">
-          {faqs.map(item => <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} defaultOpen={item.id === 1} />)}
+    <section className="myths-section">
+      <div className="myths-inner">
+
+        {/* Image — visible desktop uniquement */}
+        <div className="myths-img-col">
+          <div className="myths-img-wrap">
+            <img
+              src={`/image/${folder}/${folder}3.jpg`}
+              alt={`Photo ${folder}`}
+              loading="lazy"
+            />
+          </div>
         </div>
-        <footer className="faq-footer">
-          <p className="faq-footer-text">Une autre question ?{" "}<a href="/contact" className="faq-footer-link">Contactez notre équipe</a></p>
-        </footer>
+
+        {/* Contenu */}
+        <div className="myths-content">
+          <p className="myths-eyebrow">Science & Réalités</p>
+          <h2 className="myths-title">{mythsTitle}</h2>
+
+          <div className="myths-list">
+            {myths.map(item => (
+              <MythAccordion
+                key={item.id}
+                id={item.id}
+                myth={item.myth}
+                reality={item.reality}
+                defaultOpen={item.id === 1}
+              />
+            ))}
+          </div>
+        </div>
+
       </div>
+
       <style jsx>{`
-        .faq-section{position:relative;width:100%;padding:clamp(70px,8vw,110px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .faq-ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.5;background:radial-gradient(1000px 400px at 50% 90%,rgba(255,236,220,.5),transparent 65%),radial-gradient(800px 320px at 50% 10%,rgba(254,240,230,.4),transparent 65%);filter:blur(.4px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
-        .faq-container{position:relative;max-width:960px;margin:0 auto;z-index:1;}
-        .faq-header{text-align:center;margin-bottom:clamp(40px,6vw,60px);}
-        .faq-main-title{margin:0 0 12px;font-size:clamp(28px,4vw,36px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:14px;text-shadow:0 1px 1px rgba(255,255,255,.8),0 0 4px rgba(255,235,220,.5);}
-        .faq-icon{font-size:clamp(32px,4.5vw,40px);filter:drop-shadow(0 2px 4px rgba(0,0,0,.06));flex-shrink:0;margin-top:0.1em;}
-        .faq-subtitle{margin:0;font-size:clamp(14px,1.8vw,16px);color:#6a5f57;font-weight:400;letter-spacing:.01em;}
-        .faq-grid{display:grid;grid-template-columns:1fr;gap:16px;}
-        @media(min-width:768px){.faq-grid{grid-template-columns:repeat(2,1fr);gap:20px;}}
-        .faq-footer{margin-top:clamp(50px,7vw,70px);text-align:center;padding-top:32px;border-top:1px solid rgba(233,221,205,.6);}
-        .faq-footer-text{margin:0;font-size:15px;color:#6a5f57;}
-        .faq-footer-link{color:#ff7b42;font-weight:600;text-decoration:none;transition:color .2s ease;}
-        .faq-footer-link:hover{color:#ff8d58;text-decoration:underline;}
+        .myths-section {
+          padding: 80px 24px;
+          background: #fff;
+          border-top: 1px solid #f0ece6;
+        }
+
+        .myths-inner {
+          max-width: 1100px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1.2fr;
+          gap: 80px;
+          align-items: start;
+        }
+
+        .myths-img-col {
+          position: sticky;
+          top: 90px;
+        }
+
+        .myths-img-wrap {
+          border-radius: 4px;
+          overflow: hidden;
+          aspect-ratio: 3/4;
+        }
+
+        .myths-img-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .myths-eyebrow {
+          font-size: 11px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #b58e58;
+          margin: 0 0 16px;
+          font-weight: 400;
+        }
+
+        .myths-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(28px, 3.5vw, 44px);
+          font-weight: 300;
+          line-height: 1.15;
+          color: #1a1a1a;
+          margin: 0 0 36px;
+          letter-spacing: -0.01em;
+        }
+
+        .myths-list {
+          border-top: 1px solid #e8e2da;
+        }
+
+        @media (max-width: 768px) {
+          .myths-section {
+            padding: 48px 20px;
+          }
+
+          .myths-inner {
+            grid-template-columns: 1fr;
+            gap: 32px;
+          }
+
+          .myths-img-col {
+            display: none;
+          }
+
+          .myths-title {
+            font-size: 28px;
+            margin-bottom: 24px;
+          }
+        }
       `}</style>
     </section>
   );
 }
 
 /* ============================================================================
-   FAQ ITEM
+   FAQ ITEM — style Create (ligne séparatrice, fond blanc)
    ============================================================================ */
 function FAQItem({ id, question, answer, defaultOpen = false }: { id: number; question: string; answer: string; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => { const el = ref.current; if (!el) return; el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px"; }, [isOpen]);
-  useEffect(() => { if (!ref.current || !isOpen) return; const el = ref.current; const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; }); ro.observe(el); return () => ro.disconnect(); }, [isOpen]);
+
   return (
     <div className={`faq-item ${isOpen ? "open" : ""}`}>
-      <button className="faq-btn" onClick={() => setIsOpen(v => !v)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setIsOpen(v => !v); }}} aria-expanded={isOpen} aria-controls={`faq-answer-${id}`}>
+      <button
+        className="faq-btn"
+        onClick={() => setIsOpen(v => !v)}
+        aria-expanded={isOpen}
+        aria-controls={`faq-answer-${id}`}
+      >
         <span className="faq-q">{question}</span>
-        <span className={`faq-plus ${isOpen ? "rot" : ""}`} aria-hidden="true">{isOpen ? "−" : "+"}</span>
+        <span className="faq-icon" aria-hidden>{isOpen ? "−" : "+"}</span>
       </button>
-      <div id={`faq-answer-${id}`} className="faq-body" ref={ref} role="region" aria-live="polite">
-        <p className="faq-a">{answer}</p>
-      </div>
+
+      {isOpen && (
+        <div id={`faq-answer-${id}`} className="faq-body">
+          <p>{answer}</p>
+        </div>
+      )}
+
       <style jsx>{`
-        .faq-item{border-radius:16px;background:linear-gradient(180deg,#fffefb 0%,#faf6f0 100%);border:1.4px solid #e8dcc9;box-shadow:inset 0 0 10px rgba(255,240,228,.4),inset 0 1px 1px rgba(255,255,255,.7);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
-        @media(hover:hover){.faq-item:hover{box-shadow:0 8px 24px rgba(0,0,0,.08),inset 0 0 12px rgba(255,240,228,.45);transform:translateY(-1px);}}
-        .faq-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdfaf5 100%);border-color:#dccebb;box-shadow:0 8px 20px rgba(0,0,0,.06),inset 0 0 20px rgba(255,237,218,.5);}
-        .faq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
-        .faq-btn:hover{background:rgba(255,250,240,.6);}
-        .faq-btn:focus-visible{outline:2px solid #ff7b42;outline-offset:-2px;border-radius:12px;}
-        .faq-q{flex:1;font-weight:600;color:#3f372f;font-size:15px;line-height:1.5;letter-spacing:-0.01em;}
-        .faq-plus{flex-shrink:0;width:28px;height:28px;display:grid;place-items:center;font-size:20px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;border-radius:50%;background:rgba(255,250,245,.6);}
-        .faq-plus.rot{color:#ff7b42;background:rgba(255,123,66,.1);animation:popFaq .25s ease-out;}
-        @keyframes popFaq{0%{transform:scale(.88);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
-        .faq-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,transform .25s ease;background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,253,248,.85));box-shadow:inset 0 1px 0 rgba(255,255,255,.75);opacity:0;transform:translateY(-4px);}
-        .faq-item.open .faq-body{opacity:1;transform:translateY(0);}
-        .faq-a{margin:0;padding:4px 20px 18px 20px;color:#6a5f57;font-size:14.5px;line-height:1.7;letter-spacing:-0.005em;text-shadow:0 1px 0 rgba(255,255,255,.5);}
-        @media(max-width:640px){.faq-btn{padding:16px 18px;gap:12px;}.faq-q{font-size:14.5px;}.faq-plus{width:26px;height:26px;font-size:18px;}.faq-a{padding:4px 18px 16px 18px;font-size:14px;}}
-        @media(min-width:1024px){.faq-btn{padding:20px 22px;}.faq-q{font-size:15.5px;}.faq-a{padding:6px 22px 20px 22px;font-size:15px;}}
-        @media(prefers-reduced-motion:reduce){.faq-item,.faq-btn,.faq-body,.faq-plus{transition:none!important;animation:none!important;}}
+        .faq-item {
+          border-bottom: 1px solid #e8e2da;
+        }
+
+        .faq-btn {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 22px 0;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          text-align: left;
+        }
+
+        .faq-q {
+          font-size: 15px;
+          font-weight: 400;
+          color: #2a2a2a;
+          line-height: 1.5;
+          flex: 1;
+        }
+
+        .faq-icon {
+          font-size: 22px;
+          color: #b58e58;
+          font-weight: 300;
+          flex-shrink: 0;
+          line-height: 1;
+        }
+
+        .faq-body {
+          padding: 0 0 20px;
+        }
+
+        .faq-body p {
+          font-size: 14px;
+          line-height: 1.75;
+          color: #666;
+          margin: 0;
+          font-weight: 300;
+        }
+
+        @media (max-width: 640px) {
+          .faq-btn {
+            padding: 18px 0;
+          }
+
+          .faq-q {
+            font-size: 14px;
+          }
+        }
       `}</style>
     </div>
   );
 }
 
+/* ============================================================================
+   PRODUCT FAQ SECTION — style Create
+   ============================================================================ */
+function ProductFAQSection({ config }: { config: ProductConfig }) {
+  const { folder, faqTitle, faqSubtitle, faqs } = config;
+
+  return (
+    <section className="faq-section">
+      <div className="faq-inner">
+
+        <div className="faq-header">
+          <p className="faq-eyebrow">Questions fréquentes</p>
+          <h2 className="faq-title">{faqTitle}</h2>
+          {faqSubtitle && <p className="faq-subtitle">{faqSubtitle}</p>}
+        </div>
+
+        <div className="faq-list">
+          <div className="faq-top-border" />
+          {faqs.map(item => (
+            <FAQItem
+              key={item.id}
+              id={item.id}
+              question={item.question}
+              answer={item.answer}
+              defaultOpen={item.id === 1}
+            />
+          ))}
+        </div>
+
+        <p className="faq-contact">
+          Une autre question ?{" "}
+          <a href="/contact">Contactez notre équipe</a>
+        </p>
+
+      </div>
+
+      <style jsx>{`
+        .faq-section {
+          padding: 80px 24px;
+          background: #fff;
+          border-top: 1px solid #f0ece6;
+        }
+
+        .faq-inner {
+          max-width: 760px;
+          margin: 0 auto;
+        }
+
+        .faq-header {
+          margin-bottom: 48px;
+        }
+
+        .faq-eyebrow {
+          font-size: 11px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #b58e58;
+          margin: 0 0 16px;
+          font-weight: 400;
+        }
+
+        .faq-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(32px, 4vw, 52px);
+          font-weight: 300;
+          line-height: 1.1;
+          color: #1a1a1a;
+          margin: 0 0 12px;
+          letter-spacing: -0.01em;
+        }
+
+        .faq-subtitle {
+          font-size: 15px;
+          color: #888;
+          font-weight: 300;
+          margin: 0;
+          line-height: 1.6;
+        }
+
+        .faq-list {
+          /* top border séparé pour que le premier item ait aussi sa ligne */
+        }
+
+        .faq-top-border {
+          border-top: 1px solid #e8e2da;
+        }
+
+        .faq-contact {
+          margin-top: 48px;
+          font-size: 14px;
+          color: #888;
+          font-weight: 300;
+        }
+
+        .faq-contact a {
+          color: #b58e58;
+          font-weight: 500;
+          text-decoration: none;
+        }
+
+        .faq-contact a:hover {
+          text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+          .faq-section {
+            padding: 48px 20px;
+          }
+
+          .faq-header {
+            margin-bottom: 32px;
+          }
+
+          .faq-title {
+            font-size: 30px;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
 /* ============================================================================
    ACCORDION GÉNÉRIQUE
    ============================================================================ */
