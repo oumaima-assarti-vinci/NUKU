@@ -721,12 +721,23 @@ function ProductRoutineSection({ config }: { config: ProductConfig }) {
         .routine-tip p { font-size:14px; line-height:1.75; color:#4a4a4a; margin:0; font-weight:300; }
         .routine-note { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:16px; font-weight:300; color:#9a8a78; margin:32px 0 0; line-height:1.6; text-align:center; padding-top:24px; border-top:1px solid #e8e0d6; }
         @media(max-width:768px) {
-          .routine-section { padding:48px 20px; }
-          .routine-inner { grid-template-columns:1fr; gap:40px; }
+          .routine-section { padding:48px 20px 56px; }
+          .routine-inner { grid-template-columns:1fr; gap:0; }
           .routine-left { position:static; }
-          .routine-img-wrap { display:none; }
-          .routine-title { font-size:32px; }
+          .routine-img-wrap { display:block; max-width:100%; margin-top:28px; border-radius:20px; aspect-ratio:4/3; }
+          .routine-title { font-size:clamp(28px,7vw,36px); margin-bottom:16px; }
+          .routine-intro { font-size:14.5px; }
+          .routine-sub { font-size:16px; margin-top:12px; }
+          .routine-right { margin-top:36px; }
+          .routine-card-header { padding-bottom:20px; margin-bottom:0; }
           .routine-tip { padding:16px 0; }
+          .routine-tip p { font-size:14px; }
+          .routine-note { font-size:15px; margin-top:24px; padding-top:20px; }
+        }
+        @media(max-width:480px) {
+          .routine-section { padding:40px 20px 48px; }
+          .routine-img-wrap { border-radius:16px; }
+          .routine-title { font-size:26px; }
         }
       `}</style>
     </section>
@@ -879,7 +890,7 @@ function ProductMythsSection({ config }: { config: ProductConfig }) {
             </h2>
             <div className="myths-accordion">
               {myths.map(item => (
-                <MythAccordion key={item.id} id={item.id} myth={item.myth} reality={item.reality} defaultOpen={item.id === 1} />
+                <MythAccordion key={item.id} id={item.id} myth={item.myth} reality={item.reality} defaultOpen={false} />
               ))}
             </div>
           </article>
@@ -907,7 +918,7 @@ function ProductMythsSection({ config }: { config: ProductConfig }) {
               id={item.id}
               myth={item.myth}
               reality={item.reality}
-              defaultOpen={item.id === 1}
+              defaultOpen={false}
             />
           ))}
         </div>
@@ -972,7 +983,7 @@ function ProductMythsSection({ config }: { config: ProductConfig }) {
 }
 
 /* ============================================================================
-   FAQ ITEM — V2 (ResizeObserver, animations fluides, warm premium)
+   FAQ ITEM DESKTOP — cards warm premium, align-items:start pour éviter l'espace
    ============================================================================ */
 function FAQItem({ id, question, answer, defaultOpen = false }: { id: number; question: string; answer: string; defaultOpen?: boolean }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
@@ -1018,8 +1029,8 @@ function FAQItem({ id, question, answer, defaultOpen = false }: { id: number; qu
         .faq-plus{flex-shrink:0;width:28px;height:28px;display:grid;place-items:center;font-size:20px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;border-radius:50%;background:rgba(255,250,245,.6);}
         .faq-plus.rot{color:#ff7b42;background:rgba(255,123,66,.1);animation:popFaq .25s ease-out;}
         @keyframes popFaq{0%{transform:scale(.88);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
-        .faq-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,transform .25s ease;opacity:0;transform:translateY(-4px);}
-        .faq-item.open .faq-body{opacity:1;transform:translateY(0);}
+        .faq-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;}
+        .faq-item.open .faq-body{opacity:1;}
         .faq-a{margin:0;padding:4px 20px 18px 20px;color:#6a5f57;font-size:14.5px;line-height:1.7;letter-spacing:-0.005em;}
         @media(max-width:640px){.faq-btn{padding:16px 18px;gap:12px;}.faq-q{font-size:14.5px;}.faq-plus{width:26px;height:26px;font-size:18px;}.faq-a{padding:4px 18px 16px 18px;font-size:14px;}}
         @media(min-width:1024px){.faq-btn{padding:20px 22px;}.faq-q{font-size:15.5px;}.faq-a{padding:6px 22px 20px 22px;font-size:15px;}}
@@ -1030,7 +1041,58 @@ function FAQItem({ id, question, answer, defaultOpen = false }: { id: number; qu
 }
 
 /* ============================================================================
-   PRODUCT FAQ SECTION — V2 (grille 2 colonnes desktop, ambiance lumineuse)
+   FAQ ITEM MOBILE — style Create (séparateurs fins, pas de bloc)
+   ============================================================================ */
+function FAQItemMobile({ id, question, answer }: { id: number; question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px";
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!ref.current || !isOpen) return;
+    const el = ref.current;
+    const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [isOpen]);
+
+  return (
+    <div className={`fmob-item ${isOpen ? "open" : ""}`}>
+      <button
+        className="fmob-btn"
+        onClick={() => setIsOpen(v => !v)}
+        aria-expanded={isOpen}
+        aria-controls={`fmob-answer-${id}`}
+      >
+        <span className="fmob-q">{question}</span>
+        <span className="fmob-plus" aria-hidden="true">{isOpen ? "−" : "+"}</span>
+      </button>
+      <div id={`fmob-answer-${id}`} className="fmob-body" ref={ref} role="region">
+        <p className="fmob-a">{answer}</p>
+      </div>
+      <style jsx>{`
+        .fmob-item { border-bottom:1px solid #e8e2da; }
+        .fmob-btn { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 0; background:transparent; border:0; cursor:pointer; text-align:left; }
+        .fmob-q { flex:1; font-size:16px; font-weight:500; color:#1a1a1a; line-height:1.45; letter-spacing:-0.01em; }
+        .fmob-plus { font-size:22px; color:#9a9a9a; font-weight:300; flex-shrink:0; line-height:1; }
+        .fmob-body { max-height:0; overflow:hidden; transition:max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease; opacity:0; }
+        .fmob-item.open .fmob-body { opacity:1; }
+        .fmob-a { margin:0; padding:0 0 20px 0; font-size:14.5px; line-height:1.75; color:#666; font-weight:300; }
+        @media(prefers-reduced-motion:reduce){ .fmob-body{ transition:none!important; } }
+      `}</style>
+    </div>
+  );
+}
+
+/* ============================================================================
+   PRODUCT FAQ SECTION
+   — Desktop : grille 2 col, cards warm premium, align-items:start (pas d'espace)
+   — Mobile  : style Create, séparateurs fins, pas de blocs
    ============================================================================ */
 function ProductFAQSection({ config }: { config: ProductConfig }) {
   const { folder, faqTitle, faqSubtitle, faqs } = config;
@@ -1039,6 +1101,7 @@ function ProductFAQSection({ config }: { config: ProductConfig }) {
     <section className="faq-section" aria-labelledby={`faq-title-${folder}`}>
       <div className="faq-ambient" aria-hidden="true" />
       <div className="faq-container">
+
         <header className="faq-header">
           <h2 id={`faq-title-${folder}`} className="faq-main-title">
             <span className="faq-icon" aria-hidden="true">💬</span>
@@ -1046,11 +1109,24 @@ function ProductFAQSection({ config }: { config: ProductConfig }) {
           </h2>
           {faqSubtitle && <p className="faq-subtitle">{faqSubtitle}</p>}
         </header>
-        <div className="faq-grid">
+
+        {/* ── DESKTOP : grille 2 colonnes, cards premium ── */}
+        <div className="faq-desktop">
+          <div className="faq-grid">
+            {faqs.map(item => (
+              <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} defaultOpen={false} />
+            ))}
+          </div>
+        </div>
+
+        {/* ── MOBILE : liste style Create, pas de blocs ── */}
+        <div className="faq-mobile">
+          <div className="fmob-top-border" />
           {faqs.map(item => (
-            <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} defaultOpen={item.id === 1} />
+            <FAQItemMobile key={item.id} id={item.id} question={item.question} answer={item.answer} />
           ))}
         </div>
+
         <footer className="faq-footer">
           <p className="faq-footer-text">
             Une autre question ?{" "}
@@ -1058,20 +1134,39 @@ function ProductFAQSection({ config }: { config: ProductConfig }) {
           </p>
         </footer>
       </div>
+
       <style jsx>{`
-        .faq-section{position:relative;width:100%;padding:clamp(70px,8vw,110px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .faq-ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.5;background:radial-gradient(1000px 400px at 50% 90%,rgba(255,236,220,.5),transparent 65%),radial-gradient(800px 320px at 50% 10%,rgba(254,240,230,.4),transparent 65%);filter:blur(.4px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
-        .faq-container{position:relative;max-width:960px;margin:0 auto;z-index:1;}
-        .faq-header{text-align:center;margin-bottom:clamp(40px,6vw,60px);}
-        .faq-main-title{margin:0 0 12px;font-size:clamp(28px,4vw,36px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:14px;text-shadow:0 1px 1px rgba(255,255,255,.8);}
-        .faq-icon{font-size:clamp(32px,4.5vw,40px);filter:drop-shadow(0 2px 4px rgba(0,0,0,.06));flex-shrink:0;margin-top:0.1em;}
-        .faq-subtitle{margin:0;font-size:clamp(14px,1.8vw,16px);color:#6a5f57;font-weight:400;letter-spacing:.01em;}
-        .faq-grid{display:grid;grid-template-columns:1fr;gap:16px;}
-        @media(min-width:768px){.faq-grid{grid-template-columns:repeat(2,1fr);gap:20px;}}
-        .faq-footer{margin-top:clamp(50px,7vw,70px);text-align:center;padding-top:32px;border-top:1px solid rgba(233,221,205,.6);}
-        .faq-footer-text{margin:0;font-size:15px;color:#6a5f57;}
-        .faq-footer-link{color:#ff7b42;font-weight:600;text-decoration:none;transition:color .2s ease;}
-        .faq-footer-link:hover{color:#ff8d58;text-decoration:underline;}
+        .faq-section { position:relative; width:100%; padding:clamp(70px,8vw,110px) 20px; background:#ffffff; overflow:hidden; isolation:isolate; }
+        .faq-ambient { position:absolute; inset:-10% -10% -15% -10%; opacity:.5; background:radial-gradient(1000px 400px at 50% 90%,rgba(255,236,220,.5),transparent 65%),radial-gradient(800px 320px at 50% 10%,rgba(254,240,230,.4),transparent 65%); filter:blur(.4px); mix-blend-mode:screen; pointer-events:none; z-index:0; }
+        .faq-container { position:relative; max-width:960px; margin:0 auto; z-index:1; }
+        .faq-header { text-align:center; margin-bottom:clamp(40px,6vw,60px); }
+        .faq-main-title { margin:0 0 12px; font-size:clamp(28px,4vw,36px); font-weight:800; color:#3c3631; letter-spacing:-0.02em; display:flex; align-items:flex-start; justify-content:center; gap:14px; }
+        .faq-icon { font-size:clamp(32px,4.5vw,40px); filter:drop-shadow(0 2px 4px rgba(0,0,0,.06)); flex-shrink:0; margin-top:0.1em; }
+        .faq-subtitle { margin:0; font-size:clamp(14px,1.8vw,16px); color:#6a5f57; font-weight:400; letter-spacing:.01em; }
+
+        /* DESKTOP */
+        .faq-desktop { display:block; }
+        .faq-mobile  { display:none; }
+        /* align-items:start → chaque card prend sa hauteur naturelle, pas d'espace vide */
+        .faq-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; align-items:start; }
+
+        /* MOBILE */
+        @media(max-width:767px) {
+          .faq-desktop { display:none; }
+          .faq-mobile  { display:block; }
+          .fmob-top-border { border-top:1px solid #e8e2da; }
+          .faq-section { padding:48px 20px 56px; }
+          .faq-header { margin-bottom:32px; }
+        }
+        @media(max-width:480px) {
+          .faq-section { padding:40px 20px 48px; }
+          .faq-main-title { font-size:24px; }
+        }
+
+        .faq-footer { margin-top:clamp(50px,7vw,70px); text-align:center; padding-top:32px; border-top:1px solid rgba(233,221,205,.6); }
+        .faq-footer-text { margin:0; font-size:15px; color:#6a5f57; }
+        .faq-footer-link { color:#ff7b42; font-weight:600; text-decoration:none; transition:color .2s ease; }
+        .faq-footer-link:hover { color:#ff8d58; text-decoration:underline; }
       `}</style>
     </section>
   );
