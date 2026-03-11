@@ -134,7 +134,8 @@ export default function HomePage() {
 
       {/* ================= HERO SLIDER ================= */}
       <section
-        className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[400px] sm:min-h-[520px] h-[calc(100vh-64px)] max-h-[900px] overflow-hidden cursor-grab active:cursor-grabbing select-none"
+        className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden cursor-grab active:cursor-grabbing select-none"
+        style={{ height: "calc(100dvh - 80px)", minHeight: "480px", maxHeight: "900px" }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onMouseDown={handleMouseDown}
@@ -150,9 +151,9 @@ export default function HomePage() {
           <img
             src="/image/fille.png"
             alt="Abonnement NUKU"
-            className="absolute right-0 sm:right-[2vw] lg:right-[4vw] bottom-0 sm:top-1/2 sm:-translate-y-1/2 w-[70vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)] opacity-40 sm:opacity-100"
+            className="absolute right-0 sm:right-[2vw] lg:right-[4vw] top-1/2 -translate-y-1/2 w-[70vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)] opacity-30 sm:opacity-100"
           />
-          <div className="relative z-10 flex items-end sm:items-center h-full pb-16 sm:pb-0">
+          <div className="relative z-10 flex items-center h-full">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 w-full">
               <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
                 <h1 className="font-black text-[clamp(38px,7vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
@@ -179,10 +180,10 @@ export default function HomePage() {
             className="absolute inset-0"
             style={{ background: `radial-gradient(circle at 72% 48%, rgba(135,85,205,0.50) 0%, rgba(165,130,220,0.38) 20%, rgba(245,240,236,0.90) 46%, #f5f0ec 70%)` }}
           />
-          <div className="absolute right-[4%] sm:right-[8%] md:right-[10%] bottom-[12%] sm:top-[50%] sm:-translate-y-1/2 w-[38vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
+          <div className="absolute right-[4%] sm:right-[8%] md:right-[10%] top-1/2 -translate-y-1/2 w-[38vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
             <img src="/image/violet.png" alt="NUKU Soul" className="w-full h-auto drop-shadow-[0_20px_40px_rgba(120,90,180,0.2)]" />
           </div>
-          <div className="relative z-10 flex items-end sm:items-center h-full pb-16 sm:pb-0">
+          <div className="relative z-10 flex items-center sm:items-center h-full">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 md:px-8 w-full">
               <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
                 <h1 className="font-black text-[clamp(38px,8vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
