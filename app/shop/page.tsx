@@ -168,8 +168,8 @@ function ProductCard({
 
 
 
-      {/* Conteneur fixe 160×160 pour normaliser toutes les images */}
-      <div className="relative z-10 w-[140px] h-[140px] md:w-[180px] md:h-[180px] flex items-center justify-center">
+      {/* Conteneur fixe — plus petit sur mobile pour tout tenir */}
+      <div className="relative z-10 w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] md:w-[180px] md:h-[180px] flex items-center justify-center">
         <motion.img
           src={img}
           alt={product.nom}
@@ -261,7 +261,7 @@ export default function ShopPage() {
           </motion.h1>
 
           {/* Rangée 1 — 3 produits */}
-          <div className="flex justify-center items-end gap-8 md:gap-20 mb-12">
+          <div className="flex justify-center items-end gap-2 sm:gap-8 md:gap-20 mb-8">
             {[products[0], products[1], products[2]].map((p, i) =>
               p ? (
                 <motion.div
@@ -279,7 +279,7 @@ export default function ShopPage() {
           </div>
 
           {/* Rangée 2 — 2 produits centrés */}
-          <div className="flex justify-center items-end gap-8 md:gap-20">
+          <div className="flex justify-center items-end gap-2 sm:gap-8 md:gap-20">
             {[products[3], products[4]].map((p, i) =>
               p ? (
                 <motion.div
