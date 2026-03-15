@@ -84,11 +84,11 @@ export default function HomePage() {
   const storyImageSrc = "/image/sourire.jpg";
 
   const categories: Category[] = [
-    { name: "Sommeil", image: "/image/nukuBleu.png", bg: "bg-[#ffffff ]", link: "/product/12" },
-    { name: "Relax", image: "/image/nukuViolet.png", bg: "bg-[#ffffff ]", link: "/product/10" },
-    { name: "Force & endurance", image: "/image/nukuRouge.png", bg: "bg-[#ffffff ]", link: "/product/14" },
-    { name: "Cheveux", image: "/image/nukuJaune.png", bg: "bg-[#ffffff ]", link: "/product/11" },
-    { name: "Digestion", image: "/image/nukuVert.png", bg: "bg-[#ffffff ]", link: "/product/13" },
+    { name: "Sommeil", image: "/image/myrtille.png", bg: "bg-[#ffffff ]", link: "/product/12" },
+    { name: "Relax", image: "/image/cerise.png", bg: "bg-[#ffffff ]", link: "/product/10" },
+    { name: "Force & endurance", image: "/image/pasteque.png", bg: "bg-[#ffffff ]", link: "/product/14" },
+    { name: "Cheveux", image: "/image/citron.png", bg: "bg-[#ffffff ]", link: "/product/11" },
+    { name: "Digestion", image: "/image/pommes.png", bg: "bg-[#ffffff ]", link: "/product/13" },
   ];
 
   const lifestylePhotos = [
