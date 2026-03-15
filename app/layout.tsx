@@ -10,6 +10,7 @@ import { Inter, Playfair_Display } from "next/font/google"
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["300", "400", "500"],
   display: "swap",
 })
 

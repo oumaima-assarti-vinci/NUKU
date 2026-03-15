@@ -14,6 +14,13 @@ type Product = {
   actif?: boolean | null;
 };
 
+type Category = {
+  name: string;
+  image: string;
+  bg: string;
+  link: string;
+};
+
 export default function HomePage() {
   const [showPopup, setShowPopup] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -76,12 +83,12 @@ export default function HomePage() {
 
   const storyImageSrc = "/image/sourire.jpg";
 
-  const categories = [
-    { name: "Sommeil", image: "/image/nukuBleu.png", link: "/product/12" },
-    { name: "Relax", image: "/image/nukuViolet.png", link: "/product/10" },
-    { name: "Force & endurance", image: "/image/nukuRouge.png", link: "/product/14" },
-    { name: "Cheveux", image: "/image/nukuJaune.png", link: "/product/11" },
-    { name: "Digestion", image: "/image/nukuVert.png", link: "/product/13" },
+  const categories: Category[] = [
+    { name: "Sommeil", image: "/image/nukuBleu.png", bg: "bg-[#ffffff ]", link: "/product/12" },
+    { name: "Relax", image: "/image/nukuViolet.png", bg: "bg-[#ffffff ]", link: "/product/10" },
+    { name: "Force & endurance", image: "/image/nukuRouge.png", bg: "bg-[#ffffff ]", link: "/product/14" },
+    { name: "Cheveux", image: "/image/nukuJaune.png", bg: "bg-[#ffffff ]", link: "/product/11" },
+    { name: "Digestion", image: "/image/nukuVert.png", bg: "bg-[#ffffff ]", link: "/product/13" },
   ];
 
   const lifestylePhotos = [
@@ -98,25 +105,14 @@ export default function HomePage() {
 
       {/* ================= POPUP ================= */}
       {showPopup && (
-        <div
-          className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4"
-          onClick={() => setShowPopup(false)}
-        >
-          <div
-            className="bg-white rounded-2xl p-6 sm:p-10 max-w-md w-full shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" onClick={() => setShowPopup(false)}>
+          <div className="bg-white rounded-2xl p-6 sm:p-10 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="text-4xl sm:text-5xl mb-4 text-center">🎁</div>
-            <h3 className="text-2xl sm:text-3xl font-black mb-4 text-center tracking-tight">
-              Bienvenue chez NUKU
-            </h3>
+            <h3 className="text-2xl sm:text-3xl font-normal mb-4 text-center tracking-tight">Bienvenue chez NUKU</h3>
             <p className="text-neutral-600 mb-6 sm:mb-8 text-center text-base sm:text-lg">
               Profitez de <span className="font-black text-[#ffb703]">-20%</span> sur votre premier abonnement
             </p>
-            <button
-              onClick={() => setShowPopup(false)}
-              className="w-full py-3 sm:py-4 bg-[#ffb703] text-white font-black rounded-full hover:bg-[#ffa200] transition-all text-base sm:text-lg tracking-wide uppercase"
-            >
+            <button onClick={() => setShowPopup(false)} className="w-full py-3 sm:py-4 bg-[#ffb703] text-white font-black rounded-full hover:bg-[#ffa200] transition-all text-base sm:text-lg tracking-wide uppercase">
               Découvrir
             </button>
           </div>
@@ -133,35 +129,19 @@ export default function HomePage() {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
       >
-
         {/* SLIDE 0 — Abonnement */}
         <div className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === 0 ? "opacity-100" : "opacity-0"}`}>
-          <div
-            className="absolute inset-0"
-            style={{ background: `radial-gradient(circle at 70% 45%, rgba(255,204,92,0.45) 0%, rgba(255,220,130,0.35) 25%, rgba(255,245,220,0.85) 55%, #fff7e6 75%)` }}
-          />
-          {/* Image — opacity pleine sur mobile et desktop */}
-          <img
-            src="/image/fille.png"
-            alt="Abonnement NUKU"
-            className="absolute right-0 sm:right-[2vw] lg:right-[4vw] top-1/2 -translate-y-1/2 w-[55vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)]"
-          />
+          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 70% 45%, rgba(255,204,92,0.45) 0%, rgba(255,220,130,0.35) 25%, rgba(255,245,220,0.85) 55%, #ffffff 75%)` }} />
+          <img src="/image/fille.png" alt="Abonnement NUKU" className="absolute right-0 sm:right-[2vw] lg:right-[4vw] top-1/2 -translate-y-1/2 w-[55vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)]" />
           <div className="relative z-10 flex items-center h-full">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 w-full">
               <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
-                <h1 className="font-black text-[clamp(38px,7vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
-                  Votre routine<br />
-                  <span className="text-[#ffb703]">simplifiée.</span>
+                <h1 className="font-normal text-[clamp(38px,7vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
+                  Votre routine<br /><span className="text-[#ffb703]">simplifiée.</span>
                 </h1>
-                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">
-                  -20% sur chaque commande.<br />Livraison offerte chaque mois.
-                </p>
-                <p className="hidden sm:block text-lg text-[#6b6780] mb-8 leading-relaxed font-light">
-                  Livraison offerte chaque mois.<br />-20% sur chaque commande.<br />La tranquillité, sans y penser.
-                </p>
-                <Link href="/subscription" className="inline-flex bg-[#ffb703] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ffa200] transition-colors text-xs sm:text-base">
-                  Je m'abonne — 20% off
-                </Link>
+                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">-20% sur chaque commande.<br />Livraison offerte chaque mois.</p>
+                <p className="hidden sm:block text-lg text-[#6b6780] mb-8 leading-relaxed font-light">Livraison offerte chaque mois.<br />-20% sur chaque commande.<br />La tranquillité, sans y penser.</p>
+                <Link href="/subscription" className="inline-flex bg-[#ffb703] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ffa200] transition-colors text-xs sm:text-base">Je m'abonne — 20% off</Link>
               </div>
             </div>
           </div>
@@ -169,35 +149,19 @@ export default function HomePage() {
 
         {/* SLIDE 1 — Soul */}
         <div className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === 1 ? "opacity-100" : "opacity-0"}`}>
-          <div
-            className="absolute inset-0"
-            style={{ background: `radial-gradient(circle at 72% 48%, rgba(135,85,205,0.50) 0%, rgba(165,130,220,0.38) 20%, rgba(245,240,236,0.90) 46%, #f5f0ec 70%)` }}
-          />
-          {/* Image — taille augmentée sur mobile pour qu'elle soit visible et nette */}
+          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 72% 48%, rgba(135,85,205,0.50) 0%, rgba(165,130,220,0.38) 20%, rgba(245,240,236,0.90) 46%, #f5f0ec 70%)` }} />
           <div className="absolute right-[2%] sm:right-[8%] md:right-[10%] top-1/2 -translate-y-1/2 w-[42vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
-            <img
-              src="/image/violet.png"
-              alt="NUKU Soul"
-              className="w-full h-auto drop-shadow-[0_20px_40px_rgba(120,90,180,0.25)]"
-            />
+            <img src="/image/violet.png" alt="NUKU Soul" className="w-full h-auto drop-shadow-[0_20px_40px_rgba(120,90,180,0.25)]" />
           </div>
           <div className="relative z-10 flex items-center h-full">
             <div className="max-w-[1400px] mx-auto px-5 sm:px-6 md:px-8 w-full">
               <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
-                <h1 className="font-black text-[clamp(38px,8vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
+                <h1 className="font-normal text-[clamp(38px,8vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
                   Esprit <span className="text-[#b7a6d8]">apaisé</span>,<br />mieux-être.
                 </h1>
-                {/* Sous-titre mobile — texte mis à jour */}
-                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">
-                  Pour soulager le stress et clarifier l'esprit avec nos gummies à l'Ashwagandha.
-                </p>
-                {/* Sous-titre desktop — texte mis à jour */}
-                <p className="hidden sm:block text-[clamp(15px,3.5vw,18px)] leading-[1.7] text-[#6b6780] mb-8 font-light">
-                  Pour soulager le stress et clarifier l'esprit,<br />avec nos gummies à l'Ashwagandha.
-                </p>
-                <Link href="/product/1" className="inline-flex bg-[#ff7a3d] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-xs sm:text-sm font-black tracking-wide uppercase hover:bg-[#ff6624] transition-colors">
-                  Découvrir Soul
-                </Link>
+                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">Pour soulager le stress et clarifier l'esprit avec nos gummies à l'Ashwagandha.</p>
+                <p className="hidden sm:block text-[clamp(15px,3.5vw,18px)] leading-[1.7] text-[#6b6780] mb-8 font-light">Pour soulager le stress et clarifier l'esprit,<br />avec nos gummies à l'Ashwagandha.</p>
+                <Link href="/product/1" className="inline-flex bg-[#ff7a3d] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-xs sm:text-sm font-black tracking-wide uppercase hover:bg-[#ff6624] transition-colors">Découvrir Soul</Link>
               </div>
             </div>
           </div>
@@ -206,38 +170,16 @@ export default function HomePage() {
         {/* SLIDE 2 — Performance */}
         {heroSlides.map((slide, index) => (
           <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === index + 2 ? "opacity-100" : "opacity-0"}`}>
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `
-                  radial-gradient(1400px 900px at 78% 42%, rgba(47,96,201,0.75) 0%, rgba(47,96,201,0) 60%),
-                  radial-gradient(1400px 900px at 82% 42%, rgba(247,191,13,0.78) 0%, rgba(247,191,13,0) 60%),
-                  radial-gradient(1400px 900px at 86% 42%, rgba(227,59,47,0.78) 0%, rgba(227,59,47,0) 60%),
-                  radial-gradient(1400px 900px at 90% 42%, rgba(44,175,95,0.76) 0%, rgba(44,175,95,0) 60%),
-                  radial-gradient(1400px 900px at 94% 42%, rgba(107,63,178,0.80) 0%, rgba(107,63,178,0) 60%),
-                  linear-gradient(to left, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.90) 62%, rgba(255,255,255,1) 100%)
-                `
-              }}
-            />
+            <div className="absolute inset-0" style={{ background: `radial-gradient(1400px 900px at 78% 42%, rgba(47,96,201,0.75) 0%, rgba(47,96,201,0) 60%), radial-gradient(1400px 900px at 82% 42%, rgba(247,191,13,0.78) 0%, rgba(247,191,13,0) 60%), radial-gradient(1400px 900px at 86% 42%, rgba(227,59,47,0.78) 0%, rgba(227,59,47,0) 60%), radial-gradient(1400px 900px at 90% 42%, rgba(44,175,95,0.76) 0%, rgba(44,175,95,0) 60%), radial-gradient(1400px 900px at 94% 42%, rgba(107,63,178,0.80) 0%, rgba(107,63,178,0) 60%), linear-gradient(to left, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.90) 62%, rgba(255,255,255,1) 100%)` }} />
             <div className="relative z-10 h-full">
               <div className="max-w-[1400px] mx-auto h-full grid md:grid-cols-2 items-center px-6 gap-6">
                 <div className="max-w-xl text-neutral-900">
-                  <h1 className="text-[clamp(36px,6vw,76px)] font-black mb-6 leading-[1.0] tracking-[-0.03em]">
-                    {slide.title}
-                  </h1>
-                  <p className="text-[clamp(15px,3vw,20px)] mb-8 font-light text-neutral-700">
-                    {slide.subtitle}
-                  </p>
-                  <Link href={slide.link} className="inline-block px-8 py-4 bg-orange-500 text-white font-black rounded-full hover:bg-orange-600 transition-all uppercase tracking-wide text-sm">
-                    {slide.cta}
-                  </Link>
+                  <h1 className="text-[clamp(36px,6vw,76px)] font-normal mb-6 leading-[1.0] tracking-[-0.03em]">{slide.title}</h1>
+                  <p className="text-[clamp(15px,3vw,20px)] mb-8 font-light text-neutral-700">{slide.subtitle}</p>
+                  <Link href={slide.link} className="inline-block px-8 py-4 bg-orange-500 text-white font-black rounded-full hover:bg-orange-600 transition-all uppercase tracking-wide text-sm">{slide.cta}</Link>
                 </div>
                 <div className="relative flex justify-end items-end">
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="pointer-events-none select-none h-[58vh] sm:h-[66vh] md:h-[74vh] lg:h-[82vh] w-auto object-contain drop-shadow-[0_18px_36px_rgba(0,0,0,0.18)] ml-auto translate-x-[12%] md:translate-x-[18%] brightness-[1.05] contrast-[1.10] saturate-[1.15]"
-                  />
+                  <img src={slide.image} alt={slide.title} className="pointer-events-none select-none h-[58vh] sm:h-[66vh] md:h-[74vh] lg:h-[82vh] w-auto object-contain drop-shadow-[0_18px_36px_rgba(0,0,0,0.18)] ml-auto translate-x-[12%] md:translate-x-[18%] brightness-[1.05] contrast-[1.10] saturate-[1.15]" />
                 </div>
               </div>
             </div>
@@ -247,53 +189,38 @@ export default function HomePage() {
         {/* Indicateurs */}
         <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-10">
           {[0, 1, 2].map((i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentSlide(i)}
-              className={`h-1 rounded-full transition-all ${currentSlide === i ? "w-8 sm:w-12 bg-white" : "w-6 sm:w-8 bg-white/50"}`}
-              aria-label={`Aller au slide ${i + 1}`}
-            />
+            <button key={i} onClick={() => setCurrentSlide(i)} className={`h-1 rounded-full transition-all ${currentSlide === i ? "w-8 sm:w-12 bg-white" : "w-6 sm:w-8 bg-white/50"}`} aria-label={`Aller au slide ${i + 1}`} />
           ))}
         </div>
       </section>
 
       {/* ================= LOGO ================= */}
-      <section className="py-6 sm:py-10 bg-white">
+      <section className="py-3 sm:py-5 bg-white">
         <div className="flex flex-col items-center">
           <img src="/image/logo.png" alt="NUKU" className="h-16 sm:h-20 md:h-24 opacity-90" />
         </div>
       </section>
 
       {/* ================= IMAGE + TEXTE ================= */}
-      <section className="py-10 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
+      <section className="py-5 sm:py-8 md:py-10 px-4 sm:px-6 bg-white">
         <div className="max-w-[1500px] mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
           <div className="order-2 md:order-1">
             <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg">
               <img src={storyImageSrc} alt="NUKU – bien-être" className="w-full h-full object-cover" />
             </div>
           </div>
-          <div className="order-1 md:order-2 space-y-4">
-            <h4 className="font-black text-[clamp(26px,6vw,42px)] leading-[1.05] tracking-[-0.03em] text-neutral-900">
-              Chez NUKU, l'équilibre avant tout.
-            </h4>
-            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">
-              Nous savons que le bien-être ne se résume pas à une solution miracle. Chaque corps est différent, chaque rythme aussi.
-            </p>
-            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">
-              C'est pourquoi NUKU a été pensé pour s'intégrer simplement dans le quotidien, avec des formules claires, des ingrédients sélectionnés avec soin, et une approche honnête du bien-être.
-            </p>
-            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">
-              Pas de promesses excessives. Juste des compléments conçus pour accompagner l'équilibre, jour après jour.
-            </p>
-            <Link href="/shop" className="hidden md:inline-flex h-11 items-center rounded-full px-6 font-black text-white bg-orange-600 hover:bg-orange-700 transition-colors uppercase tracking-wide text-sm">
-              Découvrir NUKU
-            </Link>
+          <div className="order-1 md:order-1 space-y-4">
+            <h4 className="font-normal text-[clamp(22px,4vw,38px)] leading-[1.2] tracking-[-0.03em]">Chez NUKU, l'équilibre avant tout.</h4>
+            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">Nous savons que le bien-être ne se résume pas à une solution miracle. Chaque corps est différent, chaque rythme aussi.</p>
+            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">C'est pourquoi NUKU a été pensé pour s'intégrer simplement dans le quotidien, avec des formules claires, des ingrédients sélectionnés avec soin, et une approche honnête du bien-être.</p>
+            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">Pas de promesses excessives. Juste des compléments conçus pour accompagner l'équilibre, jour après jour.</p>
+            <Link href="/shop" className="hidden md:inline-flex h-11 items-center rounded-full px-6 font-black text-white bg-orange-600 hover:bg-orange-700 transition-colors uppercase tracking-wide text-sm">Découvrir NUKU</Link>
           </div>
         </div>
       </section>
 
       {/* ================= PICTOGRAMMES ================= */}
-      <section className="py-6 sm:py-10 px-4 sm:px-6 bg-white">
+      <section className="py-6 sm:py-5 px-4 sm:px-6 bg-white">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex sm:hidden justify-between items-center w-full">
             {[
@@ -304,8 +231,8 @@ export default function HomePage() {
               { src: "/image/sucre.png", label: "Sans sucre" },
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center gap-1 flex-1">
-                <img src={item.src} alt={item.label} className="w-12 h-12 object-contain opacity-90" />
-                <span className="text-[9px] text-neutral-500 text-center leading-tight font-medium">{item.label}</span>
+                <img src={item.src} alt={item.label} className="w-12 h-12 object-contain opacity-45" />
+                <span className="text-[9px] text-neutral-400 text-center leading-tight font-medium">{item.label}</span>
               </div>
             ))}
           </div>
@@ -325,30 +252,40 @@ export default function HomePage() {
       </section>
 
       {/* ================= CATÉGORIES ================= */}
-      <section className="pt-2 pb-10 sm:pb-16 md:pb-20 px-2 sm:px-6 bg-white">
+      <section className="pt-4 pb-10 sm:pb-16 md:pb-20 px-4 sm:px-6 bg-white">
         <div className="max-w-[1400px] mx-auto">
-          <h2 className="text-center font-black text-[clamp(26px,6vw,52px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-6 sm:mb-10">
+          <h2 className="text-center font-normal text-[clamp(26px,6vw,52px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-8 sm:mb-12">
             De quoi avez-vous besoin ?
           </h2>
+
+          {/* Mobile */}
           <div className="flex sm:hidden gap-3 overflow-x-auto pb-3 snap-x snap-mandatory" style={{ scrollbarWidth: "none" }}>
-            {categories.map((category, index) => (
-              <Link key={index} href={category.link} className="flex-none snap-start flex flex-col items-center gap-2 bg-white rounded-2xl shadow-md p-3 w-[100px]">
-                <div className="w-14 h-14 rounded-full bg-neutral-50 flex items-center justify-center overflow-hidden">
-                  <img src={category.image} alt={category.name} className="w-12 h-12 object-contain" />
+            {categories.map((cat, index) => (
+              <Link key={index} href={cat.link} className="flex-none snap-start flex flex-col items-center text-center bg-white rounded-2xl shadow-sm w-[130px] overflow-hidden">
+                <div className={`w-full flex items-end justify-center pt-4 ${cat.bg}`} style={{ minHeight: "100px" }}>
+                  <img src={cat.image} alt={cat.name} className="w-full h-auto object-contain translate-y-2 px-3" />
                 </div>
-                <span className="text-[11px] font-bold text-neutral-900 text-center leading-tight">{category.name}</span>
+                <div className="px-2 pb-3 pt-3">
+                  <span className="text-[11px] font-medium text-neutral-900 leading-tight block">{cat.name}</span>
+                </div>
               </Link>
             ))}
           </div>
-          <div className="hidden sm:flex flex-nowrap justify-center items-center gap-2 md:gap-4">
-            {categories.map((category, index) => (
-              <Link key={index} href={category.link} className="group flex flex-row items-center gap-2 px-3 py-3 bg-white rounded-full shadow-md hover:shadow-xl transition-all hover:scale-105 flex-shrink-0">
-                <div className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-neutral-50 flex items-center justify-center overflow-hidden">
-                  <img src={category.image} alt={category.name} className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 object-contain" />
+
+          {/* Desktop */}
+          <div className="hidden sm:grid grid-cols-5 gap-4 md:gap-6">
+            {categories.map((cat, index) => (
+              <Link
+                key={index}
+                href={cat.link}
+                className="flex flex-col items-center text-center bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+              >
+                <div className={`w-full flex items-end justify-center pt-4 ${cat.bg}`} style={{ minHeight: "160px" }}>
+                  <img src={cat.image} alt={cat.name} className="w-full h-auto object-contain translate-y-4 px-4" />
                 </div>
-                <span className="text-[11px] md:text-sm lg:text-base font-black text-neutral-900 whitespace-nowrap tracking-tight">
-                  {category.name}
-                </span>
+                <div className="px-4 pt-7 pb-5 w-full">
+                  <span className="font-normal text-base md:text-lg text-neutral-900 tracking-tight block">{cat.name}</span>
+                </div>
               </Link>
             ))}
           </div>
@@ -361,14 +298,10 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
             {lifestylePhotos.map((photo, index) => (
               <div key={index} className="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-500 h-[180px] sm:h-[280px] md:h-[380px]">
-                <img
-                  src={photo.src}
-                  alt={photo.label}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                />
+                <img src={photo.src} alt={photo.label} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-5 md:p-7 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                  <h3 className="font-black text-base sm:text-xl md:text-2xl text-white mb-1 tracking-tight">{photo.label}</h3>
+                  <h3 className="font-normal text-base sm:text-xl md:text-2xl text-white mb-1 tracking-tight">{photo.label}</h3>
                   <p className="text-xs sm:text-sm text-white/90 font-light hidden sm:block">{photo.sub}</p>
                 </div>
               </div>
@@ -381,17 +314,10 @@ export default function HomePage() {
       <section className="py-10 sm:py-16 md:py-20 bg-white overflow-hidden">
         <div className="max-w-[1400px] mx-auto">
           <div className="px-4 sm:px-6 mb-6 sm:mb-10">
-            <h3 className="font-black text-[clamp(28px,5.5vw,48px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-2">
-              Ils en parlent mieux que nous
-            </h3>
-            <p className="text-[14px] sm:text-[16px] text-neutral-500 max-w-[600px] font-light">
-              Des témoignages authentiques de notre communauté
-            </p>
+            <h3 className="font-normal text-[clamp(28px,5.5vw,48px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-2">Ils en parlent mieux que nous</h3>
+            <p className="text-[14px] sm:text-[16px] text-neutral-500 max-w-[600px] font-light">Des témoignages authentiques de notre communauté</p>
           </div>
-          <div
-            className="flex gap-4 overflow-x-auto px-4 sm:px-6 pb-4 snap-x snap-mandatory"
-            style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
-          >
+          <div className="flex gap-4 overflow-x-auto px-4 sm:px-6 pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}>
             {[
               { name: "Claire D.", initials: "CD", verified: true, title: "Simple et efficace", text: "J'ai intégré NUKU à ma routine depuis un mois et je sens une vraie différence. Simple et agréable à prendre." },
               { name: "Thomas R.", initials: "TR", verified: true, title: "Produits de qualité", text: "Composition clean, exactement ce que je recherchais. Je recommande sans hésiter." },
@@ -408,7 +334,7 @@ export default function HomePage() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <p className="font-black text-neutral-900 text-sm truncate tracking-tight">{review.name}</p>
+                        <p className="font-medium text-neutral-900 text-sm truncate tracking-tight">{review.name}</p>
                         {review.verified && <span className="text-green-600 text-xs flex-shrink-0">✓</span>}
                       </div>
                       {review.verified && <p className="text-xs text-neutral-400 font-light">Acheteur vérifié</p>}
@@ -421,16 +347,14 @@ export default function HomePage() {
                       </svg>
                     ))}
                   </div>
-                  <h4 className="font-black text-neutral-900 text-sm mb-2 tracking-tight">{review.title}</h4>
+                  <h4 className="font-normal text-neutral-900 text-sm mb-2 tracking-tight">{review.title}</h4>
                   <p className="text-sm text-neutral-600 leading-relaxed font-light">"{review.text}"</p>
                 </div>
               </div>
             ))}
           </div>
           <div className="text-center mt-8 sm:mt-12 px-4 sm:px-6">
-            <p className="text-sm text-neutral-500 mb-5 font-light">
-              Rejoignez notre communauté et partagez votre expérience
-            </p>
+            <p className="text-sm text-neutral-500 mb-5 font-light">Rejoignez notre communauté et partagez votre expérience</p>
             <Link href="/shop" className="inline-flex items-center gap-2 bg-[#ff8844] text-white px-8 py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ff7733] transition-all shadow-lg text-sm">
               Découvrir NUKU
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

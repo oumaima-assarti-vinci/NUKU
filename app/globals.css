@@ -1,7 +1,7 @@
 /* app/globals.css — Tailwind v4 */
 
-/* Import de Inter (pour les titres) et DM Sans (pour le corps) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=DM+Sans:wght@300;400;500;700&display=swap');
+/* DM Sans uniquement — Inter est géré par next/font dans layout.tsx */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap');
 @import "tailwindcss";
 
 /* ========================= 
@@ -10,12 +10,10 @@
 :root {
   --background: #ffffff;
   --foreground: #1a1a1a;
-  /* Police moderne sans-serif comme sur l'image */
-  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-inter), system-ui, -apple-system, sans-serif;
   --font-body: 'DM Sans', Arial, sans-serif;
   
-  /* Couleurs extraites de l'image */
-  --brand-accent: #f87171; /* Le rose/rouge des numéros 1, 2, 3 */
+  --brand-accent: #f87171;
   --text-muted: #4b5563;
 }
 
@@ -38,11 +36,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Titres — Look "Gimmy" (Inter, Gras, Serré) */
+/* Titres — légers et élégants */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 700; /* Très gras pour le titre principal */
-  letter-spacing: -0.04em; /* Lettres resserrées comme sur l'image */
+  font-weight: 400;
+  letter-spacing: -0.04em;
   line-height: 1.1;
   color: var(--foreground);
 }

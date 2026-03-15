@@ -212,13 +212,13 @@ export default function Header({ onCartClick }: HeaderProps) {
                 </Link>
               ))}
               <div className="h-px bg-neutral-200 my-1" />
-              <Link
-                href="/checkout"
-                onClick={() => setMobileOpen(false)}
-                className="w-full h-11 grid place-items-center rounded-xl font-extrabold text-white bg-orange-600 hover:bg-orange-700"
-              >
-                COMMANDER
-              </Link>
+             <Link
+  href="/checkout"
+  onClick={() => setMobileOpen(false)}
+  className="w-full h-11 grid place-items-center rounded-xl font-extrabold text-white bg-[#ED9446]"
+>
+  COMMANDER
+</Link>
             </nav>
           </div>
         )}
