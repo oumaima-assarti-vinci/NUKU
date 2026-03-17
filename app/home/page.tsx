@@ -121,180 +121,106 @@ export default function HomePage() {
       )}
 
       {/* ================= HERO SLIDER ================= */}
-      {/*
-        Option 3 — hauteur libre :
-        Le slider prend la hauteur de l'image active (slide 0).
-        Les autres slides sont superposés en absolute sur la même zone.
-        On utilise une image "fantôme" invisible pour définir la hauteur naturelle.
-      */}
-      <div
-        className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden cursor-grab active:cursor-grabbing select-none"
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-      >
-        {/* Image fantôme — définit la hauteur du conteneur selon le ratio natif de l'image */}
-        <img
-          src="/image/sliderCitron.jpg"
-          alt=""
-          aria-hidden="true"
-          className="w-full block invisible pointer-events-none"
-          style={{ maxHeight: "780px" }}
+     {/* CONTENEUR PARENT : On fixe une hauteur identique pour tout le monde */}
+<div className="relative w-full overflow-hidden h-[500px] sm:h-[600px] lg:h-[700px] bg-white">
+      
+      {/* ---- SLIDE 0 : SHINE (JAUNE) ---- */}
+      <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
+        <img 
+          src="/image/sliderCitron.jpg" 
+          className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center" 
+          alt="NUKU Shine" 
         />
+        {/* Overlay Responsive : Noir en bas sur Mobile / Blanc à gauche sur PC */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent sm:bg-gradient-to-r sm:from-white/90 sm:via-white/20 sm:to-transparent" />
+        
+        <div className="relative z-20 flex flex-col justify-end sm:justify-center h-full px-6 sm:px-20 pb-16 sm:pb-0">
+          <div className="max-w-[500px] text-center sm:text-left">
+            <h2 className="text-[36px] sm:text-[54px] lg:text-[64px] font-black leading-[0.9] uppercase mb-4 text-white sm:text-neutral-950">
+              Votre routine<br />rayonnante.
+            </h2>
+            <Link href="/sub" className="inline-block bg-white sm:bg-black text-black sm:text-white px-10 py-4 rounded-full font-bold uppercase text-[11px] tracking-widest shadow-xl">
+              S'abonner — 20% OFF
+            </Link>
+          </div>
+        </div>
+      </div>
 
-        {/* Les 3 slides sont empilés en absolute sur cette zone */}
-
-       {/* ---- SLIDE 0 — Shine / Citron ---- */}
-<div className={`absolute inset-0 transition-opacity duration-[600ms] ${currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
-  <img
-    src="/image/sliderCitron.jpg"
-    alt="NUKU Shine"
-    className="absolute inset-0 w-full h-full pointer-events-none"
-    style={{ objectFit: "cover", objectPosition: "center center" }} 
-  />
-  
-  {/* Overlay type 'Create' : Blanc cassé vers transparent */}
-  <div
-    className="absolute inset-0 hidden sm:block"
-    style={{
-      background: "linear-gradient(to right, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0) 60%)",
-    }}
-  />
-  
-  <div className="relative z-10 flex flex-col justify-center h-full px-6 sm:px-14 md:px-20">
-    <div style={{ maxWidth: 480 }}>
-      {/* Texte en Noir (Neutral-950) pour le contraste sur fond clair */}
-      <h2 className="text-[clamp(32px,4.5vw,64px)] font-black leading-[0.95] tracking-[-0.04em] text-neutral-950 mb-4 uppercase">
-        Votre routine<br />simplifiée.
-      </h2>
-      <p className="text-[14px] sm:text-[16px] text-neutral-700 leading-relaxed mb-8 font-medium">
-        Définir la <strong className="text-neutral-950">beauté capillaire</strong> à chaque étape.<br />
-        99% Potency. 100% Délicieux.
-      </p>
-      <Link
-        href="/subscription"
-        className="inline-flex items-center bg-neutral-950 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform"
-      >
-        S&apos;abonner — 20% OFF
-      </Link>
-    </div>
-  </div>
-</div>
-
-     
-{/* ---- SLIDE 1 — Soul / Violet ---- */}
-<div className={`absolute inset-0 transition-opacity duration-[600ms] ${currentSlide === 1 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
-  
-  {/* Fond avec un dégradé violet plus riche et lumineux */}
-  <div 
-    className="absolute inset-0" 
-    style={{ background: "linear-gradient(135deg, #4A1088 0%, #6B21A8 100%)" }} 
-  />
-
-  {/* Image produit : On utilise l'image sans fond noir et on la place bien à droite */}
-  <div className="absolute inset-0 flex justify-end items-center sm:pr-20 pointer-events-none">
-    <img
-      src="/image/nukuViolet.png" // Utilise le fichier PNG sans fond noir
-      alt="NUKU Soul"
-      className="h-[75%] sm:h-[85%] object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
-    />
-  </div>
-
-  {/* Overlay pour protéger le texte à gauche */}
-  <div
-    className="absolute inset-0 hidden sm:block pointer-events-none"
-    style={{
-      background: "linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 50%)",
-    }}
-  />
-
-  <div className="relative z-10 flex flex-col justify-center h-full px-6 sm:px-14 md:px-20">
-    <div className="max-w-[500px]">
-      {/* Texte en BLANC pour le contraste */}
-      <h2 className="text-[clamp(32px,4.5vw,64px)] font-black leading-[0.95] tracking-[-0.04em] text-white mb-4 uppercase">
-        Esprit apaisé,<br />mieux-être.
-      </h2>
-      <p className="text-[14px] sm:text-[16px] text-white/90 leading-relaxed mb-8 font-medium">
-        Pour soulager le stress et <strong className="text-white">clarifier l'esprit</strong>,<br />
-        avec nos gummies à l'Ashwagandha.
-      </p>
-      
-      {/* Bouton avec une couleur qui "pop" (Orange) */}
-      <Link
-        href="/product/soul"
-        className="inline-flex items-center bg-[#FF6B2C] text-white px-9 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform shadow-lg"
-      >
-        Découvrir Soul
-      </Link>
-    </div>
-  </div>
-</div>
-    {/* ---- SLIDE 2 — Gamme complète ---- */}
-<div
-  className={`absolute inset-0 transition-opacity duration-[600ms] ${
-    currentSlide === 2 ? "opacity-100 z-10" : "opacity-0 z-0"
-  }`}
->
-  {/* Fond de couleur solide pour que le texte soit lisible à gauche */}
-  <div className="absolute inset-0 bg-[#F4F4F4]" />
-
-  {/* Image décalée à droite et réduite en largeur (55%) pour ne pas toucher le texte */}
-  <div className="absolute top-0 right-0 w-[55%] h-full hidden sm:block">
-      <img
-        src="/image/fruit.png"
-        alt="NUKU gamme complète"
-        className="w-full h-full object-cover object-left"
-      />
-      {/* Dégradé subtil pour fondre l'image dans le fond gris clair à gauche */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#F4F4F4] via-transparent to-transparent" />
-  </div>
-
-  {/* Version Mobile : Image en fond total avec overlay sombre */}
-  <div className="absolute inset-0 block sm:hidden">
-      <img src="/image/fruit.png" className="w-full h-full object-cover" alt="" />
-      <div className="absolute inset-0 bg-black/40" />
-  </div>
-
-  <div className="relative z-20 flex flex-col justify-center h-full px-6 sm:px-14 md:px-20">
-    <div className="max-w-[500px]">
-      {/* Titre en NOIR pour le contraste sur le fond gris clair */}
-      <h2 className="text-[clamp(34px,4.5vw,64px)] font-black leading-[0.95] tracking-[-0.04em] text-neutral-950 mb-5 uppercase">
-        Élevez votre<br />
-        <span className="text-[#6B21A8]">bien-être.</span>
-      </h2>
-      
-      <p className="text-[15px] sm:text-[17px] text-neutral-700 leading-relaxed mb-8 font-medium">
-        Découvrez notre gamme complète de <strong className="text-neutral-950">compléments botaniques</strong>.<br />
-        Une solution pour chaque besoin de votre corps.
-      </p>
-
-      <Link
-        href="/shop"
-        className="inline-flex items-center bg-black text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs sm:text-sm hover:scale-105 transition-transform shadow-lg"
-      >
-        Explorer la gamme
-      </Link>
-    </div>
-  </div>
-</div>
-
-        {/* ---- Dots ---- */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-          {[0, 1, 2].map((i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentSlide(i)}
-              className={`h-[3px] rounded-full transition-all duration-300 ${
-                currentSlide === i ? "w-12 bg-white" : "w-8 bg-white/40 hover:bg-white/60"
-              }`}
-              aria-label={`Slide ${i + 1}`}
-            />
-          ))}
+      {/* ---- SLIDE 1 : SOUL (VIOLET) ---- */}
+      <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 1 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
+        <div className="absolute inset-0 bg-[#4A1088]" />
+        
+        {/* Image du Pot : h-[70%] force le pot à rester dans le cadre sans agrandir le slide */}
+        <div className="absolute inset-0 flex flex-col sm:flex-row items-center justify-start sm:justify-end pt-12 sm:pt-0 sm:pr-24">
+          <img 
+            src="/image/nukuViolet.png" 
+            className="w-auto h-[55%] sm:h-[75%] object-contain drop-shadow-2xl" 
+            alt="NUKU Soul" 
+          />
         </div>
 
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent sm:hidden" />
+        
+        <div className="relative z-20 flex flex-col justify-end sm:justify-center h-full px-6 sm:px-20 pb-16 sm:pb-0">
+          <div className="max-w-[500px] text-center sm:text-left">
+            <h2 className="text-[36px] sm:text-[54px] lg:text-[64px] font-black leading-[0.9] text-white uppercase mb-4">
+              Esprit apaisé,<br />mieux-être.
+            </h2>
+            <p className="text-[14px] sm:text-[16px] text-white/90 mb-8 max-w-[280px] sm:max-w-none mx-auto sm:mx-0 font-medium">
+              Pour soulager le stress et clarifier l'esprit.
+            </p>
+            <Link href="/soul" className="inline-block bg-[#FF6B2C] text-white px-10 py-4 rounded-full font-bold uppercase text-[11px] tracking-widest shadow-xl">
+              Découvrir Soul
+            </Link>
+          </div>
+        </div>
       </div>
+
+      {/* ---- SLIDE 2 : GAMME COMPLÈTE ---- */}
+      <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 2 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
+  
+  {/* IMAGE : "object-[center_60%]" descend l'image pour mieux voir le haut des pots */}
+  <img 
+    src="/image/couleur.jpg" 
+    className="absolute inset-0 w-full h-full object-cover object-[center_60%] sm:object-center" 
+    alt="Gamme NUKU Complète" 
+  />
+  
+  {/* OVERLAY : On l'adapte pour qu'il soit plus sombre en bas sur mobile pour la lisibilité */}
+  <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent sm:bg-gradient-to-r sm:from-white/70 sm:via-white/20 sm:to-transparent" />
+  
+  {/* CONTENU : Aligné au centre en bas sur mobile, à gauche sur PC */}
+  <div className="relative z-20 flex flex-col justify-end sm:justify-center h-full px-6 sm:px-20 pb-20 sm:pb-0">
+    <div className="max-w-[550px] text-center sm:text-left">
+      
+      <h2 className="text-[32px] sm:text-[54px] lg:text-[64px] font-black leading-[0.9] text-neutral-900 uppercase mb-4">
+        Élevez votre<br className="hidden sm:block" /> bien-être.
+      </h2>
+      
+      <p className="text-[14px] sm:text-[16px] text-neutral-800 mb-8 max-w-[280px] sm:max-w-none mx-auto sm:mx-0 font-medium leading-tight">
+        Des compléments botaniques pensés pour harmoniser votre corps.
+      </p>
+      
+      <Link href="/shop" className="inline-block bg-black text-white px-10 py-4 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl hover:scale-105 transition-transform">
+        Explorer la gamme
+      </Link>
+      
+    </div>
+  </div>
+</div>
+      {/* ---- NAVIGATION (DOTS) ---- */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-30">
+        {[0, 1, 2].map((i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentSlide(i)}
+            className={`h-[4px] rounded-full transition-all duration-300 ${
+              currentSlide === i ? "w-12 bg-white" : "w-6 bg-white/40"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
 
       {/* ================= LOGO ================= */}
       <section className="py-3 sm:py-5 bg-white">
