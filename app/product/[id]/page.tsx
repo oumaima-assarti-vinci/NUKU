@@ -1391,13 +1391,11 @@ export default function ProductDetailPage() {
             {(product.ingredients?.length || product.usage_instructions) && (
               <div className="mt-10 space-y-3">
                 {(product.ingredients?.length ?? 0) > 0 && (
-                  <AccordionItem title="Ingrédients">
-                    <ul className="flex flex-wrap gap-2">
-                      {product.ingredients!.map((ing, i) => (
-                        <li key={`${ing}-${i}`} className="px-4 py-2 bg-neutral-100 rounded-full text-sm text-neutral-700">{ing}</li>
-                      ))}
-                    </ul>
-                  </AccordionItem>
+               <AccordionItem title="Ingrédients">
+  <p className="text-sm text-neutral-600 leading-relaxed font-light">
+    {product.ingredients!.join(", ")}.
+  </p>
+</AccordionItem>
                 )}
                 {product.usage_instructions && (
                   <AccordionItem title="Conseils d'utilisation">

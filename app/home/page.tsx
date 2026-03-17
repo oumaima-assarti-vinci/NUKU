@@ -59,7 +59,7 @@ export default function HomePage() {
     }
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % 3);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
@@ -71,33 +71,23 @@ export default function HomePage() {
     })();
   }, []);
 
-  const heroSlides = [
-    {
-      image: "/image/couleur.png",
-      title: "Performance optimale.",
-      subtitle: "Des ingrédients premium pour des résultats exceptionnels",
-      cta: "Voir la boutique",
-      link: "/shop",
-    },
-  ];
-
   const storyImageSrc = "/image/sourire.jpg";
 
   const categories: Category[] = [
-    { name: "Sommeil", image: "/image/myrtille.png", bg: "bg-[#ffffff ]", link: "/product/12" },
-    { name: "Relax", image: "/image/cerise.png", bg: "bg-[#ffffff ]", link: "/product/10" },
-    { name: "Force & endurance", image: "/image/pasteque.png", bg: "bg-[#ffffff ]", link: "/product/14" },
-    { name: "Cheveux", image: "/image/citron.png", bg: "bg-[#ffffff ]", link: "/product/11" },
-    { name: "Digestion", image: "/image/pommes.png", bg: "bg-[#ffffff ]", link: "/product/13" },
+    { name: "Sommeil",           image: "/image/nukuBleu.png",   bg: "bg-[#ffffff]", link: "/product/12" },
+    { name: "Relax",             image: "/image/nukuViolet.png", bg: "bg-[#ffffff]", link: "/product/10" },
+    { name: "Force & endurance", image: "/image/nukuRouge.png",  bg: "bg-[#ffffff]", link: "/product/14" },
+    { name: "Cheveux",           image: "/image/nukuJaune.png",  bg: "bg-[#ffffff]", link: "/product/11" },
+    { name: "Digestion",         image: "/image/nukuVert.png",   bg: "bg-[#ffffff]", link: "/product/13" },
   ];
 
   const lifestylePhotos = [
-    { src: "/image/lifestyle1.jpeg", label: "Routine bien-être", sub: "Compléments pour votre quotidien" },
-    { src: "/image/lifestyle2.jpeg", label: "Ingrédients naturels", sub: "Formules pensées pour votre santé" },
-    { src: "/image/lifestyle1.jpeg", label: "Performance & énergie", sub: "Boostez vos journées naturellement" },
-    { src: "/image/lifestyle2.jpeg", label: "Sommeil profond", sub: "Retrouvez un repos réparateur" },
+    { src: "/image/lifestyle1.jpeg", label: "Routine bien-être",      sub: "Compléments pour votre quotidien" },
+    { src: "/image/lifestyle2.jpeg", label: "Ingrédients naturels",   sub: "Formules pensées pour votre santé" },
+    { src: "/image/lifestyle1.jpeg", label: "Performance & énergie",  sub: "Boostez vos journées naturellement" },
+    { src: "/image/lifestyle2.jpeg", label: "Sommeil profond",        sub: "Retrouvez un repos réparateur" },
     { src: "/image/lifestyle1.jpeg", label: "Équilibre au quotidien", sub: "Une routine simple et efficace" },
-    { src: "/image/lifestyle2.jpeg", label: "Beauté naturelle", sub: "Prenez soin de vous de l'intérieur" },
+    { src: "/image/lifestyle2.jpeg", label: "Beauté naturelle",       sub: "Prenez soin de vous de l'intérieur" },
   ];
 
   return (
@@ -105,14 +95,25 @@ export default function HomePage() {
 
       {/* ================= POPUP ================= */}
       {showPopup && (
-        <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" onClick={() => setShowPopup(false)}>
-          <div className="bg-white rounded-2xl p-6 sm:p-10 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4"
+          onClick={() => setShowPopup(false)}
+        >
+          <div
+            className="bg-white rounded-2xl p-6 sm:p-10 max-w-md w-full shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="text-4xl sm:text-5xl mb-4 text-center">🎁</div>
-            <h3 className="text-2xl sm:text-3xl font-normal mb-4 text-center tracking-tight">Bienvenue chez NUKU</h3>
+            <h3 className="text-2xl sm:text-3xl font-normal mb-4 text-center tracking-tight">
+              Bienvenue chez NUKU
+            </h3>
             <p className="text-neutral-600 mb-6 sm:mb-8 text-center text-base sm:text-lg">
               Profitez de <span className="font-black text-[#ffb703]">-20%</span> sur votre premier abonnement
             </p>
-            <button onClick={() => setShowPopup(false)} className="w-full py-3 sm:py-4 bg-[#ffb703] text-white font-black rounded-full hover:bg-[#ffa200] transition-all text-base sm:text-lg tracking-wide uppercase">
+            <button
+              onClick={() => setShowPopup(false)}
+              className="w-full py-3 sm:py-4 bg-[#ffb703] text-white font-black rounded-full hover:bg-[#ffa200] transition-all text-base sm:text-lg tracking-wide uppercase"
+            >
               Découvrir
             </button>
           </div>
@@ -120,129 +121,238 @@ export default function HomePage() {
       )}
 
       {/* ================= HERO SLIDER ================= */}
-      <section
+      {/*
+        Option 3 — hauteur libre :
+        Le slider prend la hauteur de l'image active (slide 0).
+        Les autres slides sont superposés en absolute sur la même zone.
+        On utilise une image "fantôme" invisible pour définir la hauteur naturelle.
+      */}
+      <div
         className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden cursor-grab active:cursor-grabbing select-none"
-        style={{ height: "calc(100dvh - 80px)", minHeight: "480px", maxHeight: "900px" }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
       >
-        {/* SLIDE 0 — Abonnement */}
-        <div className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === 0 ? "opacity-100" : "opacity-0"}`}>
-          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 70% 45%, rgba(255,204,92,0.45) 0%, rgba(255,220,130,0.35) 25%, rgba(255,245,220,0.85) 55%, #ffffff 75%)` }} />
-          <img src="/image/fille.png" alt="Abonnement NUKU" className="absolute right-0 sm:right-[2vw] lg:right-[4vw] top-1/2 -translate-y-1/2 w-[55vw] sm:w-[55vw] max-w-[680px] pointer-events-none drop-shadow-[0_20px_40px_rgba(255,180,60,0.2)]" />
-          <div className="relative z-10 flex items-center h-full">
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-6 w-full">
-              <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
-                <h1 className="font-normal text-[clamp(38px,7vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
-                  Votre routine<br /><span className="text-[#ffb703]">simplifiée.</span>
-                </h1>
-                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">-20% sur chaque commande.<br />Livraison offerte chaque mois.</p>
-                <p className="hidden sm:block text-lg text-[#6b6780] mb-8 leading-relaxed font-light">Livraison offerte chaque mois.<br />-20% sur chaque commande.<br />La tranquillité, sans y penser.</p>
-                <Link href="/subscription" className="inline-flex bg-[#ffb703] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ffa200] transition-colors text-xs sm:text-base">Je m'abonne — 20% off</Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Image fantôme — définit la hauteur du conteneur selon le ratio natif de l'image */}
+        <img
+          src="/image/sliderCitron.jpg"
+          alt=""
+          aria-hidden="true"
+          className="w-full block invisible pointer-events-none"
+          style={{ maxHeight: "780px" }}
+        />
 
-        {/* SLIDE 1 — Soul */}
-        <div className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === 1 ? "opacity-100" : "opacity-0"}`}>
-          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 72% 48%, rgba(135,85,205,0.50) 0%, rgba(165,130,220,0.38) 20%, rgba(245,240,236,0.90) 46%, #f5f0ec 70%)` }} />
-          <div className="absolute right-[2%] sm:right-[8%] md:right-[10%] top-1/2 -translate-y-1/2 w-[42vw] sm:w-[22vw] md:w-[18vw] max-w-[280px]">
-            <img src="/image/violet.png" alt="NUKU Soul" className="w-full h-auto drop-shadow-[0_20px_40px_rgba(120,90,180,0.25)]" />
-          </div>
-          <div className="relative z-10 flex items-center h-full">
-            <div className="max-w-[1400px] mx-auto px-5 sm:px-6 md:px-8 w-full">
-              <div className="max-w-[520px] sm:pl-6 md:pl-16 lg:pl-24">
-                <h1 className="font-normal text-[clamp(38px,8vw,76px)] leading-[1.0] tracking-[-0.03em] text-[#4e4a66] mb-3 sm:mb-6">
-                  Esprit <span className="text-[#b7a6d8]">apaisé</span>,<br />mieux-être.
-                </h1>
-                <p className="sm:hidden text-sm text-[#6b6780] mb-5 font-light leading-relaxed">Pour soulager le stress et clarifier l'esprit avec nos gummies à l'Ashwagandha.</p>
-                <p className="hidden sm:block text-[clamp(15px,3.5vw,18px)] leading-[1.7] text-[#6b6780] mb-8 font-light">Pour soulager le stress et clarifier l'esprit,<br />avec nos gummies à l'Ashwagandha.</p>
-                <Link href="/product/1" className="inline-flex bg-[#ff7a3d] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full text-xs sm:text-sm font-black tracking-wide uppercase hover:bg-[#ff6624] transition-colors">Découvrir Soul</Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Les 3 slides sont empilés en absolute sur cette zone */}
 
-        {/* SLIDE 2 — Performance */}
-        {heroSlides.map((slide, index) => (
-          <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === index + 2 ? "opacity-100" : "opacity-0"}`}>
-            <div className="absolute inset-0" style={{ background: `radial-gradient(1400px 900px at 78% 42%, rgba(47,96,201,0.75) 0%, rgba(47,96,201,0) 60%), radial-gradient(1400px 900px at 82% 42%, rgba(247,191,13,0.78) 0%, rgba(247,191,13,0) 60%), radial-gradient(1400px 900px at 86% 42%, rgba(227,59,47,0.78) 0%, rgba(227,59,47,0) 60%), radial-gradient(1400px 900px at 90% 42%, rgba(44,175,95,0.76) 0%, rgba(44,175,95,0) 60%), radial-gradient(1400px 900px at 94% 42%, rgba(107,63,178,0.80) 0%, rgba(107,63,178,0) 60%), linear-gradient(to left, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.90) 62%, rgba(255,255,255,1) 100%)` }} />
-            <div className="relative z-10 h-full">
-              <div className="max-w-[1400px] mx-auto h-full grid md:grid-cols-2 items-center px-6 gap-6">
-                <div className="max-w-xl text-neutral-900">
-                  <h1 className="text-[clamp(36px,6vw,76px)] font-normal mb-6 leading-[1.0] tracking-[-0.03em]">{slide.title}</h1>
-                  <p className="text-[clamp(15px,3vw,20px)] mb-8 font-light text-neutral-700">{slide.subtitle}</p>
-                  <Link href={slide.link} className="inline-block px-8 py-4 bg-orange-500 text-white font-black rounded-full hover:bg-orange-600 transition-all uppercase tracking-wide text-sm">{slide.cta}</Link>
-                </div>
-                <div className="relative flex justify-end items-end">
-                  <img src={slide.image} alt={slide.title} className="pointer-events-none select-none h-[58vh] sm:h-[66vh] md:h-[74vh] lg:h-[82vh] w-auto object-contain drop-shadow-[0_18px_36px_rgba(0,0,0,0.18)] ml-auto translate-x-[12%] md:translate-x-[18%] brightness-[1.05] contrast-[1.10] saturate-[1.15]" />
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+       {/* ---- SLIDE 0 — Shine / Citron ---- */}
+<div className={`absolute inset-0 transition-opacity duration-[600ms] ${currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
+  <img
+    src="/image/sliderCitron.jpg"
+    alt="NUKU Shine"
+    className="absolute inset-0 w-full h-full pointer-events-none"
+    style={{ objectFit: "cover", objectPosition: "center center" }} 
+  />
+  
+  {/* Overlay type 'Create' : Blanc cassé vers transparent */}
+  <div
+    className="absolute inset-0 hidden sm:block"
+    style={{
+      background: "linear-gradient(to right, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0) 60%)",
+    }}
+  />
+  
+  <div className="relative z-10 flex flex-col justify-center h-full px-6 sm:px-14 md:px-20">
+    <div style={{ maxWidth: 480 }}>
+      {/* Texte en Noir (Neutral-950) pour le contraste sur fond clair */}
+      <h2 className="text-[clamp(32px,4.5vw,64px)] font-black leading-[0.95] tracking-[-0.04em] text-neutral-950 mb-4 uppercase">
+        Votre routine<br />simplifiée.
+      </h2>
+      <p className="text-[14px] sm:text-[16px] text-neutral-700 leading-relaxed mb-8 font-medium">
+        Définir la <strong className="text-neutral-950">beauté capillaire</strong> à chaque étape.<br />
+        99% Potency. 100% Délicieux.
+      </p>
+      <Link
+        href="/subscription"
+        className="inline-flex items-center bg-neutral-950 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform"
+      >
+        S&apos;abonner — 20% OFF
+      </Link>
+    </div>
+  </div>
+</div>
 
-        {/* Indicateurs */}
-        <div className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-10">
+     
+{/* ---- SLIDE 1 — Soul / Violet ---- */}
+<div className={`absolute inset-0 transition-opacity duration-[600ms] ${currentSlide === 1 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
+  
+  {/* Fond avec un dégradé violet plus riche et lumineux */}
+  <div 
+    className="absolute inset-0" 
+    style={{ background: "linear-gradient(135deg, #4A1088 0%, #6B21A8 100%)" }} 
+  />
+
+  {/* Image produit : On utilise l'image sans fond noir et on la place bien à droite */}
+  <div className="absolute inset-0 flex justify-end items-center sm:pr-20 pointer-events-none">
+    <img
+      src="/image/nukuViolet.png" // Utilise le fichier PNG sans fond noir
+      alt="NUKU Soul"
+      className="h-[75%] sm:h-[85%] object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+    />
+  </div>
+
+  {/* Overlay pour protéger le texte à gauche */}
+  <div
+    className="absolute inset-0 hidden sm:block pointer-events-none"
+    style={{
+      background: "linear-gradient(to right, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 50%)",
+    }}
+  />
+
+  <div className="relative z-10 flex flex-col justify-center h-full px-6 sm:px-14 md:px-20">
+    <div className="max-w-[500px]">
+      {/* Texte en BLANC pour le contraste */}
+      <h2 className="text-[clamp(32px,4.5vw,64px)] font-black leading-[0.95] tracking-[-0.04em] text-white mb-4 uppercase">
+        Esprit apaisé,<br />mieux-être.
+      </h2>
+      <p className="text-[14px] sm:text-[16px] text-white/90 leading-relaxed mb-8 font-medium">
+        Pour soulager le stress et <strong className="text-white">clarifier l'esprit</strong>,<br />
+        avec nos gummies à l'Ashwagandha.
+      </p>
+      
+      {/* Bouton avec une couleur qui "pop" (Orange) */}
+      <Link
+        href="/product/soul"
+        className="inline-flex items-center bg-[#FF6B2C] text-white px-9 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform shadow-lg"
+      >
+        Découvrir Soul
+      </Link>
+    </div>
+  </div>
+</div>
+    {/* ---- SLIDE 2 — Gamme complète ---- */}
+<div
+  className={`absolute inset-0 transition-opacity duration-[600ms] ${
+    currentSlide === 2 ? "opacity-100 z-10" : "opacity-0 z-0"
+  }`}
+>
+  {/* Fond de couleur solide pour que le texte soit lisible à gauche */}
+  <div className="absolute inset-0 bg-[#F4F4F4]" />
+
+  {/* Image décalée à droite et réduite en largeur (55%) pour ne pas toucher le texte */}
+  <div className="absolute top-0 right-0 w-[55%] h-full hidden sm:block">
+      <img
+        src="/image/fruit.png"
+        alt="NUKU gamme complète"
+        className="w-full h-full object-cover object-left"
+      />
+      {/* Dégradé subtil pour fondre l'image dans le fond gris clair à gauche */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#F4F4F4] via-transparent to-transparent" />
+  </div>
+
+  {/* Version Mobile : Image en fond total avec overlay sombre */}
+  <div className="absolute inset-0 block sm:hidden">
+      <img src="/image/fruit.png" className="w-full h-full object-cover" alt="" />
+      <div className="absolute inset-0 bg-black/40" />
+  </div>
+
+  <div className="relative z-20 flex flex-col justify-center h-full px-6 sm:px-14 md:px-20">
+    <div className="max-w-[500px]">
+      {/* Titre en NOIR pour le contraste sur le fond gris clair */}
+      <h2 className="text-[clamp(34px,4.5vw,64px)] font-black leading-[0.95] tracking-[-0.04em] text-neutral-950 mb-5 uppercase">
+        Élevez votre<br />
+        <span className="text-[#6B21A8]">bien-être.</span>
+      </h2>
+      
+      <p className="text-[15px] sm:text-[17px] text-neutral-700 leading-relaxed mb-8 font-medium">
+        Découvrez notre gamme complète de <strong className="text-neutral-950">compléments botaniques</strong>.<br />
+        Une solution pour chaque besoin de votre corps.
+      </p>
+
+      <Link
+        href="/shop"
+        className="inline-flex items-center bg-black text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs sm:text-sm hover:scale-105 transition-transform shadow-lg"
+      >
+        Explorer la gamme
+      </Link>
+    </div>
+  </div>
+</div>
+
+        {/* ---- Dots ---- */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
           {[0, 1, 2].map((i) => (
-            <button key={i} onClick={() => setCurrentSlide(i)} className={`h-1 rounded-full transition-all ${currentSlide === i ? "w-8 sm:w-12 bg-white" : "w-6 sm:w-8 bg-white/50"}`} aria-label={`Aller au slide ${i + 1}`} />
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              className={`h-[3px] rounded-full transition-all duration-300 ${
+                currentSlide === i ? "w-12 bg-white" : "w-8 bg-white/40 hover:bg-white/60"
+              }`}
+              aria-label={`Slide ${i + 1}`}
+            />
           ))}
         </div>
-      </section>
+
+      </div>
 
       {/* ================= LOGO ================= */}
       <section className="py-3 sm:py-5 bg-white">
         <div className="flex flex-col items-center">
-          <img src="/image/logo.png" alt="NUKU" className="h-16 sm:h-20 md:h-24 opacity-90" />
+          <img src="/image/logo.png" alt="NUKU" className="h-14 sm:h-20 md:h-24 opacity-90" />
         </div>
       </section>
 
       {/* ================= IMAGE + TEXTE ================= */}
       <section className="py-5 sm:py-8 md:py-10 px-4 sm:px-6 bg-white">
-        <div className="max-w-[1500px] mx-auto grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
-          <div className="order-2 md:order-1">
-            <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg">
-              <img src={storyImageSrc} alt="NUKU – bien-être" className="w-full h-full object-cover" />
-            </div>
+        <div className="max-w-[1500px] mx-auto grid md:grid-cols-2 gap-6 sm:gap-12 md:gap-16 items-center">
+          <div className="w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg">
+            <img src={storyImageSrc} alt="NUKU – bien-être" className="w-full h-[240px] sm:h-full object-cover" />
           </div>
-          <div className="order-1 md:order-1 space-y-4">
-            <h4 className="font-normal text-[clamp(22px,4vw,38px)] leading-[1.2] tracking-[-0.03em]">Chez NUKU, l'équilibre avant tout.</h4>
-            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">Nous savons que le bien-être ne se résume pas à une solution miracle. Chaque corps est différent, chaque rythme aussi.</p>
-            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">C'est pourquoi NUKU a été pensé pour s'intégrer simplement dans le quotidien, avec des formules claires, des ingrédients sélectionnés avec soin, et une approche honnête du bien-être.</p>
-            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">Pas de promesses excessives. Juste des compléments conçus pour accompagner l'équilibre, jour après jour.</p>
-            <Link href="/shop" className="hidden md:inline-flex h-11 items-center rounded-full px-6 font-black text-white bg-orange-600 hover:bg-orange-700 transition-colors uppercase tracking-wide text-sm">Découvrir NUKU</Link>
+          <div className="space-y-4">
+            <h4 className="font-normal text-[clamp(20px,4vw,38px)] leading-[1.2] tracking-[-0.03em] text-neutral-800">
+              Chez NUKU, l&apos;équilibre avant tout.
+            </h4>
+            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">
+              Nous savons que le bien-être ne se résume pas à une solution miracle. Chaque corps est différent, chaque rythme aussi.
+            </p>
+            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">
+              C&apos;est pourquoi NUKU a été pensé pour s&apos;intégrer simplement dans le quotidien, avec des formules claires, des ingrédients sélectionnés avec soin, et une approche honnête du bien-être.
+            </p>
+            <p className="text-[15px] sm:text-[17px] leading-[1.8] text-neutral-600 max-w-[560px] font-light">
+              Pas de promesses excessives. Juste des compléments conçus pour accompagner l&apos;équilibre, jour après jour.
+            </p>
+            <Link href="/shop" className="inline-flex h-11 items-center rounded-full px-6 font-black text-white bg-orange-600 hover:bg-orange-700 transition-colors uppercase tracking-wide text-sm">
+              Découvrir NUKU
+            </Link>
           </div>
         </div>
       </section>
 
       {/* ================= PICTOGRAMMES ================= */}
-      <section className="py-6 sm:py-5 px-4 sm:px-6 bg-white">
+      <section className="py-4 sm:py-5 px-4 sm:px-6 bg-white">
         <div className="max-w-[1400px] mx-auto">
           <div className="flex sm:hidden justify-between items-center w-full">
             {[
-              { src: "/image/vegan.png", label: "Vegan" },
-              { src: "/image/lieu.png", label: "Belgique" },
-              { src: "/image/ogm.png", label: "Sans OGM" },
+              { src: "/image/vegan.png",    label: "Vegan" },
+              { src: "/image/lieu.png",     label: "Belgique" },
+              { src: "/image/ogm.png",      label: "Sans OGM" },
               { src: "/image/colorant.png", label: "Sans colorant" },
-              { src: "/image/sucre.png", label: "Sans sucre" },
+              { src: "/image/sucre.png",    label: "Sans sucre" },
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center gap-1 flex-1">
-                <img src={item.src} alt={item.label} className="w-12 h-12 object-contain opacity-45" />
-                <span className="text-[9px] text-neutral-400 text-center leading-tight font-medium">{item.label}</span>
+                <img src={item.src} alt={item.label} className="w-10 h-10 object-contain opacity-70" />
+                <span className="text-[9px] text-neutral-500 text-center leading-tight font-medium">{item.label}</span>
               </div>
             ))}
           </div>
           <div className="hidden sm:flex flex-col items-center">
-            <div className="flex justify-center items-center gap-8 sm:gap-16 lg:gap-40">
+            <div className="flex justify-center items-center gap-16 sm:gap-24 lg:gap-56">
               {["/image/vegan.png", "/image/lieu.png", "/image/ogm.png"].map((src, idx) => (
                 <img key={idx} src={src} alt="" className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-44 lg:h-44 object-contain opacity-90" />
               ))}
             </div>
-            <div className="flex justify-center gap-8 sm:gap-16 lg:gap-40 -mt-4 lg:-mt-8">
+            <div className="flex justify-center gap-16 sm:gap-24 lg:gap-56 -mt-4 lg:-mt-8">
               {["/image/colorant.png", "/image/sucre.png"].map((src, idx) => (
                 <img key={idx} src={src} alt="" className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-44 lg:h-44 object-contain opacity-90" />
               ))}
@@ -252,34 +362,26 @@ export default function HomePage() {
       </section>
 
       {/* ================= CATÉGORIES ================= */}
-      <section className="pt-4 pb-10 sm:pb-16 md:pb-20 px-4 sm:px-6 bg-white">
+      <section className="pt-4 pb-8 sm:pb-16 md:pb-20 px-4 sm:px-6 bg-white">
         <div className="max-w-[1400px] mx-auto">
-          <h2 className="text-center font-normal text-[clamp(26px,6vw,52px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-8 sm:mb-12">
-            De quoi avez-vous besoin ?
+          <h2 className="text-center font-normal text-[clamp(22px,6vw,52px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-6 sm:mb-12">
+            De quoi avez-vous besoin&nbsp;?
           </h2>
-
-          {/* Mobile */}
           <div className="flex sm:hidden gap-3 overflow-x-auto pb-3 snap-x snap-mandatory" style={{ scrollbarWidth: "none" }}>
             {categories.map((cat, index) => (
-              <Link key={index} href={cat.link} className="flex-none snap-start flex flex-col items-center text-center bg-white rounded-2xl shadow-sm w-[130px] overflow-hidden">
-                <div className={`w-full flex items-end justify-center pt-4 ${cat.bg}`} style={{ minHeight: "100px" }}>
-                  <img src={cat.image} alt={cat.name} className="w-full h-auto object-contain translate-y-2 px-3" />
+              <Link key={index} href={cat.link} className="flex-none snap-start flex flex-col items-center text-center bg-white rounded-2xl shadow-sm w-[110px] overflow-hidden">
+                <div className={`w-full flex items-end justify-center pt-3 ${cat.bg}`} style={{ minHeight: "90px" }}>
+                  <img src={cat.image} alt={cat.name} className="w-full h-auto object-contain translate-y-2 px-2" />
                 </div>
-                <div className="px-2 pb-3 pt-3">
-                  <span className="text-[11px] font-medium text-neutral-900 leading-tight block">{cat.name}</span>
+                <div className="px-2 pb-2 pt-3">
+                  <span className="text-[10px] font-medium text-neutral-900 leading-tight block">{cat.name}</span>
                 </div>
               </Link>
             ))}
           </div>
-
-          {/* Desktop */}
           <div className="hidden sm:grid grid-cols-5 gap-4 md:gap-6">
             {categories.map((cat, index) => (
-              <Link
-                key={index}
-                href={cat.link}
-                className="flex flex-col items-center text-center bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
-              >
+              <Link key={index} href={cat.link} className="flex flex-col items-center text-center bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
                 <div className={`w-full flex items-end justify-center pt-4 ${cat.bg}`} style={{ minHeight: "160px" }}>
                   <img src={cat.image} alt={cat.name} className="w-full h-auto object-contain translate-y-4 px-4" />
                 </div>
@@ -292,8 +394,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= 6 PHOTOS ================= */}
-      <section className="py-8 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
+      {/* ================= 6 PHOTOS — desktop only ================= */}
+      <section className="hidden sm:block py-8 sm:py-16 md:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
             {lifestylePhotos.map((photo, index) => (
@@ -311,53 +413,65 @@ export default function HomePage() {
       </section>
 
       {/* ================= AVIS CLIENTS ================= */}
-      <section className="py-10 sm:py-16 md:py-20 bg-white overflow-hidden">
+      <section className="py-8 sm:py-16 md:py-20 bg-white overflow-hidden">
         <div className="max-w-[1400px] mx-auto">
           <div className="px-4 sm:px-6 mb-6 sm:mb-10">
-            <h3 className="font-normal text-[clamp(28px,5.5vw,48px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-2">Ils en parlent mieux que nous</h3>
-            <p className="text-[14px] sm:text-[16px] text-neutral-500 max-w-[600px] font-light">Des témoignages authentiques de notre communauté</p>
+            <h3 className="font-normal text-[clamp(22px,5.5vw,48px)] leading-[1.05] tracking-[-0.03em] text-neutral-900 mb-2">
+              Ils en parlent mieux que nous
+            </h3>
+            <p className="text-[14px] sm:text-[16px] text-neutral-500 max-w-[600px] font-light">
+              Des témoignages authentiques de notre communauté
+            </p>
           </div>
-          <div className="flex gap-4 overflow-x-auto px-4 sm:px-6 pb-4 snap-x snap-mandatory" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}>
+          <div
+            className="flex gap-4 overflow-x-auto px-4 sm:px-6 pb-4 snap-x snap-mandatory"
+            style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+          >
             {[
-              { name: "Claire D.", initials: "CD", verified: true, title: "Simple et efficace", text: "J'ai intégré NUKU à ma routine depuis un mois et je sens une vraie différence. Simple et agréable à prendre." },
-              { name: "Thomas R.", initials: "TR", verified: true, title: "Produits de qualité", text: "Composition clean, exactement ce que je recherchais. Je recommande sans hésiter." },
-              { name: "Sophie L.", initials: "SL", verified: true, title: "J'adore l'univers", text: "Une approche douce et honnête du bien-être. L'univers de la marque est vraiment inspirant." },
-              { name: "Amélie V.", initials: "AV", verified: true, title: "Routine quotidienne", text: "Les gummies sont bons et faciles à intégrer au quotidien. Mention spéciale pour le sans sucre ajouté." },
-              { name: "Julien M.", initials: "JM", verified: true, title: "Très bonne surprise", text: "Packaging soigné et résultats progressifs mais réels. Une marque qui tient ses promesses." },
-              { name: "Laura P.", initials: "LP", verified: true, title: "Transparence et efficacité", text: "Enfin une marque qui allie simplicité, transparence et efficacité. Je ne peux plus m'en passer." },
+              { name: "Claire D.",  initials: "CD", title: "Simple et efficace",        text: "J'ai intégré NUKU à ma routine depuis un mois et je sens une vraie différence. Simple et agréable à prendre." },
+              { name: "Thomas R.",  initials: "TR", title: "Produits de qualité",        text: "Composition clean, exactement ce que je recherchais. Je recommande sans hésiter." },
+              { name: "Sophie L.",  initials: "SL", title: "J'adore l'univers",          text: "Une approche douce et honnête du bien-être. L'univers de la marque est vraiment inspirant." },
+              { name: "Amélie V.",  initials: "AV", title: "Routine quotidienne",        text: "Les gummies sont bons et faciles à intégrer au quotidien. Mention spéciale pour le sans sucre ajouté." },
+              { name: "Julien M.",  initials: "JM", title: "Très bonne surprise",        text: "Packaging soigné et résultats progressifs mais réels. Une marque qui tient ses promesses." },
+              { name: "Laura P.",   initials: "LP", title: "Transparence et efficacité", text: "Enfin une marque qui allie simplicité, transparence et efficacité. Je ne peux plus m'en passer." },
             ].map((review, index) => (
-              <div key={index} className="flex-none w-[260px] sm:w-[300px] snap-start">
-                <div className="bg-white rounded-2xl p-5 h-full shadow-sm hover:shadow-lg transition-all duration-300 border border-neutral-100">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-[#e8e0d5] flex items-center justify-center flex-shrink-0">
+              <div key={index} className="flex-none w-[240px] sm:w-[300px] snap-start">
+                <div className="bg-white rounded-2xl p-4 sm:p-5 h-full shadow-sm hover:shadow-lg transition-all duration-300 border border-neutral-100">
+                  <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#e8e0d5] flex items-center justify-center flex-shrink-0">
                       <span className="text-[#8a7a6a] font-black text-xs">{review.initials}</span>
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <p className="font-medium text-neutral-900 text-sm truncate tracking-tight">{review.name}</p>
-                        {review.verified && <span className="text-green-600 text-xs flex-shrink-0">✓</span>}
+                        <span className="text-green-600 text-xs flex-shrink-0">✓</span>
                       </div>
-                      {review.verified && <p className="text-xs text-neutral-400 font-light">Acheteur vérifié</p>}
+                      <p className="text-xs text-neutral-400 font-light">Acheteur vérifié</p>
                     </div>
                   </div>
-                  <div className="flex gap-0.5 mb-3 text-[#ffb703]">
+                  <div className="flex gap-0.5 mb-2 sm:mb-3 text-[#ffb703]">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <svg key={i} className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <svg key={i} className="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                       </svg>
                     ))}
                   </div>
-                  <h4 className="font-normal text-neutral-900 text-sm mb-2 tracking-tight">{review.title}</h4>
-                  <p className="text-sm text-neutral-600 leading-relaxed font-light">"{review.text}"</p>
+                  <h4 className="font-normal text-neutral-900 text-sm mb-1 sm:mb-2 tracking-tight">{review.title}</h4>
+                  <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-light">&quot;{review.text}&quot;</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="text-center mt-8 sm:mt-12 px-4 sm:px-6">
-            <p className="text-sm text-neutral-500 mb-5 font-light">Rejoignez notre communauté et partagez votre expérience</p>
-            <Link href="/shop" className="inline-flex items-center gap-2 bg-[#ff8844] text-white px-8 py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ff7733] transition-all shadow-lg text-sm">
+          <div className="text-center mt-6 sm:mt-12 px-4 sm:px-6">
+            <p className="text-sm text-neutral-500 mb-4 sm:mb-5 font-light">
+              Rejoignez notre communauté et partagez votre expérience
+            </p>
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-2 bg-[#ff8844] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-black uppercase tracking-wide hover:bg-[#ff7733] transition-all shadow-lg text-xs sm:text-sm"
+            >
               Découvrir NUKU
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
