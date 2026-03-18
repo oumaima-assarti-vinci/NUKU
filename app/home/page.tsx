@@ -123,7 +123,7 @@ export default function HomePage() {
       {/* ================= HERO SLIDER ================= */}
      {/* CONTENEUR PARENT : On fixe une hauteur identique pour tout le monde */}
 {/* ================= HERO SLIDER ================= */}
-<div className="relative w-full overflow-hidden h-[350px] sm:h-[600px] lg:h-[700px] bg-white">
+<div className="relative w-full overflow-hidden h-[450px] sm:h-[600px] lg:h-[700px] bg-white">
 
   {/* SLIDE 0 */}
   <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
@@ -132,7 +132,7 @@ export default function HomePage() {
     <img
       src="/image/citronslidermobile.jpg"
       alt="NUKU Shine"
-      className="absolute inset-0 w-full h-full object-cover sm:hidden"
+      className="absolute inset-0 w-full h-full object-cover object-[center_30%] sm:hidden"
     />
     {/* Desktop */}
     <img
@@ -189,9 +189,9 @@ export default function HomePage() {
 
     {/* Mobile */}
     <img
-      src="/image/coulourmobile.jpg"
+      src="/image/couleurmobile.jpg"
       alt="Gamme NUKU"
-      className="absolute inset-0 w-full h-full object-cover sm:hidden"
+      className="absolute inset-0 w-full h-full object-cover object-[center_30%] sm:hidden"
     />
     {/* Desktop */}
     <img
