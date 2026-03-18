@@ -128,10 +128,17 @@ export default function HomePage() {
   {/* SLIDE 0 */}
   <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
     
+    {/* Mobile */}
+    <img
+      src="/image/citronslidermobile.jpg"
+      alt="NUKU Shine"
+      className="absolute inset-0 w-full h-full object-cover sm:hidden"
+    />
+    {/* Desktop */}
     <img
       src="/image/sliderCitron.jpg"
       alt="NUKU Shine"
-      className="absolute inset-0 w-full h-full object-contain object-center sm:object-cover sm:object-[75%_center]"
+      className="absolute inset-0 w-full h-full object-cover hidden sm:block object-[75%_center]"
     />
 
     <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent sm:hidden" />
@@ -142,7 +149,7 @@ export default function HomePage() {
         Votre routine<br />rayonnante.
       </h2>
 
-      <Link href="/subscription" className="inline-block bg-white sm:bg-black text-black sm:text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
+      <Link href="/subscription" className="inline-block w-fit bg-white sm:bg-black text-black sm:text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
         S'abonner — 20% OFF
       </Link>
     </div>
@@ -171,7 +178,7 @@ export default function HomePage() {
         Pour soulager le stress et clarifier l'esprit.
       </p>
 
-      <Link href="/product/1" className="inline-block bg-[#FF6B2C] text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
+      <Link href="/product/1" className="inline-block w-fit bg-[#FF6B2C] text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
         Découvrir Soul
       </Link>
     </div>
@@ -179,11 +186,18 @@ export default function HomePage() {
 
   {/* SLIDE 2 */}
   <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 2 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
-    
+
+    {/* Mobile */}
+    <img
+      src="/image/coulourmobile.jpg"
+      alt="Gamme NUKU"
+      className="absolute inset-0 w-full h-full object-cover sm:hidden"
+    />
+    {/* Desktop */}
     <img
       src="/image/couleur.jpg"
       alt="Gamme NUKU"
-      className="absolute inset-0 w-full h-full object-contain object-center sm:object-cover"
+      className="absolute inset-0 w-full h-full object-cover hidden sm:block"
     />
 
     <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-transparent sm:hidden" />
@@ -198,7 +212,7 @@ export default function HomePage() {
         Des compléments botaniques pensés pour harmoniser votre corps.
       </p>
 
-      <Link href="/shop" className="inline-block bg-black text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
+      <Link href="/shop" className="inline-block w-fit bg-black text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
         Explorer la gamme
       </Link>
     </div>
@@ -218,7 +232,6 @@ export default function HomePage() {
   </div>
 
 </div>
-
       {/* ================= LOGO ================= */}
       <section className="py-3 sm:py-5 bg-white">
         <div className="flex flex-col items-center">
