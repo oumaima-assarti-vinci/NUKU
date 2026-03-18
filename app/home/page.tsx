@@ -125,48 +125,33 @@ export default function HomePage() {
 {/* ================= HERO SLIDER ================= */}
 <div className="relative w-full overflow-hidden h-[350px] sm:h-[600px] lg:h-[700px] bg-white">
 
-  {/* ---- SLIDE 0 : SHINE ---- */}
-  <div
-    className={`absolute inset-0 transition-opacity duration-700 ${
-      currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
-    }`}
-  >
+  {/* SLIDE 0 */}
+  <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 0 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
+    
     <img
       src="/image/sliderCitron.jpg"
       alt="NUKU Shine"
       className="absolute inset-0 w-full h-full object-contain object-center sm:object-cover sm:object-[75%_center]"
     />
 
-    {/* Dégradé mobile */}
     <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent sm:hidden" />
-    {/* Dégradé desktop */}
     <div className="absolute inset-0 hidden sm:block bg-gradient-to-r from-white/90 via-white/20 to-transparent" />
 
     <div className="relative z-20 flex flex-col justify-end sm:justify-center h-full px-6 sm:px-20 pb-10 sm:pb-0">
-      <div className="max-w-[500px] text-left">
-        <h2 className="text-[24px] sm:text-[54px] lg:text-[64px] font-black leading-[1.1] uppercase mb-4 text-white sm:text-neutral-950">
-          Votre routine<br />rayonnante.
-        </h2>
+      <h2 className="text-[24px] sm:text-[54px] lg:text-[64px] font-black uppercase leading-[1.1] mb-4 text-white sm:text-neutral-950">
+        Votre routine<br />rayonnante.
+      </h2>
 
-        <Link
-          href="/subscription"
-          className="inline-block bg-white sm:bg-black text-black sm:text-white px-7 py-3 sm:px-10 sm:py-4 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl"
-        >
-          S'abonner — 20% OFF
-        </Link>
-      </div>
+      <Link href="/subscription" className="inline-block bg-white sm:bg-black text-black sm:text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
+        S'abonner — 20% OFF
+      </Link>
     </div>
   </div>
 
-  {/* ---- SLIDE 1 : SOUL ---- */}
-  <div
-    className={`absolute inset-0 transition-opacity duration-700 ${
-      currentSlide === 1 ? "opacity-100 z-10" : "opacity-0 z-0"
-    }`}
-  >
+  {/* SLIDE 1 */}
+  <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 1 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
     <div className="absolute inset-0 bg-[#4A1088]" />
 
-    {/* Image pot (centrée mobile, plus petite) */}
     <div className="absolute inset-0 flex items-center justify-end pr-3 sm:pr-24">
       <img
         src="/image/nukuViolet.png"
@@ -175,66 +160,51 @@ export default function HomePage() {
       />
     </div>
 
-    {/* Dégradé mobile */}
     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent sm:hidden" />
 
     <div className="relative z-20 flex flex-col justify-end sm:justify-center h-full px-6 sm:px-20 pb-10 sm:pb-0">
-      <div className="max-w-[500px] text-left">
-        <h2 className="text-[24px] sm:text-[54px] lg:text-[64px] font-black leading-[1.1] text-white uppercase mb-3 sm:mb-4">
-          Esprit apaisé,<br />mieux-être.
-        </h2>
+      <h2 className="text-[24px] sm:text-[54px] lg:text-[64px] font-black leading-[1.1] text-white uppercase mb-3 sm:mb-4">
+        Esprit apaisé,<br />mieux-être.
+      </h2>
 
-        <p className="text-[12px] sm:text-[16px] text-white/90 mb-5 sm:mb-8 max-w-[260px] sm:max-w-none font-medium">
-          Pour soulager le stress et clarifier l'esprit.
-        </p>
+      <p className="text-[12px] sm:text-[16px] text-white/90 mb-5 sm:mb-8 max-w-[260px] sm:max-w-none font-medium">
+        Pour soulager le stress et clarifier l'esprit.
+      </p>
 
-        <Link
-          href="/product/1"
-          className="inline-block bg-[#FF6B2C] text-white px-7 py-3 sm:px-10 sm:py-4 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl"
-        >
-          Découvrir Soul
-        </Link>
-      </div>
+      <Link href="/product/1" className="inline-block bg-[#FF6B2C] text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
+        Découvrir Soul
+      </Link>
     </div>
   </div>
 
-  {/* ---- SLIDE 2 : GAMME ---- */}
-  <div
-    className={`absolute inset-0 transition-opacity duration-700 ${
-      currentSlide === 2 ? "opacity-100 z-10" : "opacity-0 z-0"
-    }`}
-  >
+  {/* SLIDE 2 */}
+  <div className={`absolute inset-0 transition-opacity duration-700 ${currentSlide === 2 ? "opacity-100 z-10" : "opacity-0 z-0"}`}>
+    
     <img
       src="/image/couleur.jpg"
-      alt="Gamme NUKU Complète"
+      alt="Gamme NUKU"
       className="absolute inset-0 w-full h-full object-contain object-center sm:object-cover"
     />
 
-    {/* Dégradés */}
     <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-white/20 to-transparent sm:hidden" />
     <div className="absolute inset-0 hidden sm:block bg-gradient-to-r from-white/70 via-white/20 to-transparent" />
 
     <div className="relative z-20 flex flex-col justify-end sm:justify-center h-full px-6 sm:px-20 pb-10 sm:pb-0">
-      <div className="max-w-[550px] text-left">
-        <h2 className="text-[24px] sm:text-[54px] lg:text-[64px] font-black leading-[1.1] text-neutral-900 uppercase mb-3 sm:mb-4">
-          Élevez votre<br />bien-être.
-        </h2>
+      <h2 className="text-[24px] sm:text-[54px] lg:text-[64px] font-black uppercase leading-[1.1] mb-3 text-neutral-900">
+        Élevez votre<br />bien-être.
+      </h2>
 
-        <p className="text-[12px] sm:text-[16px] text-neutral-800 mb-5 sm:mb-8 max-w-[260px] sm:max-w-none font-medium">
-          Des compléments botaniques pensés pour harmoniser votre corps.
-        </p>
+      <p className="text-[12px] sm:text-[16px] text-neutral-800 mb-5 sm:mb-8 max-w-[260px] sm:max-w-none font-medium">
+        Des compléments botaniques pensés pour harmoniser votre corps.
+      </p>
 
-        <Link
-          href="/shop"
-          className="inline-block bg-black text-white px-7 py-3 sm:px-10 sm:py-4 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl"
-        >
-          Explorer la gamme
-        </Link>
-      </div>
+      <Link href="/shop" className="inline-block bg-black text-white px-7 py-3 rounded-full font-bold uppercase text-[10px] sm:text-[11px] tracking-widest shadow-xl">
+        Explorer la gamme
+      </Link>
     </div>
   </div>
 
-  {/* ---- DOTS ---- */}
+  {/* DOTS */}
   <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-3 z-30">
     {[0, 1, 2].map((i) => (
       <button
@@ -246,7 +216,9 @@ export default function HomePage() {
       />
     ))}
   </div>
+
 </div>
+
       {/* ================= LOGO ================= */}
       <section className="py-3 sm:py-5 bg-white">
         <div className="flex flex-col items-center">
