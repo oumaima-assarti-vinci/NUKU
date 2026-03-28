@@ -1,0 +1,16 @@
+{
+  "title": "Composez votre pack.",
+  "composition": "Votre composition",
+  "products": "produits",
+  "ready": "Prêt à être ajouté",
+  "unique": "Achat unique",
+  "unique_subtitle": "Paiement ponctuel",
+  "subscription": "Abonnement",
+  "subscription_subtitle": "Livraison automatique",
+  "add_pack": "Ajouter le pack",
+  "select": "Sélectionnez",
+  "select_product": "produit",
+  "select_products": "produits",
+  "footer": "Livraison gratuite · Abonnement flexible · Économies garanties",
+  "original_value": "Valeur"
+}

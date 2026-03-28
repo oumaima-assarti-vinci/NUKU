@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -6,7 +5,6 @@ import { useCart } from "@/lib/contexts/CartContext";
 import { supabase } from "@/lib/supabaseClient";
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 
 type HeaderProps = { onCartClick?: () => void };
 
@@ -17,15 +15,30 @@ const navLinks = [
   { href: "/about", label: "NOTRE HISTOIRE" },
 ];
 
+const languages = [
+  { code: "fr", label: "Français" },
+  { code: "en", label: "English" },
+  { code: "nl", label: "Nederlands" },
+];
+
 export default function Header({ onCartClick }: HeaderProps) {
   const { getItemCount, clearCart } = useCart();
   const [user, setUser] = useState<any>(null);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState("fr");
 
   const router = useRouter();
   const pathname = usePathname();
   const itemCount = getItemCount();
+
+  useEffect(() => {
+    const segments = pathname?.split("/").filter(Boolean) ?? [];
+    if (["fr", "en", "nl"].includes(segments[0])) {
+      setCurrentLang(segments[0]);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     let mounted = true;
@@ -33,9 +46,7 @@ export default function Header({ onCartClick }: HeaderProps) {
       const { data } = await supabase.auth.getUser();
       if (mounted) setUser(data?.user ?? null);
     })();
-    return () => {
-      mounted = false;
-    };
+    return () => { mounted = false; };
   }, []);
 
   useEffect(() => {
@@ -46,17 +57,29 @@ export default function Header({ onCartClick }: HeaderProps) {
   }, []);
 
   const handleLogout = useCallback(async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
     if (user) localStorage.removeItem(`cart-${user.id}`);
     clearCart();
     await supabase.auth.signOut();
     router.push("/home");
   }, [clearCart, router]);
 
+  const switchLanguage = (code: string) => {
+    const segments = pathname?.split("/").filter(Boolean) ?? [];
+    if (["fr", "en", "nl"].includes(segments[0])) {
+      segments[0] = code;
+    } else {
+      segments.unshift(code);
+    }
+    setCurrentLang(code);
+    setLangOpen(false);
+    router.push("/" + segments.join("/"));
+  };
+
   const hideHeader = pathname?.startsWith("/admin");
   if (hideHeader) return null;
+
+  const activeLang = languages.find((l) => l.code === currentLang) ?? languages[0];
 
   return (
     <header
@@ -67,24 +90,18 @@ export default function Header({ onCartClick }: HeaderProps) {
       }`}
     >
       <div className="mx-auto w-full max-w-[1400px] px-6">
-       <div className="h-24 flex items-center justify-between gap-6">
+        <div className="h-24 flex items-center justify-between gap-6">
 
           {/* Logo */}
-
-{/* Logo */}
-
-
-
-
-<Link href="/home" className="flex items-center h-full">
-  <img
-    src="/image/logo.png"
-    alt="Nuku Logo"
-    className="h-40 w-auto md:h-60 md:max-w-[180px] object-contain select-none"
-    loading="eager"
-    decoding="async"
-  />
-</Link>
+          <Link href="/home" className="flex items-center h-full">
+            <img
+              src="/image/logo.png"
+              alt="Nuku Logo"
+              className="h-40 w-auto md:h-60 md:max-w-[180px] object-contain select-none"
+              loading="eager"
+              decoding="async"
+            />
+          </Link>
 
           {/* NAV center (desktop) */}
           <nav className="hidden md:flex items-center justify-center gap-8 mx-auto">
@@ -93,7 +110,7 @@ export default function Header({ onCartClick }: HeaderProps) {
                 key={l.href}
                 href={l.href}
                 className={`text-sm tracking-wide font-semibold transition-colors ${
-                  pathname?.startsWith(l.href)
+                  pathname?.includes(l.href)
                     ? "text-neutral-900"
                     : "text-neutral-600 hover:text-neutral-900"
                 }`}
@@ -105,6 +122,38 @@ export default function Header({ onCartClick }: HeaderProps) {
 
           {/* Right actions */}
           <div className="ml-auto flex items-center gap-3">
+
+            {/* Sélecteur de langue */}
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen((o) => !o)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-neutral-200 hover:bg-neutral-100 transition text-sm font-semibold text-neutral-700"
+              >
+                <span>{activeLang.label}</span>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {langOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border border-neutral-200 rounded-xl shadow-lg overflow-hidden z-50">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => switchLanguage(lang.code)}
+                      className={`w-full flex items-center px-4 py-2.5 text-sm hover:bg-neutral-50 transition ${
+                        currentLang === lang.code
+                          ? "font-bold text-orange-600"
+                          : "text-neutral-700"
+                      }`}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Account */}
             {user ? (
               <button
@@ -112,60 +161,26 @@ export default function Header({ onCartClick }: HeaderProps) {
                 className="group relative p-2 rounded-full hover:bg-neutral-100 transition"
                 title="Déconnexion"
               >
-                <svg
-                  className="w-6 h-6 text-neutral-800 group-hover:text-orange-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
+                <svg className="w-6 h-6 text-neutral-800 group-hover:text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </button>
             ) : (
-              <Link
-                href="/login"
-                className="group relative p-2 rounded-full hover:bg-neutral-100 transition"
-                title="Connexion"
-              >
-                <svg
-                  className="w-6 h-6 text-neutral-800 group-hover:text-orange-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
+              <Link href="/login" className="group relative p-2 rounded-full hover:bg-neutral-100 transition" title="Connexion">
+                <svg className="w-6 h-6 text-neutral-800 group-hover:text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </Link>
             )}
 
             {/* Cart */}
             <button
-             onClick={() => router.push('/cart')}
+              onClick={() => router.push('/cart')}
               className="group relative p-2 rounded-full hover:bg-neutral-100 transition"
               title="Panier"
             >
-              <svg
-                className="w-6 h-6 text-neutral-800 group-hover:text-orange-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
+              <svg className="w-6 h-6 text-neutral-800 group-hover:text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
               {itemCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 bg-orange-600 text-white text-[11px] leading-5 font-bold rounded-full grid place-items-center">
@@ -205,20 +220,38 @@ export default function Header({ onCartClick }: HeaderProps) {
                   href={l.href}
                   onClick={() => setMobileOpen(false)}
                   className={`w-full px-4 py-3 rounded-xl text-sm font-semibold ${
-                    pathname?.startsWith(l.href) ? "bg-neutral-100 text-neutral-900" : "text-neutral-700 hover:bg-neutral-50"
+                    pathname?.includes(l.href) ? "bg-neutral-100 text-neutral-900" : "text-neutral-700 hover:bg-neutral-50"
                   }`}
                 >
                   {l.label}
                 </Link>
               ))}
+
+              {/* Langues mobile */}
+              <div className="flex gap-2 px-4 py-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => { switchLanguage(lang.code); setMobileOpen(false); }}
+                    className={`flex-1 py-2 rounded-xl text-sm font-semibold border transition ${
+                      currentLang === lang.code
+                        ? "border-orange-600 text-orange-600 bg-orange-50"
+                        : "border-neutral-200 text-neutral-600 hover:bg-neutral-50"
+                    }`}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+              </div>
+
               <div className="h-px bg-neutral-200 my-1" />
-             <Link
-  href="/checkout"
-  onClick={() => setMobileOpen(false)}
-  className="w-full h-11 grid place-items-center rounded-xl font-extrabold text-white bg-[#ED9446]"
->
-  COMMANDER
-</Link>
+              <Link
+                href="/checkout"
+                onClick={() => setMobileOpen(false)}
+                className="w-full h-11 grid place-items-center rounded-xl font-extrabold text-white bg-[#ED9446]"
+              >
+                COMMANDER
+              </Link>
             </nav>
           </div>
         )}
@@ -226,14 +259,8 @@ export default function Header({ onCartClick }: HeaderProps) {
 
       <style jsx>{`
         @keyframes fade {
-          from {
-            opacity: 0;
-            transform: translateY(-4px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(-4px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </header>

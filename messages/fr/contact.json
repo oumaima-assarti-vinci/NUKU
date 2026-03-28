@@ -1,0 +1,18 @@
+{
+  "title": "Contactez-nous",
+  "subtitle": "Une question sur votre commande, un produit ou simplement envie de nous écrire ? Nous répondons à tous les messages sous 24h.",
+  "email_label": "Email",
+  "availability_label": "Disponibilité",
+  "availability": "Lun – Ven, 9h – 17h",
+  "name": "Nom",
+  "email": "Email",
+  "message": "Message",
+  "placeholder_name": "Votre nom",
+  "placeholder_email": "votre@email.com",
+  "placeholder_message": "Comment pouvons-nous vous aider ?",
+  "submit": "Envoyer le message",
+  "loading": "Envoi en cours...",
+  "success_title": "Message envoyé !",
+  "success_body": "Nous vous répondrons dans les plus brefs délais.",
+  "send_another": "Envoyer un autre message"
+}

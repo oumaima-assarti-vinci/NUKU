@@ -1,0 +1,16 @@
+{
+  "title": "Build your pack.",
+  "composition": "Your selection",
+  "products": "products",
+  "ready": "Ready to add",
+  "unique": "One-time purchase",
+  "unique_subtitle": "One-time payment",
+  "subscription": "Subscription",
+  "subscription_subtitle": "Automatic delivery",
+  "add_pack": "Add pack",
+  "select": "Select",
+  "select_product": "product",
+  "select_products": "products",
+  "footer": "Free shipping · Flexible subscription · Guaranteed savings",
+  "original_value": "Value"
+}

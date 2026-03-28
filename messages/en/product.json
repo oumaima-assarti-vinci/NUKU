@@ -1,0 +1,220 @@
+{
+  "subscription_mode": "Subscription mode activated",
+  "verified_reviews": "verified reviews",
+  "one_time": "One-time purchase",
+  "one_time_sub": "One-time order",
+  "subscription": "Subscription",
+  "subscription_sub": "Automatic delivery",
+  "recommended": "Recommended",
+  "add_to_routine": "Add to my routine",
+  "add_to_cart": "Add to cart",
+  "ingredients_title": "Ingredients",
+  "usage_title": "Usage instructions",
+  "reviews_title": "Customer reviews",
+  "ritual_eyebrow": "Recommended ritual",
+  "protocol_label": "Protocol",
+  "reality_label": "Reality.",
+  "faq_footer": "Another question?",
+  "faq_contact": "Contact our team",
+  "ingredients_badge": "Expert Formulation",
+  "ingredients_title_section": "The Ingredients",
+  "ingredients_subtitle": "Efficacy at the heart of the formula",
+  "show_benefit": "See the benefit",
+  "hide_benefit": "Hide",
+  
+  "ingredient_benefits": {
+    "sleep-melatonine":  "Helps reduce the time it takes to fall asleep and regulates the sleep-wake rhythm.",
+    "sleep-theanine":    "Promotes relaxation without causing drowsiness.",
+    "sleep-gaba":        "Helps calm the mind and promote a state of calm conducive to sleep.",
+    "sleep-valeriane":   "Contributes to quality sleep and facilitates falling asleep.",
+    "sleep-passiflore":  "Helps reduce stress and nervousness to better prepare for sleep.",
+    "sleep-magnesium":   "Reduces fatigue and contributes to normal functioning of the nervous system.",
+    "sleep-vitb6":       "Contributes to normal functioning of the nervous system and reduces fatigue.",
+    "shine-biotine":     "Contributes to the maintenance of normal hair and normal nails.",
+    "shine-roquette":    "Rich in antioxidants, supports skin radiance and vitality.",
+    "shine-msm":         "Contributes to skin suppleness and collagen maintenance.",
+    "shine-silicium":    "Supports hair and nail resistance and skin elasticity.",
+    "shine-vitb6":       "Contributes to normal functioning of the nervous system and reduction of fatigue.",
+    "shine-zinc":        "Contributes to the maintenance of normal skin and protection against oxidative stress.",
+    "shine-vitd3":       "Contributes to normal muscle function and supports the immune system.",
+    "source-chlorella":  "Microalgae rich in chlorophyll, supports the body's natural detoxification.",
+    "source-curcuma":    "Helps reduce inflammation and supports the body's natural defences.",
+    "source-pissenlit":  "Supports liver function and contributes to normal digestion.",
+    "source-artichaut":  "Promotes normal digestion and contributes to proper liver function.",
+    "source-matcha":     "Source of antioxidants, supports energy and concentration daily.",
+    "source-vitb6":      "Contributes to normal functioning of the nervous system and energy metabolism.",
+    "strength-creatine": "Increases physical performance during intense and repeated exercise.",
+    "strength-vitb12":   "Contributes to reducing fatigue and supports normal energy metabolism.",
+    "strength-vitd3":    "Contributes to normal muscle function and supports recovery.",
+    "soul-ashwagandha":  "Helps reduce stress and improve mental and physical resistance to stress.",
+    "soul-gaba":         "Helps calm the mind and promote a state of calm and serenity.",
+    "soul-theanine":     "Promotes relaxation without causing drowsiness.",
+    "soul-rhodiola":     "Contributes to reducing fatigue and supports emotional balance.",
+    "soul-safran":       "Contributes to mood balance and promotes a positive emotional state.",
+    "soul-vitb6":        "Contributes to normal functioning of the nervous system."
+  },
+  "products": {
+    
+    "sleep": {
+      "highlights": ["Blueberry", "Sleep onset support", "Relaxation", "Night rest"],
+      "routineTitle": "Optimise your evening routine",
+      "routineSubtitle": "Sleep better with a calming routine",
+      "routineIntro": "NUKU SLEEP supports sleep when integrated into an evening routine adapted to real life.",
+      "routineSub": "Taking one gummy isn't enough — context matters.",
+      "routineTips": [
+        "Take the gummies as part of your evening routine, at the moment that suits you best.",
+        "Avoid taking them at the last moment in bed; take them during a transition moment (sofa, bathroom, bedtime preparation).",
+        "If you watch a screen in the evening, avoid overly stimulating content right after taking them.",
+        "Accept that falling asleep is not immediate: sleep comes progressively.",
+        "Understand that the formula works better over time, not like an 'off' switch."
+      ],
+      "routineNote": "Regular habits and evening routines influence the experience more than seeking an instant effect.",
+      "mythsTitle": "Myths & Reality — NUKU SLEEP",
+      "myths": [
+        { "myth": "Taking one gummy is enough to fall asleep immediately.", "reality": "NUKU SLEEP supports the natural transition to sleep and fits into a regular evening routine, without instant effect." },
+        { "myth": "Melatonin acts like a sleeping pill.", "reality": "Melatonin is a hormone naturally produced by the body. It supports the sleep-wake rhythm without forcing sleep onset." },
+        { "myth": "Sleep aids are reserved for people with serious disorders.", "reality": "NUKU SLEEP is for those who want to improve their evening habits, calm their mind and create better conditions for falling asleep." }
+      ],
+      "faqTitle": "Frequently Asked Questions",
+      "faqSubtitle": "Everything you need to know about NUKU SLEEP",
+      "faqs": [
+        { "question": "What is NUKU Sleep for?", "answer": "NUKU Sleep is a food supplement designed to support the evening routine and promote a state of relaxation before bedtime, as part of a balanced lifestyle." },
+        { "question": "Is it a sleeping pill or a medicine?", "answer": "No. NUKU Sleep is not a medicine. It does not replace medical follow-up and does not treat chronic sleep disorders." },
+        { "question": "How long does it take to feel the effects?", "answer": "Experiences vary depending on the person, their lifestyle and sleep habits. Some may notice support quickly, others after regular use." },
+        { "question": "Can it be taken every evening?", "answer": "Yes, within the recommended dose. In case of pregnancy, breastfeeding, illness or medication, consult a healthcare professional." },
+        { "question": "Can this product cause dependence?", "answer": "NUKU Sleep is a food supplement and is not intended to create dependence. It fits into a progressive and gentle wellness approach." },
+        { "question": "Should I also adopt a sleep routine?", "answer": "Yes. Good sleep hygiene (regular schedules, limited screens in the evening, quiet environment) enhances the value of a food supplement." },
+        { "question": "Who can use NUKU Sleep?", "answer": "The product is intended for adults. People with persistent sleep disorders should consult a healthcare professional." },
+        { "question": "Can NUKU Sleep be combined with other supplements?", "answer": "Yes in most cases, but be aware of ingredient overlaps and possible interactions with certain treatments." },
+        { "question": "How many gummies should be taken per day?", "answer": "The recommended serving is 2 gummies per day, not to be exceeded." },
+        { "question": "When should they be taken?", "answer": "It is recommended to take the 2 gummies in the evening, before bedtime, as part of a relaxation ritual." }
+      ]
+    },
+    "shine": {
+      "highlights": ["Lemon", "Hair nutrition", "Hair structure", "Hair maintenance"],
+      "routineTitle": "Optimise your beauty ritual — NUKU SHINE",
+      "routineSubtitle": "Beauty & internal support for stronger hair",
+      "routineIntro": "NUKU SHINE supports hair beauty when used regularly and over time. The formula works from within and does not replace external care.",
+      "routineSub": "Consistency and patience play a more important role than seeking quick results.",
+      "routineTips": [
+        "Take the gummies daily as part of a course, to support the natural hair cycle.",
+        "Understand that the formula does not act directly on visible hair, but supports the internal mechanisms related to its quality and resistance.",
+        "Do not expect immediate change: the hair cycle is slow, effects are observed over time.",
+        "Combine the formula with a consistent hair care routine (gentle care, scalp respect).",
+        "Accept that results vary depending on the person, lifestyle and regularity."
+      ],
+      "routineNote": "Consistency and patience play a more important role than seeking quick results.",
+      "mythsTitle": "Myths & Reality — NUKU SHINE",
+      "myths": [
+        { "myth": "A hair supplement can restart regrowth on its own.", "reality": "NUKU SHINE is not a regrowth solution. The formula supports natural hair growth by sustaining its internal balance, as part of a regular beauty routine." },
+        { "myth": "Stronger hair means quick and visible results.", "reality": "Hair strength is built over time. Thanks to actives like MSM, NUKU SHINE supports hair structure and resistance, with a progressive and realistic approach." }
+      ],
+      "faqTitle": "FAQ – SHINE (Hair)",
+      "faqSubtitle": "Everything you need to know about NUKU SHINE",
+      "faqs": [
+        { "question": "What does the SHINE formula actually do?", "answer": "SHINE is designed to support normal hair health through nutrients involved in its structure and natural cycle." },
+        { "question": "Does SHINE make hair grow back quickly?", "answer": "No. Hair growth follows a slow biological rhythm. SHINE cannot trigger immediate regrowth or correct loss linked to a condition or hormonal imbalance." },
+        { "question": "When can results reasonably be assessed?", "answer": "A first assessment is possible around 8 to 12 weeks, then within a 3 to 6 month course." },
+        { "question": "Who is SHINE for?", "answer": "SHINE may suit adults wishing to support their hair vitality, accompany periods of fatigue or strengthen their hair care routine." },
+        { "question": "How many gummies to take and for how long?", "answer": "2 gummies per day. A 3 to 6 month course is generally recommended, without exceeding the daily dose." },
+        { "question": "Is SHINE suitable for both men and women?", "answer": "Yes, the biological mechanisms of hair are the same for both." },
+        { "question": "What else can I do besides SHINE to care for my hair?", "answer": "Varied diet, hydration, sleep, stress management and gentle hair care. Supplements always act as support." }
+      ]
+    },
+    "source": {
+      "highlights": ["Apple", "Intestinal comfort", "Bloating", "Digestive balance"],
+      "routineTitle": "Optimise your daily digestive comfort — NUKU SOURCE",
+      "routineSubtitle": "Digestion & lightness every day",
+      "routineIntro": "NUKU SOURCE supports digestion, comfort and the feeling of lightness when integrated into a consistent daily routine. It is not an immediate or radical solution.",
+      "routineSub": "Regular and consistent habits influence the experience more than seeking an immediate effect.",
+      "routineTips": [
+        "Take the gummies every day, at an easy moment to maintain (morning, after a meal or at a fixed time).",
+        "The formula supports daily digestive comfort, even after heavier meals.",
+        "Be mindful of your meal rhythm and hydration to optimise the effects.",
+        "Feelings of lightness appear progressively with regular use."
+      ],
+      "routineNote": "Regular and consistent habits influence the experience more than seeking an immediate effect.",
+      "mythsTitle": "Myths & Reality — NUKU SOURCE",
+      "myths": [
+        { "myth": "Digestive formulas completely 'detoxify' the body.", "reality": "The body regulates itself naturally. NUKU SOURCE supports digestive functions through a plant synergy, without miracle detox promises." },
+        { "myth": "The feeling of lightness means losing weight.", "reality": "NUKU SOURCE is not a slimming formula. The lightness referred to is a progressive digestive well-being." }
+      ],
+      "faqTitle": "FAQ – SOURCE (Detox & Digestion)",
+      "faqSubtitle": "Everything you need to know about NUKU SOURCE",
+      "faqs": [
+        { "question": "What does the SOURCE formula actually do?", "answer": "SOURCE supports the body's natural elimination functions and digestive comfort through a selection of plants." },
+        { "question": "Does SOURCE 'detoxify' the body?", "answer": "No. The body already has its own regulatory systems. SOURCE supports them without replacing them." },
+        { "question": "When are effects felt?", "answer": "Sometimes from the first intakes, but mainly over several weeks, in a 3 to 6 month course." },
+        { "question": "Who is SOURCE for?", "answer": "Adults wishing to support their digestion, reduce heaviness or integrate a wellness ritual." },
+        { "question": "How many gummies to take?", "answer": "2 gummies per day. A 3 to 6 month course is recommended." },
+        { "question": "Does SOURCE help lose weight?", "answer": "No, it is not a slimming formula. It supports digestive well-being." },
+        { "question": "What else can I do for my digestion?", "answer": "Fibre-rich diet, hydration, physical activity, slow chewing and limiting excesses." }
+      ]
+    },
+    "strength": {
+      "highlights": ["Watermelon", "Muscle energy", "Physical performance", "Cognitive support"],
+      "routineTitle": "How to use NUKU STRENGTH daily",
+      "routineSubtitle": "Energy · Performance · Mental clarity",
+      "routineIntro": "NUKU STRENGTH supports energy, performance and concentration over time. Creatine plays an essential role in energy availability, including at the brain level.",
+      "routineSub": "It's not the occasional intake that counts, but consistency day after day.",
+      "routineTips": [
+        "Adapt intake to the day: more during intense effort, less on a regular day.",
+        "2 to 3 gummies suit most days, 4 during more demanding efforts.",
+        "Creatine works best when taken regularly.",
+        "STRENGTH fits into a sports or daily routine, without needing intensive sport.",
+        "Don't expect an immediate effect: efficacy builds over time."
+      ],
+      "routineNote": "Day-after-day consistency is the key to good energy functioning.",
+      "mythsTitle": "Myths & Reality — NUKU STRENGTH",
+      "myths": [
+        { "myth": "Creatine is only for athletes.", "reality": "Creatine is naturally present in the body and useful daily, even outside sport." },
+        { "myth": "Creatine immediately transforms performance.", "reality": "It's not a miracle product. Effects are progressive and support repeated efforts." },
+        { "myth": "Creatine acts like a stimulant.", "reality": "It does not stimulate the nervous system. It supports cellular energy without nervousness." },
+        { "myth": "Creatine has no link to concentration.", "reality": "It plays a role in the body's overall energy and can support mental clarity." }
+      ],
+      "faqTitle": "FAQ – STRENGTH (Performance & Focus)",
+      "faqSubtitle": "Everything you need to know about NUKU STRENGTH",
+      "faqs": [
+        { "question": "What is STRENGTH for?", "answer": "STRENGTH supports physical performance, muscle strength and energy, including at the brain level." },
+        { "question": "Does STRENGTH act on concentration?", "answer": "Yes, creatine supports cellular energy production, which can help mental clarity." },
+        { "question": "When are effects felt?", "answer": "Energy may evolve quickly, but muscle adaptations take several weeks or months." },
+        { "question": "Who is STRENGTH for?", "answer": "Adults wishing to support their energy, performance and concentration." },
+        { "question": "What dose to take?", "answer": "3 gummies per day. A 3 to 6 month course is recommended." },
+        { "question": "Does STRENGTH help gain muscle mass?", "answer": "It supports muscle adaptations, but does not replace training or nutrition." },
+        { "question": "Is it only for athletes?", "answer": "No. It also suits active people who need to support their energy." },
+        { "question": "What else to do besides STRENGTH?", "answer": "Sleep, hydration, balanced diet, progression and physical and mental recovery." }
+      ]
+    },
+    "soul": {
+      "highlights": ["Cherry", "Stress management", "Mental calm", "Emotional balance"],
+      "routineTitle": "Optimise your daily balance — NUKU SOUL",
+      "routineSubtitle": "Inner calm · Stress adaptation · Emotional stability",
+      "routineIntro": "NUKU SOUL supports inner calm and emotional balance when used in the real rhythm of daily life. It's not about eliminating stress, but living through demanding days better.",
+      "routineSub": "Context, regularity and personal rhythm influence the experience more than seeking an instant effect.",
+      "routineTips": [
+        "Take the gummies at an identifiable moment of the day, for example after work or when main obligations are done.",
+        "Avoid taking them in full rush (meetings, travel, constant notifications): the formula works better when integrated into a transition moment.",
+        "Don't expect an immediate effect: calm doesn't settle like a switch.",
+        "Understand that NUKU SOUL doesn't eliminate stress sources, but supports the ability to face them with more stability.",
+        "The formula is particularly appreciated when days are intense, to support the rhythm and help find a better balance."
+      ],
+      "routineNote": "Context, regularity and personal rhythm influence the experience more than seeking an instant effect.",
+      "mythsTitle": "Myths & Reality — NUKU SOUL",
+      "myths": [
+        { "myth": "Ashwagandha acts like a natural anxiolytic.", "reality": "Ashwagandha is not an anxiolytic and does not replace medical treatment. It supports stress adaptation in a progressive and non-sedative approach." },
+        { "myth": "If I don't feel an immediate effect, the formula doesn't work.", "reality": "Plants like ashwagandha and saffron don't act through immediate sensation. Their role is to support balance progressively, without marked or artificial effect." }
+      ],
+      "faqTitle": "FAQ – SOUL (Stress & Balance)",
+      "faqSubtitle": "Everything you need to know about NUKU SOUL",
+      "faqs": [
+        { "question": "What does the SOUL formula actually do?", "answer": "SOUL is designed to support emotional balance and the body's ability to cope with daily stress through a combination of plants, amino acids and vitamins." },
+        { "question": "Does SOUL completely eliminate stress?", "answer": "No. SOUL helps the body better manage daily pressure, without eliminating stress sources or treating an anxiety disorder." },
+        { "question": "When can effects be assessed?", "answer": "Some people notice an evolution from the first intakes. A more complete assessment is made over several weeks, then in a 3 to 6 month course." },
+        { "question": "Who is SOUL for?", "answer": "SOUL may suit adults wishing to better manage daily pressure, support their mood and preserve their mental clarity." },
+        { "question": "How many gummies to take and for how long?", "answer": "The recommended dose is 2 gummies per day. A 3 to 6 month course can be considered, without exceeding the daily dose." },
+        { "question": "Does SOUL act on sleep?", "answer": "SOUL is not a sleep formula. However, by supporting stress management, it may indirectly promote relaxation." },
+        { "question": "What else can I do besides SOUL to better manage stress?", "answer": "Regular sleep, breathing/meditation, physical activity, balanced diet, hydration and breaks." }
+      ]
+    }
+  }
+}

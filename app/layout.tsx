@@ -6,6 +6,7 @@ import Footer from "@/components/Footer"
 import { CartProvider } from "@/lib/contexts/CartContext"
 import { usePathname } from "next/navigation"
 import { Inter, Playfair_Display } from "next/font/google"
+import { NextIntlClientProvider } from "next-intl"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,14 +23,16 @@ const playfair = Playfair_Display({
 
 export default function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode
+  params: { locale: string }
 }) {
   const pathname = usePathname()
   const isAdmin = pathname.startsWith("/admin")
 
   return (
-    <html lang="fr" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang={params.locale ?? "fr"} className={`${inter.variable} ${playfair.variable}`}>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap"
@@ -37,13 +40,15 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-white font-sans text-neutral-900 antialiased overflow-x-hidden">
-        <CartProvider>
-          <Header />
-          <main className={isAdmin ? "" : "pt-16 overflow-x-hidden"}>
-            {children}
-          </main>
-          {!isAdmin && <Footer />}
-        </CartProvider>
+        <NextIntlClientProvider locale={params.locale ?? "fr"}>
+          <CartProvider>
+            <Header />
+            <main className={isAdmin ? "" : "pt-16 overflow-x-hidden"}>
+              {children}
+            </main>
+            {!isAdmin && <Footer />}
+          </CartProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

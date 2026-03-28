@@ -1,0 +1,18 @@
+{
+  "title": "Contacteer ons",
+  "subtitle": "Een vraag over je bestelling, een product of gewoon zin om te schrijven? We beantwoorden alle berichten binnen 24u.",
+  "email_label": "E-mail",
+  "availability_label": "Beschikbaarheid",
+  "availability": "Ma – Vr, 9u – 17u",
+  "name": "Naam",
+  "email": "E-mail",
+  "message": "Bericht",
+  "placeholder_name": "Jouw naam",
+  "placeholder_email": "jouw@email.com",
+  "placeholder_message": "Hoe kunnen we je helpen?",
+  "submit": "Bericht versturen",
+  "loading": "Versturen...",
+  "success_title": "Bericht verzonden!",
+  "success_body": "We antwoorden zo snel mogelijk.",
+  "send_another": "Nog een bericht sturen"
+}

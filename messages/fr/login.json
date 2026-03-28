@@ -1,0 +1,11 @@
+{
+  "title": "Connexion",
+  "subtitle": "Connectez-vous pour continuer",
+  "email": "Adresse email",
+  "password": "Mot de passe",
+  "submit": "Se connecter",
+  "loading": "Connexion...",
+  "no_account": "Pas de compte ?",
+  "create_account": "Créer un compte",
+  "google": "Se connecter avec Google"
+}

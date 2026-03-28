@@ -1,0 +1,22 @@
+{
+  "empty_title": "Votre panier est vide",
+  "empty_subtitle": "Découvrez nos produits premium pour commencer votre routine bien-être",
+  "explore": "Explorer la boutique",
+  "title": "Panier",
+  "article": "article",
+  "articles": "articles",
+  "continue": "Continuer mes achats",
+  "summary": "Résumé de commande",
+  "subtotal": "Sous-total",
+  "shipping": "Livraison",
+  "shipping_free": "Gratuite",
+  "total": "Total",
+  "order": "Passer la commande",
+  "secure": "Paiement sécurisé par Stripe",
+  "advantages": "Vos avantages",
+  "advantage_1": "Livraison gratuite sans minimum",
+  "advantage_2": "Retours gratuits sous 30 jours",
+  "advantage_3": "Paiement 100% sécurisé",
+  "remove": "Supprimer",
+  "subscription_badge": "Abonnement -20%"
+}

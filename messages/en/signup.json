@@ -1,0 +1,10 @@
+{
+  "title": "Create an account",
+  "email": "Email address",
+  "password": "Password",
+  "submit": "Create account",
+  "loading": "Creating...",
+  "success": "Account created! Check your email to confirm.",
+  "has_account": "Already have an account?",
+  "login": "Sign in"
+}

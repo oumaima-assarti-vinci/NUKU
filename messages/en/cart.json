@@ -1,0 +1,22 @@
+{
+  "empty_title": "Your cart is empty",
+  "empty_subtitle": "Discover our premium products to start your wellness routine",
+  "explore": "Explore the shop",
+  "title": "Cart",
+  "article": "item",
+  "articles": "items",
+  "continue": "Continue shopping",
+  "summary": "Order summary",
+  "subtotal": "Subtotal",
+  "shipping": "Shipping",
+  "shipping_free": "Free",
+  "total": "Total",
+  "order": "Place order",
+  "secure": "Secure payment by Stripe",
+  "advantages": "Your benefits",
+  "advantage_1": "Free shipping with no minimum",
+  "advantage_2": "Free returns within 30 days",
+  "advantage_3": "100% secure payment",
+  "remove": "Remove",
+  "subscription_badge": "Subscription -20%"
+}

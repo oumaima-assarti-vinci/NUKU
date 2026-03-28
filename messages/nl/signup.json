@@ -1,0 +1,10 @@
+{
+  "title": "Account aanmaken",
+  "email": "E-mailadres",
+  "password": "Wachtwoord",
+  "submit": "Account aanmaken",
+  "loading": "Aanmaken...",
+  "success": "Account aangemaakt! Controleer je e-mail om te bevestigen.",
+  "has_account": "Al een account?",
+  "login": "Inloggen"
+}

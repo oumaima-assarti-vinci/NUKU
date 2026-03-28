@@ -1,0 +1,22 @@
+{
+  "empty_title": "Je winkelwagen is leeg",
+  "empty_subtitle": "Ontdek onze premium producten om je wellnessroutine te starten",
+  "explore": "Verken de winkel",
+  "title": "Winkelwagen",
+  "article": "artikel",
+  "articles": "artikelen",
+  "continue": "Verder winkelen",
+  "summary": "Besteloverzicht",
+  "subtotal": "Subtotaal",
+  "shipping": "Verzending",
+  "shipping_free": "Gratis",
+  "total": "Totaal",
+  "order": "Bestelling plaatsen",
+  "secure": "Veilige betaling via Stripe",
+  "advantages": "Jouw voordelen",
+  "advantage_1": "Gratis verzending zonder minimum",
+  "advantage_2": "Gratis retour binnen 30 dagen",
+  "advantage_3": "100% veilige betaling",
+  "remove": "Verwijderen",
+  "subscription_badge": "Abonnement -20%"
+}

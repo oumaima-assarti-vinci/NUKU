@@ -1,0 +1,11 @@
+{
+  "title": "Login",
+  "subtitle": "Sign in to continue",
+  "email": "Email address",
+  "password": "Password",
+  "submit": "Sign in",
+  "loading": "Signing in...",
+  "no_account": "No account?",
+  "create_account": "Create an account",
+  "google": "Sign in with Google"
+}

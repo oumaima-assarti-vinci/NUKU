@@ -1,0 +1,218 @@
+{
+  "subscription_mode": "Abonnementsmodus geactiveerd",
+  "verified_reviews": "geverifieerde beoordelingen",
+  "one_time": "Eenmalige aankoop",
+  "one_time_sub": "Eenmalige bestelling",
+  "subscription": "Abonnement",
+  "subscription_sub": "Automatische levering",
+  "recommended": "Aanbevolen",
+  "add_to_routine": "Toevoegen aan mijn routine",
+  "add_to_cart": "In winkelwagen",
+  "ingredients_title": "Ingrediënten",
+  "usage_title": "Gebruiksaanwijzing",
+  "reviews_title": "Klantbeoordelingen",
+  "ritual_eyebrow": "Aanbevolen ritueel",
+  "protocol_label": "Protocol",
+  "reality_label": "Realiteit.",
+  "faq_footer": "Nog een vraag?",
+  "faq_contact": "Contacteer ons team",
+  "ingredients_badge": "Expert Formulering",
+  "ingredients_title_section": "De Ingrediënten",
+  "ingredients_subtitle": "Doeltreffendheid in het hart van de formule",
+  "show_benefit": "Zie het voordeel",
+  "hide_benefit": "Verbergen",
+  "ingredient_benefits": {
+    "sleep-melatonine":  "Helpt de tijd om in slaap te vallen te verkorten en reguleert het slaap-waakritme.",
+    "sleep-theanine":    "Bevordert ontspanning zonder slaperigheid te veroorzaken.",
+    "sleep-gaba":        "Helpt de geest te kalmeren en een kalme toestand te bevorderen die bevorderlijk is voor de slaap.",
+    "sleep-valeriane":   "Draagt bij aan kwalitatieve slaap en vergemakkelijkt het inslapen.",
+    "sleep-passiflore":  "Helpt stress en nervositeit te verminderen om zich beter voor te bereiden op de slaap.",
+    "sleep-magnesium":   "Vermindert vermoeidheid en draagt bij aan de normale werking van het zenuwstelsel.",
+    "sleep-vitb6":       "Draagt bij aan de normale werking van het zenuwstelsel en vermindert vermoeidheid.",
+    "shine-biotine":     "Draagt bij aan het behoud van normaal haar en normale nagels.",
+    "shine-roquette":    "Reich aan antioxidanten, ondersteunt de uitstraling en vitaliteit van de huid.",
+    "shine-msm":         "Draagt bij aan de soepelheid van de huid en het behoud van collageen.",
+    "shine-silicium":    "Ondersteunt de weerstand van haar en nagels en de elasticiteit van de huid.",
+    "shine-vitb6":       "Draagt bij aan de normale werking van het zenuwstelsel en vermindering van vermoeidheid.",
+    "shine-zinc":        "Draagt bij aan het behoud van een normale huid en bescherming tegen oxidatieve stress.",
+    "shine-vitd3":       "Draagt bij aan de normale spierfunctie en ondersteunt het immuunsysteem.",
+    "source-chlorella":  "Microalg rijk aan chlorofyl, ondersteunt de natuurlijke ontgifting van het lichaam.",
+    "source-curcuma":    "Helpt ontstekingen te verminderen en ondersteunt de natuurlijke afweer van het lichaam.",
+    "source-pissenlit":  "Ondersteunt de leverfunctie en draagt bij aan normale spijsvertering.",
+    "source-artichaut":  "Bevordert normale spijsvertering en draagt bij aan goede leverfunctie.",
+    "source-matcha":     "Bron van antioxidanten, ondersteunt energie en concentratie dagelijks.",
+    "source-vitb6":      "Draagt bij aan de normale werking van het zenuwstelsel en energiemetabolisme.",
+    "strength-creatine": "Verhoogt fysieke prestaties tijdens intensieve en herhaalde inspanning.",
+    "strength-vitb12":   "Draagt bij aan vermindering van vermoeidheid en ondersteunt normaal energiemetabolisme.",
+    "strength-vitd3":    "Draagt bij aan de normale spierfunctie en ondersteunt het herstel.",
+    "soul-ashwagandha":  "Helpt stress te verminderen en de mentale en fysieke weerstand tegen stress te verbeteren.",
+    "soul-gaba":         "Helpt de geest te kalmeren en een staat van rust en sereniteit te bevorderen.",
+    "soul-theanine":     "Bevordert ontspanning zonder slaperigheid te veroorzaken.",
+    "soul-rhodiola":     "Draagt bij aan vermindering van vermoeidheid en ondersteunt emotioneel evenwicht.",
+    "soul-safran":       "Draagt bij aan het stemmingsevenwicht en bevordert een positieve emotionele toestand.",
+    "soul-vitb6":        "Draagt bij aan de normale werking van het zenuwstelsel."
+  },
+  "products": {
+    "sleep": {
+      "highlights": ["Bosbes", "Ondersteuning inslapen", "Ontspanning", "Nachtrust"],
+      "routineTitle": "Optimaliseer uw avondroutine",
+      "routineSubtitle": "Beter slapen dankzij een kalmerende routine",
+      "routineIntro": "NUKU SLEEP ondersteunt de slaap wanneer het is geïntegreerd in een avondroutine aangepast aan het echte leven.",
+      "routineSub": "Eén gummy nemen is niet genoeg — de context telt.",
+      "routineTips": [
+        "Neem de gummies als onderdeel van uw avondroutine, op het moment dat u het beste uitkomt.",
+        "Vermijd ze op het laatste moment in bed te nemen; neem ze tijdens een overgangsmoment (bank, badkamer, voorbereiding slaapgaan).",
+        "Als u 's avonds een scherm bekijkt, vermijd dan al te stimulerende inhoud direct na inname.",
+        "Accepteer dat inslapen niet onmiddellijk is: slaap komt geleidelijk.",
+        "Begrijp dat de formule beter werkt in de loop van de tijd, niet als een 'uit'-knop."
+      ],
+      "routineNote": "Regelmatige gewoonten en avondroutines beïnvloeden de ervaring meer dan het zoeken naar een direct effect.",
+      "mythsTitle": "Mythes & Realiteit — NUKU SLEEP",
+      "myths": [
+        { "myth": "Eén gummy nemen volstaat om onmiddellijk in slaap te vallen.", "reality": "NUKU SLEEP ondersteunt de natuurlijke overgang naar slaap en past in een regelmatige avondroutine, zonder direct effect." },
+        { "myth": "Melatonine werkt als een slaappil.", "reality": "Melatonine is een hormoon dat natuurlijk door het lichaam wordt aangemaakt. Het ondersteunt het slaap-waakritme zonder de slaap te forceren." },
+        { "myth": "Slaapmiddelen zijn alleen voor mensen met ernstige stoornissen.", "reality": "NUKU SLEEP is bedoeld voor wie hun avondgewoonten wil verbeteren, de geest wil kalmeren en betere omstandigheden wil creëren om in slaap te vallen." }
+      ],
+      "faqTitle": "Veelgestelde vragen",
+      "faqSubtitle": "Alles wat u moet weten over NUKU SLEEP",
+      "faqs": [
+        { "question": "Waarvoor dient NUKU Sleep?", "answer": "NUKU Sleep is een voedingssupplement ontworpen om de avondroutine te ondersteunen en een staat van ontspanning voor het slapengaan te bevorderen, als onderdeel van een evenwichtige levensstijl." },
+        { "question": "Is het een slaappil of een geneesmiddel?", "answer": "Nee. NUKU Sleep is geen geneesmiddel. Het vervangt geen medische opvolging en behandelt geen chronische slaapstoornissen." },
+        { "question": "Hoe lang duurt het om de effecten te voelen?", "answer": "Ervaringen variëren afhankelijk van de persoon, hun levensstijl en slaapgewoonten. Sommigen merken snel ondersteuning, anderen na regelmatig gebruik." },
+        { "question": "Kan het elke avond worden ingenomen?", "answer": "Ja, binnen de aanbevolen dosis. Bij zwangerschap, borstvoeding, ziekte of medicatie, raadpleeg een zorgverlener." },
+        { "question": "Kan dit product afhankelijkheid veroorzaken?", "answer": "NUKU Sleep is een voedingssupplement en is niet bedoeld om afhankelijkheid te creëren. Het past in een progressieve en zachte welzijnsbenadering." },
+        { "question": "Moet ik ook een slaapschema aanhouden?", "answer": "Ja. Goede slaaphygiëne (regelmatige tijden, beperkte schermen 's avonds, rustige omgeving) versterkt de waarde van een voedingssupplement." },
+        { "question": "Wie kan NUKU Sleep gebruiken?", "answer": "Het product is bestemd voor volwassenen. Mensen met aanhoudende slaapstoornissen moeten een zorgverlener raadplegen." },
+        { "question": "Kan NUKU Sleep gecombineerd worden met andere supplementen?", "answer": "Ja in de meeste gevallen, maar let op overlappende ingrediënten en mogelijke interacties met bepaalde behandelingen." },
+        { "question": "Hoeveel gummies per dag innemen?", "answer": "De aanbevolen portie is 2 gummies per dag, niet te overschrijden." },
+        { "question": "Wanneer moeten ze worden ingenomen?", "answer": "Het is aanbevolen om de 2 gummies 's avonds, voor het slapengaan, in te nemen als onderdeel van een ontspanningsritueel." }
+      ]
+    },
+    "shine": {
+      "highlights": ["Citroen", "Haarvoeding", "Haarstructuur", "Haaronderhoud"],
+      "routineTitle": "Optimaliseer uw schoonheidsritueel — NUKU SHINE",
+      "routineSubtitle": "Schoonheid & interne ondersteuning voor sterker haar",
+      "routineIntro": "NUKU SHINE ondersteunt de haarschoonheid wanneer het regelmatig en over langere tijd wordt gebruikt. De formule werkt van binnenuit en vervangt externe verzorging niet.",
+      "routineSub": "Consistentie en geduld spelen een belangrijkere rol dan het zoeken naar snelle resultaten.",
+      "routineTips": [
+        "Neem de gummies dagelijks als onderdeel van een kuur, om de natuurlijke haarcyclus te ondersteunen.",
+        "Begrijp dat de formule niet rechtstreeks op het zichtbare haar werkt, maar de interne mechanismen ondersteunt die verband houden met kwaliteit en weerstand.",
+        "Verwacht geen onmiddellijke verandering: de haarcyclus is traag, effecten worden in de tijd waargenomen.",
+        "Combineer de formule met een consistente haarverzorgingsroutine (zachte verzorging, respect voor de hoofdhuid).",
+        "Accepteer dat resultaten variëren afhankelijk van de persoon, levensstijl en regelmaat."
+      ],
+      "routineNote": "Consistentie en geduld spelen een belangrijkere rol dan het zoeken naar snelle resultaten.",
+      "mythsTitle": "Mythes & Realiteit — NUKU SHINE",
+      "myths": [
+        { "myth": "Een haarsupplement kan haargroei alleen opnieuw opstarten.", "reality": "NUKU SHINE is geen hergroeiplossing. De formule ondersteunt de natuurlijke haargroei door het interne evenwicht te behouden, als onderdeel van een regelmatige schoonheidsroutine." },
+        { "myth": "Sterker haar betekent snelle en zichtbare resultaten.", "reality": "De haarsterkte wordt in de tijd opgebouwd. Dankzij actieve stoffen zoals MSM ondersteunt NUKU SHINE de haarstructuur en -weerstand, met een progressieve en realistische aanpak." }
+      ],
+      "faqTitle": "FAQ – SHINE (Haar)",
+      "faqSubtitle": "Alles wat u moet weten over NUKU SHINE",
+      "faqs": [
+        { "question": "Wat doet de SHINE formule eigenlijk?", "answer": "SHINE is ontworpen om de normale haargrondstof te ondersteunen via voedingsstoffen die betrokken zijn bij de structuur en de natuurlijke cyclus." },
+        { "question": "Laat SHINE haar snel teruggroeien?", "answer": "Nee. Haargroei volgt een traag biologisch ritme. SHINE kan geen onmiddellijke hergroei veroorzaken of verlies corrigeren dat verband houdt met een aandoening of hormonale onbalans." },
+        { "question": "Wanneer kunnen resultaten redelijkerwijs worden beoordeeld?", "answer": "Een eerste beoordeling is mogelijk rond 8 tot 12 weken, daarna binnen een kuur van 3 tot 6 maanden." },
+        { "question": "Voor wie is SHINE bedoeld?", "answer": "SHINE kan geschikt zijn voor volwassenen die de vitaliteit van hun haar willen ondersteunen, perioden van vermoeidheid willen begeleiden of hun haarroutine willen versterken." },
+        { "question": "Hoeveel gummies innemen en hoe lang?", "answer": "2 gummies per dag. Een kuur van 3 tot 6 maanden wordt over het algemeen aanbevolen, zonder de dagelijkse dosis te overschrijden." },
+        { "question": "Is SHINE ook geschikt voor mannen en vrouwen?", "answer": "Ja, de biologische mechanismen van haar zijn dezelfde voor beiden." },
+        { "question": "Wat kan ik naast SHINE doen voor mijn haar?", "answer": "Gevarieerde voeding, hydratatie, slaap, stressbeheer en zachte haarsverzorging. Supplementen werken altijd als ondersteuning." }
+      ]
+    },
+    "source": {
+      "highlights": ["Appel", "Darmcomfort", "Opgeblazen gevoel", "Spijsverteringsbalans"],
+      "routineTitle": "Optimaliseer uw dagelijks spijsverteringscomfort — NUKU SOURCE",
+      "routineSubtitle": "Spijsvertering & lichtheid elke dag",
+      "routineIntro": "NUKU SOURCE ondersteunt spijsvertering, comfort en het gevoel van lichtheid wanneer het is geïntegreerd in een consistente dagelijkse routine. Het is geen onmiddellijke of radicale oplossing.",
+      "routineSub": "Regelmatige en consistente gewoonten beïnvloeden de ervaring meer dan het zoeken naar een direct effect.",
+      "routineTips": [
+        "Neem de gummies elke dag, op een gemakkelijk te handhaven moment (ochtend, na een maaltijd of op een vast tijdstip).",
+        "De formule ondersteunt het dagelijkse spijsverteringscomfort, ook na zwaardere maaltijden.",
+        "Let op uw maaltijdritme en hydratatie om de effecten te optimaliseren.",
+        "Gevoelens van lichtheid verschijnen geleidelijk bij regelmatig gebruik."
+      ],
+      "routineNote": "Regelmatige en consistente gewoonten beïnvloeden de ervaring meer dan het zoeken naar een direct effect.",
+      "mythsTitle": "Mythes & Realiteit — NUKU SOURCE",
+      "myths": [
+        { "myth": "Spijsverteringsformules 'ontgiften' het lichaam volledig.", "reality": "Het lichaam reguleert zichzelf natuurlijk. NUKU SOURCE ondersteunt spijsverteringsfuncties via een plantaardige synergie, zonder miraculous detox-beloften." },
+        { "myth": "Het gevoel van lichtheid betekent gewicht verliezen.", "reality": "NUKU SOURCE is geen afslankformule. De lichtheid waarover gesproken wordt, is een progressief spijsverteringswelzijn." }
+      ],
+      "faqTitle": "FAQ – SOURCE (Detox & Spijsvertering)",
+      "faqSubtitle": "Alles wat u moet weten over NUKU SOURCE",
+      "faqs": [
+        { "question": "Wat doet de SOURCE formule eigenlijk?", "answer": "SOURCE ondersteunt de natuurlijke eliminatiefuncties van het lichaam en het spijsverteringscomfort via een selectie van planten." },
+        { "question": "Ontgiftigt SOURCE het lichaam?", "answer": "Nee. Het lichaam heeft al zijn eigen regulerende systemen. SOURCE ondersteunt deze zonder ze te vervangen." },
+        { "question": "Wanneer worden effecten gevoeld?", "answer": "Soms al bij de eerste innames, maar voornamelijk over meerdere weken, in een kuur van 3 tot 6 maanden." },
+        { "question": "Voor wie is SOURCE bedoeld?", "answer": "Volwassenen die hun spijsvertering willen ondersteunen, zwaarheid willen verminderen of een welzijnsritueel willen integreren." },
+        { "question": "Hoeveel gummies innemen?", "answer": "2 gummies per dag. Een kuur van 3 tot 6 maanden wordt aanbevolen." },
+        { "question": "Helpt SOURCE om gewicht te verliezen?", "answer": "Nee, het is geen afslankformule. Het ondersteunt het spijsverteringswelzijn." },
+        { "question": "Wat kan ik naast SOURCE doen voor mijn spijsvertering?", "answer": "Vezelrijke voeding, hydratatie, lichaamsbeweging, langzaam kauwen en excessen beperken." }
+      ]
+    },
+    "strength": {
+      "highlights": ["Watermeloen", "Spierenergie", "Fysieke prestaties", "Cognitieve ondersteuning"],
+      "routineTitle": "Hoe NUKU STRENGTH dagelijks te gebruiken",
+      "routineSubtitle": "Energie · Prestaties · Mentale helderheid",
+      "routineIntro": "NUKU STRENGTH ondersteunt energie, prestaties en concentratie in de loop van de tijd. Creatine speelt een essentiële rol in de energiebeschikbaarheid, ook op hersenniveau.",
+      "routineSub": "Het gaat niet om de occasionele inname, maar om consistentie dag na dag.",
+      "routineTips": [
+        "Pas inname aan de dag aan: meer bij intense inspanning, minder op een gewone dag.",
+        "2 tot 3 gummies zijn geschikt voor de meeste dagen, 4 bij meer veeleisende inspanningen.",
+        "Creatine werkt het beste wanneer het regelmatig wordt ingenomen.",
+        "STRENGTH past in een sport- of dagelijkse routine, zonder intensieve sport te vereisen.",
+        "Verwacht geen direct effect: de werkzaamheid bouwt zich op in de tijd."
+      ],
+      "routineNote": "Dag-na-dag consistentie is de sleutel tot een goede energiefunctie.",
+      "mythsTitle": "Mythes & Realiteit — NUKU STRENGTH",
+      "myths": [
+        { "myth": "Creatine is alleen voor sporters.", "reality": "Creatine is van nature aanwezig in het lichaam en dagelijks nuttig, ook buiten sport." },
+        { "myth": "Creatine transformeert prestaties onmiddellijk.", "reality": "Het is geen wonderproduct. Effecten zijn progressief en ondersteunen herhaalde inspanningen." },
+        { "myth": "Creatine werkt als een stimulant.", "reality": "Het stimuleert het zenuwstelsel niet. Het ondersteunt cellulaire energie zonder nervositeit." },
+        { "myth": "Creatine heeft geen verband met concentratie.", "reality": "Het speelt een rol in de algehele energie van het lichaam en kan mentale helderheid ondersteunen." }
+      ],
+      "faqTitle": "FAQ – STRENGTH (Prestaties & Focus)",
+      "faqSubtitle": "Alles wat u moet weten over NUKU STRENGTH",
+      "faqs": [
+        { "question": "Waarvoor dient STRENGTH?", "answer": "STRENGTH ondersteunt fysieke prestaties, spierkracht en energie, ook op hersenniveau." },
+        { "question": "Werkt STRENGTH op concentratie?", "answer": "Ja, creatine ondersteunt de cellulaire energieproductie, wat mentale helderheid kan helpen." },
+        { "question": "Wanneer worden effecten gevoeld?", "answer": "Energie kan snel evolueren, maar spieraanpassingen duren meerdere weken of maanden." },
+        { "question": "Voor wie is STRENGTH bedoeld?", "answer": "Volwassenen die hun energie, prestaties en concentratie willen ondersteunen." },
+        { "question": "Welke dosis innemen?", "answer": "3 gummies per dag. Een kuur van 3 tot 6 maanden wordt aanbevolen." },
+        { "question": "Helpt STRENGTH om spiermassa op te bouwen?", "answer": "Het ondersteunt spieraanpassingen, maar vervangt noch training noch voeding." },
+        { "question": "Is het alleen voor sporters?", "answer": "Nee. Het is ook geschikt voor actieve mensen die hun energie willen ondersteunen." },
+        { "question": "Wat naast STRENGTH doen?", "answer": "Slaap, hydratatie, evenwichtige voeding, progressie en fysiek en mentaal herstel." }
+      ]
+    },
+    "soul": {
+      "highlights": ["Kers", "Stressbeheer", "Mentale rust", "Emotioneel evenwicht"],
+      "routineTitle": "Optimaliseer uw dagelijks evenwicht — NUKU SOUL",
+      "routineSubtitle": "Innerlijke rust · Stressaanpassing · Emotionele stabiliteit",
+      "routineIntro": "NUKU SOUL ondersteunt innerlijke rust en emotioneel evenwicht wanneer het wordt gebruikt in het echte ritme van het dagelijks leven. Het gaat er niet om stress te elimineren, maar veeleisende dagen beter door te komen.",
+      "routineSub": "Context, regelmaat en persoonlijk ritme beïnvloeden de ervaring meer dan het zoeken naar een direct effect.",
+      "routineTips": [
+        "Neem de gummies op een identificeerbaar moment van de dag, bijvoorbeeld na het werk of wanneer de belangrijkste verplichtingen zijn gedaan.",
+        "Vermijd ze te nemen in volle drukte (vergaderingen, verplaatsingen, constante meldingen): de formule werkt beter wanneer geïntegreerd in een overgangsmoment.",
+        "Verwacht geen direct effect: rust installeert zich niet als een schakelaar.",
+        "Begrijp dat NUKU SOUL stressbronnen niet elimineert, maar het vermogen ondersteunt om er met meer stabiliteit mee om te gaan.",
+        "De formule wordt bijzonder gewaardeerd wanneer de dagen intensief zijn, om het ritme te ondersteunen en een beter evenwicht te helpen vinden."
+      ],
+      "routineNote": "Context, regelmaat en persoonlijk ritme beïnvloeden de ervaring meer dan het zoeken naar een direct effect.",
+      "mythsTitle": "Mythes & Realiteit — NUKU SOUL",
+      "myths": [
+        { "myth": "Ashwagandha werkt als een natuurlijk anxiolyticum.", "reality": "Ashwagandha is geen anxiolyticum en vervangt geen medische behandeling. Het ondersteunt stressaanpassing in een progressieve en niet-sedatieve benadering." },
+        { "myth": "Als ik geen direct effect voel, werkt de formule niet.", "reality": "Planten zoals ashwagandha en saffraan werken niet via direct gevoel. Hun rol is evenwicht progressief te ondersteunen, zonder uitgesproken of kunstmatig effect." }
+      ],
+      "faqTitle": "FAQ – SOUL (Stress & Evenwicht)",
+      "faqSubtitle": "Alles wat u moet weten over NUKU SOUL",
+      "faqs": [
+        { "question": "Wat doet de SOUL formule eigenlijk?", "answer": "SOUL is ontworpen om emotioneel evenwicht te ondersteunen en het vermogen van het lichaam om dagelijkse stress het hoofd te bieden via een combinatie van planten, aminozuren en vitamines." },
+        { "question": "Elimineert SOUL stress volledig?", "answer": "Nee. SOUL helpt het lichaam dagelijkse druk beter te beheersen, zonder stressbronnen te elimineren of een angststoornis te behandelen." },
+        { "question": "Wanneer kunnen effecten worden beoordeeld?", "answer": "Sommige mensen merken een evolutie al bij de eerste innames. Een vollediger beoordeling wordt gemaakt over meerdere weken, daarna in een kuur van 3 tot 6 maanden." },
+        { "question": "Voor wie is SOUL bedoeld?", "answer": "SOUL kan geschikt zijn voor volwassenen die dagelijkse druk beter willen beheersen, hun stemming willen ondersteunen en hun mentale helderheid willen behouden." },
+        { "question": "Hoeveel gummies innemen en hoe lang?", "answer": "De aanbevolen dosis is 2 gummies per dag. Een kuur van 3 tot 6 maanden kan worden overwogen, zonder de dagelijkse dosis te overschrijden." },
+        { "question": "Werkt SOUL op slaap?", "answer": "SOUL is geen slaapformule. Door stressbeheer te ondersteunen, kan het echter indirect ontspanning bevorderen." },
+        { "question": "Wat naast SOUL doen om stress beter te beheersen?", "answer": "Regelmatige slaap, ademhaling/meditatie, lichaamsbeweging, evenwichtige voeding, hydratatie en pauzes." }
+      ]
+    }
+  }
+}
