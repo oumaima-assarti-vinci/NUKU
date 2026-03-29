@@ -55,6 +55,9 @@
   },
   "products": {
     "sleep": {
+         "ingredients": "Maltitol, eau, pectine, carraghénanes, acide citrique, citrate de sodium, sucralose, mélatonine, L-théanine, extrait de passiflore, GABA, citrate de magnésium, vitamine B6, extrait de valériane, arôme naturel.",
+         "story": "Quand la journée s'éteint, NUKU SLEEP aide à créer un espace de calme. La mélatonine associée à la valériane accompagne l'esprit vers l'endormissement. Le geste simple pour instaurer un rituel du soir apaisant.",
+  "usage_instructions": "• Prendre 2 gummies par jour.\n• À consommer le soir, peu avant le moment du coucher.\n• Idéal dans le cadre d'un rituel du soir régulier.\n• Convient à une utilisation quotidienne.\n• Ne pas dépasser la dose journalière recommandée.\n• Déconseillé aux femmes enceintes ou allaitantes, sauf avis médical.\n• En cas de traitement médical ou de condition particulière, demander conseil à un professionnel de santé.\n• Les compléments alimentaires ne doivent pas se substituer à une alimentation variée et équilibrée ni à un mode de vie sain.\n• Tenir hors de portée des jeunes enfants.\n• Conserver dans un endroit frais et sec.\n• Refermer soigneusement après ouverture.",
       "highlights": ["Myrtille", "Soutien de l'endormissement", "Relaxation", "Repos nocturne"],
       "routineTitle": "Optimiser votre routine du soir",
       "routineSubtitle": "Mieux dormir grâce à une routine apaisante",
@@ -90,6 +93,10 @@
       ]
     },
     "shine": {
+        "ingredients": "Maltitol, eau, jus de citron, pectine, carraghénanes, acide citrique, citrate de sodium, sucralose, MSM, biotine, zinc, extrait de bambou, vitamine D3, vitamine B6, extrait de roquette, arôme naturel.",
+        "story": "Pensé comme un rituel, NUKU SHINE s'intègre naturellement au quotidien. Une synergie de biotine, de zinc et de MSM pour accompagner la beauté des cheveux. Pour révéler leur éclat et leur force, en toute simplicité.",
+  "usage_instructions": "• Prendre 2 gummies par jour.\n• À consommer à tout moment de la journée.\n• S'intègre facilement à une routine beauté quotidienne.\n• Convient à une utilisation régulière.\n• Ne pas dépasser la dose journalière recommandée.\n• Déconseillé aux femmes enceintes ou allaitantes, sauf avis médical.\n• En cas de traitement médical ou de condition particulière, demander conseil à un professionnel de santé.\n• Les compléments alimentaires ne doivent pas se substituer à une alimentation variée et équilibrée ni à un mode de vie sain.\n• Tenir hors de portée des jeunes enfants.\n• Conserver dans un endroit frais et sec.\n• Refermer soigneusement après ouverture.",
+ 
       "highlights": ["Citron", "Nutrition capillaire", "Structure du cheveu", "Maintien des cheveux"],
       "routineTitle": "Optimiser votre rituel beauté — NUKU SHINE",
       "routineSubtitle": "Beauté & soutien interne pour des cheveux plus forts",
@@ -121,6 +128,10 @@
       ]
     },
     "source": {
+        "ingredients": "Maltitol, eau, pectine, acide citrique, citrate de sodium, extrait de matcha, chlorella, racine de pissenlit, curcuma, extrait de feuille d'artichaut, vitamine C, zinc, arôme naturel.",
+         "story": "Pensé pour le quotidien, NUKU SOURCE aide à retrouver une sensation de légèreté. L'alliance du matcha, de l'artichaut et du pissenlit accompagne l'équilibre interne en douceur. Pour se sentir plus fluide, plus léger, jour après jour.",
+  "usage_instructions": "• Prendre 2 gummies par jour.\n• À consommer à tout moment de la journée, de préférence le matin ou en journée.\n• Peut être intégré à une routine quotidienne.\n• Convient à une utilisation régulière.\n• Ne pas dépasser la dose journalière recommandée.\n• Déconseillé aux femmes enceintes ou allaitantes, sauf avis médical.\n• En cas de traitement médical ou de condition particulière, demander conseil à un professionnel de santé.\n• Les compléments alimentaires ne doivent pas se substituer à une alimentation variée et équilibrée ni à un mode de vie sain.\n• Tenir hors de portée des jeunes enfants.\n• Conserver dans un endroit frais et sec.\n• Refermer soigneusement après ouverture.",
+  
       "highlights": ["Pomme", "Confort intestinal", "Ballonnements", "Équilibre digestif"],
       "routineTitle": "Optimiser votre confort digestif au quotidien — NUKU SOURCE",
       "routineSubtitle": "Digestion & légèreté au quotidien",
@@ -151,6 +162,10 @@
       ]
     },
     "strength": {
+        "ingredients": "Maltitol, jus de pastèque, eau, pectine, carraghénanes, acide citrique, citrate de sodium, sucralose, arôme naturel, amidon de maïs, créatine monohydrate, vitamine B12, vitamine D3, cire de carnauba.",
+         "story": "NUKU STRENGTH accompagne le corps et l'esprit dans le rythme du quotidien. La créatine, naturellement présente dans l'organisme, soutient l'énergie mentale, la concentration et l'effort physique. Un rituel simple pour rester performant, même en dehors du sport.",
+  "usage_instructions": "• Prendre 2 à 4 gummies par jour, selon vos besoins.\n• À consommer à tout moment de la journée, selon vos habitudes.\n• Convient à une utilisation quotidienne, y compris en dehors d'une pratique sportive.\n• Ne pas dépasser la dose journalière recommandée.\n• Déconseillé aux femmes enceintes ou allaitantes, sauf avis médical.\n• En cas de traitement médical ou de condition particulière, demander conseil à un professionnel de santé.\n• Les compléments alimentaires ne doivent pas se substituer à une alimentation variée et équilibrée ni à un mode de vie sain.\n• Tenir hors de portée des jeunes enfants.\n• Conserver dans un endroit frais et sec.\n• Refermer soigneusement après ouverture.",
+ 
       "highlights": ["Pastèque", "Énergie musculaire", "Performance physique", "Soutien cognitif"],
       "routineTitle": "Comment utiliser NUKU STRENGTH au quotidien",
       "routineSubtitle": "Énergie · Performance · Clarté mentale",
@@ -185,6 +200,9 @@
       ]
     },
     "soul": {
+        "ingredients": "Maltitol, eau, pectine, acide citrique, citrate de sodium, extrait de betterave, ashwagandha KSM-66, rhodiola, extrait de safran, L-théanine, GABA, vitamine B6, arôme naturel.",
+        "story": "NUKU SOUL invite à ralentir après une journée intense. Sa formule à base d'ashwagandha et de safran soutient la détente mentale et émotionnelle. Pour terminer la journée dans le calme et l'équilibre.",
+  "usage_instructions": "• Prendre 2 gummies par jour.\n• À consommer de préférence en fin de journée ou en début de soirée.\n• Peut être intégré à une routine bien-être quotidienne.\n• Ne pas dépasser la dose journalière recommandée.\n• Déconseillé aux femmes enceintes ou allaitantes, sauf avis médical.\n• En cas de traitement médical ou de condition particulière, demander conseil à un professionnel de santé.\n• Les compléments alimentaires ne doivent pas se substituer à une alimentation variée et équilibrée ni à un mode de vie sain.\n• Tenir hors de portée des jeunes enfants.\n• Conserver dans un endroit frais et sec.\n• Refermer soigneusement après ouverture.",
       "highlights": ["Cerise", "Gestion du stress", "Calme mental", "Équilibre émotionnel"],
       "routineTitle": "Optimiser votre équilibre au quotidien — NUKU SOUL",
       "routineSubtitle": "Calme intérieur · Adaptation au stress · Stabilité émotionnelle",
