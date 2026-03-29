@@ -54,6 +54,9 @@
   },
   "products": {
     "sleep": {
+    "ingredients": "Maltitol, water, pectine, carrageen, citroenzuur, natriumcitraat, sucralose, melatonine, L-theanine, passiebloem extract, GABA, magnesiumcitraat, vitamine B6, valeriaan extract, natuurlijk aroma.",
+  "story": "Wanneer de dag ten einde loopt, helpt NUKU SLEEP een ruimte van rust te creëren. Melatonine gecombineerd met valeriaan begeleidt de geest naar de slaap. Het eenvoudige gebaar voor een rustgevend avondritueel.",
+  "usage_instructions": "• Neem 2 gummies per dag.\n• Bij voorkeur 's avonds innemen, kort voor het slapengaan.\n• Ideaal als onderdeel van een regelmatig avondritueel.\n• Geschikt voor dagelijks gebruik.\n• De aanbevolen dagelijkse dosis niet overschrijden.\n• Niet aanbevolen voor zwangere of zogende vrouwen tenzij geadviseerd door een arts.\n• Bij medische behandeling of een specifieke aandoening, een zorgverlener raadplegen.\n• Voedingssupplementen mogen een gevarieerde en evenwichtige voeding of een gezonde levensstijl niet vervangen.\n• Buiten bereik van kinderen houden.\n• Op een koele en droge plaats bewaren.\n• Na gebruik goed sluiten.",
       "highlights": ["Bosbes", "Ondersteuning inslapen", "Ontspanning", "Nachtrust"],
       "routineTitle": "Optimaliseer uw avondroutine",
       "routineSubtitle": "Beter slapen dankzij een kalmerende routine",
@@ -89,6 +92,9 @@
       ]
     },
     "shine": {
+        "ingredients": "Maltitol, water, citroensap, pectine, carrageen, citroenzuur, natriumcitraat, sucralose, MSM, biotine, zink, bamboextract, vitamine D3, vitamine B6, rucola-extract, natuurlijk aroma.",
+  "story": "Ontworpen als een ritueel, past NUKU SHINE op natuurlijke wijze in het dagelijks leven. Een synergie van biotine, zink en MSM om de schoonheid van het haar te ondersteunen. Om de glans en kracht te onthullen, moeiteloos.",
+  "usage_instructions": "• Neem 2 gummies per dag.\n• Kan op elk moment van de dag worden ingenomen.\n• Past gemakkelijk in een dagelijkse schoonheidsroutine.\n• Geschikt voor regelmatig gebruik.\n• De aanbevolen dagelijkse dosis niet overschrijden.\n• Niet aanbevolen voor zwangere of zogende vrouwen tenzij geadviseerd door een arts.\n• Bij medische behandeling of een specifieke aandoening, een zorgverlener raadplegen.\n• Voedingssupplementen mogen een gevarieerde en evenwichtige voeding of een gezonde levensstijl niet vervangen.\n• Buiten bereik van kinderen houden.\n• Op een koele en droge plaats bewaren.\n• Na gebruik goed sluiten.",
       "highlights": ["Citroen", "Haarvoeding", "Haarstructuur", "Haaronderhoud"],
       "routineTitle": "Optimaliseer uw schoonheidsritueel — NUKU SHINE",
       "routineSubtitle": "Schoonheid & interne ondersteuning voor sterker haar",
@@ -120,6 +126,9 @@
       ]
     },
     "source": {
+         "ingredients": "Maltitol, water, pectine, citroenzuur, natriumcitraat, matcha-extract, chlorella, paardenbloem wortel, kurkuma, artisjokblad extract, vitamine C, zink, natuurlijk aroma.",
+  "story": "Ontworpen voor het dagelijks leven, helpt NUKU SOURCE een gevoel van lichtheid te herstellen. De combinatie van matcha, artisjok en paardenbloem ondersteunt het interne evenwicht op zachte wijze. Om je dag na dag lichter en soepeler te voelen.",
+  "usage_instructions": "• Neem 2 gummies per dag.\n• Kan op elk moment van de dag worden ingenomen, bij voorkeur 's ochtends of overdag.\n• Kan worden geïntegreerd in een dagelijkse routine.\n• Geschikt voor regelmatig gebruik.\n• De aanbevolen dagelijkse dosis niet overschrijden.\n• Niet aanbevolen voor zwangere of zogende vrouwen tenzij geadviseerd door een arts.\n• Bij medische behandeling of een specifieke aandoening, een zorgverlener raadplegen.\n• Voedingssupplementen mogen een gevarieerde en evenwichtige voeding of een gezonde levensstijl niet vervangen.\n• Buiten bereik van kinderen houden.\n• Op een koele en droge plaats bewaren.\n• Na gebruik goed sluiten.",
       "highlights": ["Appel", "Darmcomfort", "Opgeblazen gevoel", "Spijsverteringsbalans"],
       "routineTitle": "Optimaliseer uw dagelijks spijsverteringscomfort — NUKU SOURCE",
       "routineSubtitle": "Spijsvertering & lichtheid elke dag",
@@ -149,7 +158,10 @@
         { "question": "Wat kan ik naast SOURCE doen voor mijn spijsvertering?", "answer": "Vezelrijke voeding, hydratatie, lichaamsbeweging, langzaam kauwen en excessen beperken." }
       ]
     },
-    "strength": {
+   "strength": {
+    "ingredients": "Maltitol, watermeloen sap, water, pectine, carrageen, citroenzuur, natriumcitraat, sucralose, natuurlijk aroma, maïszetmeel, creatine monohydraat, vitamine B12, vitamine D3, carnauba was.",
+  "story": "NUKU STRENGTH ondersteunt lichaam en geest in het ritme van het dagelijks leven. Creatine, van nature aanwezig in het lichaam, ondersteunt mentale energie, concentratie en fysieke inspanning. Een eenvoudig ritueel om optimaal te presteren, ook buiten de sport.",
+  "usage_instructions": "• Neem 2 tot 4 gummies per dag, naar behoefte.\n• Kan op elk moment van de dag worden ingenomen, naar uw gewoonten.\n• Geschikt voor dagelijks gebruik, ook buiten sportbeoefening.\n• De aanbevolen dagelijkse dosis niet overschrijden.\n• Niet aanbevolen voor zwangere of zogende vrouwen tenzij geadviseerd door een arts.\n• Bij medische behandeling of een specifieke aandoening, een zorgverlener raadplegen.\n• Voedingssupplementen mogen een gevarieerde en evenwichtige voeding of een gezonde levensstijl niet vervangen.\n• Buiten bereik van kinderen houden.\n• Op een koele en droge plaats bewaren.\n• Na gebruik goed sluiten.",
       "highlights": ["Watermeloen", "Spierenergie", "Fysieke prestaties", "Cognitieve ondersteuning"],
       "routineTitle": "Hoe NUKU STRENGTH dagelijks te gebruiken",
       "routineSubtitle": "Energie · Prestaties · Mentale helderheid",
@@ -183,7 +195,10 @@
         { "question": "Wat naast STRENGTH doen?", "answer": "Slaap, hydratatie, evenwichtige voeding, progressie en fysiek en mentaal herstel." }
       ]
     },
-    "soul": {
+   "soul": {
+    "ingredients": "Maltitol, water, pectine, citroenzuur, natriumcitraat, rode bieten extract, ashwagandha KSM-66, rhodiola, saffraan extract, L-theanine, GABA, vitamine B6, natuurlijk aroma.",
+  "story": "NUKU SOUL nodigt uit om te vertragen na een intense dag. Het op ashwagandha en saffraan gebaseerde formule ondersteunt mentale en emotionele ontspanning. Om de dag te beëindigen in rust en evenwicht.",
+  "usage_instructions": "• Neem 2 gummies per dag.\n• Bij voorkeur innemen aan het einde van de dag of vroeg in de avond.\n• Kan worden geïntegreerd in een dagelijkse welzijnsroutine.\n• De aanbevolen dagelijkse dosis niet overschrijden.\n• Niet aanbevolen voor zwangere of zogende vrouwen tenzij geadviseerd door een arts.\n• Bij medische behandeling of een specifieke aandoening, een zorgverlener raadplegen.\n• Voedingssupplementen mogen een gevarieerde en evenwichtige voeding of een gezonde levensstijl niet vervangen.\n• Buiten bereik van kinderen houden.\n• Op een koele en droge plaats bewaren.\n• Na gebruik goed sluiten.",
       "highlights": ["Kers", "Stressbeheer", "Mentale rust", "Emotioneel evenwicht"],
       "routineTitle": "Optimaliseer uw dagelijks evenwicht — NUKU SOUL",
       "routineSubtitle": "Innerlijke rust · Stressaanpassing · Emotionele stabiliteit",

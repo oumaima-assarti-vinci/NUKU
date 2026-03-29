@@ -8,13 +8,6 @@ import { usePathname, useRouter } from "next/navigation";
 
 type HeaderProps = { onCartClick?: () => void };
 
-const navLinks = [
-  { href: "/shop", label: "BOUTIQUE" },
-  { href: "/build-pack", label: "COMPOSEZ VOTRE PACK" },
-  { href: "/subscription", label: "ABONNEMENT" },
-  { href: "/about", label: "NOTRE HISTOIRE" },
-];
-
 const languages = [
   { code: "fr", label: "Français" },
   { code: "en", label: "English" },
@@ -61,8 +54,8 @@ export default function Header({ onCartClick }: HeaderProps) {
     if (user) localStorage.removeItem(`cart-${user.id}`);
     clearCart();
     await supabase.auth.signOut();
-    router.push("/home");
-  }, [clearCart, router]);
+    router.push(`/${currentLang}/home`);
+  }, [clearCart, router, currentLang]);
 
   const switchLanguage = (code: string) => {
     const segments = pathname?.split("/").filter(Boolean) ?? [];
@@ -81,6 +74,13 @@ export default function Header({ onCartClick }: HeaderProps) {
 
   const activeLang = languages.find((l) => l.code === currentLang) ?? languages[0];
 
+  const navLinks = [
+    { href: `/${currentLang}/shop`, label: currentLang === "fr" ? "BOUTIQUE" : currentLang === "en" ? "SHOP" : "WINKEL" },
+    { href: `/${currentLang}/build-pack`, label: currentLang === "fr" ? "COMPOSEZ VOTRE PACK" : currentLang === "en" ? "BUILD YOUR PACK" : "STEL JE PACK SAMEN" },
+    { href: `/${currentLang}/subscription`, label: currentLang === "fr" ? "ABONNEMENT" : currentLang === "en" ? "SUBSCRIPTION" : "ABONNEMENT" },
+    { href: `/${currentLang}/about`, label: currentLang === "fr" ? "NOTRE HISTOIRE" : currentLang === "en" ? "OUR STORY" : "ONS VERHAAL" },
+  ];
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all ${
@@ -93,7 +93,7 @@ export default function Header({ onCartClick }: HeaderProps) {
         <div className="h-24 flex items-center justify-between gap-6">
 
           {/* Logo */}
-          <Link href="/home" className="flex items-center h-full">
+          <Link href={`/${currentLang}/home`} className="flex items-center h-full">
             <img
               src="/image/logo.png"
               alt="Nuku Logo"
@@ -110,7 +110,7 @@ export default function Header({ onCartClick }: HeaderProps) {
                 key={l.href}
                 href={l.href}
                 className={`text-sm tracking-wide font-semibold transition-colors ${
-                  pathname?.includes(l.href)
+                  pathname?.includes(l.href.split("/").pop()!)
                     ? "text-neutral-900"
                     : "text-neutral-600 hover:text-neutral-900"
                 }`}
@@ -166,7 +166,7 @@ export default function Header({ onCartClick }: HeaderProps) {
                 </svg>
               </button>
             ) : (
-              <Link href="/login" className="group relative p-2 rounded-full hover:bg-neutral-100 transition" title="Connexion">
+              <Link href={`/${currentLang}/login`} className="group relative p-2 rounded-full hover:bg-neutral-100 transition" title="Connexion">
                 <svg className="w-6 h-6 text-neutral-800 group-hover:text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -175,7 +175,7 @@ export default function Header({ onCartClick }: HeaderProps) {
 
             {/* Cart */}
             <button
-              onClick={() => router.push('/cart')}
+              onClick={() => router.push(`/${currentLang}/cart`)}
               className="group relative p-2 rounded-full hover:bg-neutral-100 transition"
               title="Panier"
             >
@@ -191,10 +191,10 @@ export default function Header({ onCartClick }: HeaderProps) {
 
             {/* CTA desktop */}
             <Link
-              href="/checkout"
+              href={`/${currentLang}/checkout`}
               className="hidden md:inline-flex h-11 items-center rounded-full px-5 font-extrabold text-white bg-orange-600 hover:bg-orange-700"
             >
-              COMMANDER
+              {currentLang === "fr" ? "COMMANDER" : currentLang === "en" ? "ORDER" : "BESTELLEN"}
             </Link>
 
             {/* Burger mobile */}
@@ -220,7 +220,7 @@ export default function Header({ onCartClick }: HeaderProps) {
                   href={l.href}
                   onClick={() => setMobileOpen(false)}
                   className={`w-full px-4 py-3 rounded-xl text-sm font-semibold ${
-                    pathname?.includes(l.href) ? "bg-neutral-100 text-neutral-900" : "text-neutral-700 hover:bg-neutral-50"
+                    pathname?.includes(l.href.split("/").pop()!) ? "bg-neutral-100 text-neutral-900" : "text-neutral-700 hover:bg-neutral-50"
                   }`}
                 >
                   {l.label}
@@ -246,11 +246,11 @@ export default function Header({ onCartClick }: HeaderProps) {
 
               <div className="h-px bg-neutral-200 my-1" />
               <Link
-                href="/checkout"
+                href={`/${currentLang}/checkout`}
                 onClick={() => setMobileOpen(false)}
                 className="w-full h-11 grid place-items-center rounded-xl font-extrabold text-white bg-[#ED9446]"
               >
-                COMMANDER
+                {currentLang === "fr" ? "COMMANDER" : currentLang === "en" ? "ORDER" : "BESTELLEN"}
               </Link>
             </nav>
           </div>

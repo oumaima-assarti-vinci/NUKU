@@ -128,7 +128,7 @@ function ProductImageGallery({ images }: { images: string[] }) {
       )}
       <style jsx>{`
         .pg-wrap{display:flex;flex-direction:column;gap:12px;width:100%;user-select:none;}
-        .pg-main{position:relative;width:100%;aspect-ratio:1/1;border-radius:32px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent;}
+        .pg-main{position:relative;width:100%;aspect-ratio:1/1;border-radius:24px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent;}
         .pg-img{height:90%;width:90%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 20px 35px rgba(0,0,0,0.22));animation:pgFade 0.22s ease;}
         @keyframes pgFade{from{opacity:0.4;transform:scale(0.97);}to{opacity:1;transform:scale(1);}}
         .pg-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.90);color:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 14px rgba(0,0,0,0.13);transition:background 0.2s,box-shadow 0.2s,transform 0.2s;}
@@ -142,7 +142,17 @@ function ProductImageGallery({ images }: { images: string[] }) {
         .pg-thumb:hover{opacity:0.85;transform:scale(1.04);}
         .pg-thumb-active{border-color:#ef8035;opacity:1;transform:scale(1.05);}
         .pg-thumb img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;}
-        @media(max-width:480px){.pg-thumb{width:58px;height:58px;}.pg-arrow{width:38px;height:38px;}}
+        @media(max-width:640px){
+          .pg-main{border-radius:20px;aspect-ratio:4/3;}
+          .pg-thumb{width:56px;height:56px;border-radius:10px;}
+          .pg-arrow{width:40px;height:40px;}
+          .pg-arrow-prev{left:10px;}
+          .pg-arrow-next{right:10px;}
+        }
+        @media(max-width:380px){
+          .pg-thumb{width:48px;height:48px;}
+          .pg-arrow{width:36px;height:36px;}
+        }
       `}</style>
     </div>
   );
@@ -152,11 +162,11 @@ function ProductImageGallery({ images }: { images: string[] }) {
 function ProductHighlights({ highlights }: { highlights: ProductHighlight[] }) {
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.1 }}
-      className="grid grid-cols-2 gap-x-6 gap-y-4 mt-5 pt-5 border-t border-neutral-100">
+      className="grid grid-cols-2 gap-x-4 gap-y-3 sm:gap-x-6 sm:gap-y-4 mt-4 pt-4 sm:mt-5 sm:pt-5 border-t border-neutral-100">
       {highlights.map((h, i) => (
-        <div key={i} className="flex items-center gap-3">
-          <span className="text-2xl leading-none select-none flex-shrink-0" aria-hidden>{h.emoji}</span>
-          <span className="text-[14px] text-neutral-700 leading-snug">{h.text}</span>
+        <div key={i} className="flex items-center gap-2 sm:gap-3">
+          <span className="text-xl sm:text-2xl leading-none select-none flex-shrink-0" aria-hidden>{h.emoji}</span>
+          <span className="text-[12px] sm:text-[14px] text-neutral-700 leading-snug">{h.text}</span>
         </div>
       ))}
     </motion.div>
@@ -189,11 +199,11 @@ function BenefitsNoMiddle({ benefits }: { benefits: string[] }) {
   return (
     <div className="mt-3">
       {rows.map((row, idx) => (
-        <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-5 py-1">
+        <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4 sm:gap-y-5 py-1">
           {row.map((text, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <span className="text-xl md:text-2xl leading-none select-none" aria-hidden>{getBenefitEmoji(text)}</span>
-              <span className="text-[15px] md:text-base text-neutral-800">{text}</span>
+            <div key={i} className="flex items-center gap-3 sm:gap-4">
+              <span className="text-xl sm:text-2xl leading-none select-none" aria-hidden>{getBenefitEmoji(text)}</span>
+              <span className="text-[14px] sm:text-[15px] md:text-base text-neutral-800">{text}</span>
             </div>
           ))}
           {row.length === 1 && <div className="hidden md:block" />}
@@ -210,7 +220,6 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
     const out: { label: string; image: string; benefit: string }[] = [];
     Object.entries(INGREDIENT_IMAGES).forEach(([key, value]) => {
       if (key.startsWith(productKey + "-")) {
-        // Récupère le bienfait traduit, fallback sur le français si absent
         let benefit: string;
         try {
           benefit = t(`ingredient_benefits.${key}`);
@@ -309,32 +318,32 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
         )}
       </div>
       <style jsx>{`
-        .luxury-header{text-align:center;margin-bottom:50px;padding-top:52px;}
+        .luxury-header{text-align:center;margin-bottom:40px;padding-top:48px;}
         .luxury-badge{text-transform:uppercase;letter-spacing:3px;font-size:11px;color:#b58e58;font-weight:700;}
-        .luxury-title{font-size:40px;font-weight:300;margin:10px 0;}
+        .luxury-title{font-size:clamp(26px,5vw,40px);font-weight:300;margin:10px 0;}
         .luxury-divider{width:40px;height:1px;background:#b58e58;margin:15px auto;}
-        .luxury-subtitle{font-size:14px;color:#888;font-weight:300;}
-        .ing-section{margin-top:80px;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;background:#fff;padding-bottom:52px;}
+        .luxury-subtitle{font-size:13px;color:#888;font-weight:300;padding:0 16px;}
+        .ing-section{margin-top:60px;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;background:#fff;padding-bottom:48px;}
         .ing-wrap{position:relative;max-width:${wrapMaxWidth};margin:0 auto;padding:20px 0 8px;width:100%;}
         .ing-wrap::before,.ing-wrap::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:5;pointer-events:none;}
         .ing-wrap::before{left:0;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%);}
         .ing-wrap::after{right:0;background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%);}
         .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after{display:none;}
         .ing-viewport{overflow:hidden;padding:16px 0;}
-        .ing-container{display:flex;user-select:none;-webkit-touch-callout:none;gap:20px;}
-        .ing-slide{flex:0 0 50%;min-width:0;display:flex;align-items:center;justify-content:center;}
-        @media(min-width:480px){.ing-slide{flex:0 0 36%;}}
+        .ing-container{display:flex;user-select:none;-webkit-touch-callout:none;gap:16px;}
+        .ing-slide{flex:0 0 52%;min-width:0;display:flex;align-items:center;justify-content:center;}
+        @media(min-width:480px){.ing-slide{flex:0 0 38%;}}
         @media(min-width:900px){.ing-slide{flex:0 0 ${slideWidthDesktop};}}
-        .ing-card{width:100%;background:#fff;border-radius:20px;border:none;box-shadow:0 4px 18px rgba(0,0,0,0.07);display:flex;flex-direction:column;align-items:center;padding:16px 14px 14px;gap:10px;cursor:pointer;transform:scale(0.82);opacity:0.50;filter:saturate(0.6) brightness(1.02);transform-origin:center center;transition:transform 0.4s cubic-bezier(0.34,1.26,0.64,1),opacity 0.35s ease,box-shadow 0.35s ease,filter 0.35s ease;}
+        .ing-card{width:100%;background:#fff;border-radius:20px;border:none;box-shadow:0 4px 18px rgba(0,0,0,0.07);display:flex;flex-direction:column;align-items:center;padding:14px 12px 12px;gap:8px;cursor:pointer;transform:scale(0.82);opacity:0.50;filter:saturate(0.6) brightness(1.02);transform-origin:center center;transition:transform 0.4s cubic-bezier(0.34,1.26,0.64,1),opacity 0.35s ease,box-shadow 0.35s ease,filter 0.35s ease;}
         .ing-card--active{transform:scale(var(--active-scale,1.08));opacity:1;filter:none;box-shadow:0 12px 36px rgba(180,130,80,0.18),0 4px 12px rgba(0,0,0,0.07);cursor:default;}
-        .ing-card-name{font-size:13px;font-weight:700;color:#2f261f;margin:0;text-align:center;opacity:0;transition:opacity 0.3s ease;}
+        .ing-card-name{font-size:12px;font-weight:700;color:#2f261f;margin:0;text-align:center;opacity:0;transition:opacity 0.3s ease;}
         @media(hover:hover) and (pointer:fine){.ing-card--active .ing-card-name{opacity:1;}}
         @media(hover:none),(pointer:coarse){.ing-card--active .ing-card-name{opacity:1;}}
         .ing-img-wrap{width:100%;aspect-ratio:1/1;border-radius:14px;overflow:hidden;}
         .ing-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;user-select:none;transition:transform 0.32s ease;}
         @media(hover:hover) and (pointer:fine){.ing-card--active:hover .ing-img-wrap img{transform:scale(1.06);}}
         .ing-benefit{width:100%;max-height:0;overflow:hidden;opacity:0;transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.3s ease;}
-        .ing-benefit p{margin:0;font-size:12px;line-height:1.65;color:#5a3e2b;font-style:italic;text-align:center;padding:4px 0;}
+        .ing-benefit p{margin:0;font-size:11px;line-height:1.6;color:#5a3e2b;font-style:italic;text-align:center;padding:4px 0;}
         @media(hover:hover) and (pointer:fine){.ing-card--active .ing-img-wrap:hover ~ .ing-benefit{max-height:120px;opacity:1;}}
         .ing-benefit--open{max-height:120px!important;opacity:1!important;}
         .ing-touch-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(180,130,80,0.4);background:#fff;color:#3b2a22;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
@@ -344,75 +353,136 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
         .ing-nav-prev{left:4px;}.ing-nav-next{right:4px;}
         .ing-nav-btn:not(:disabled):hover{background:#fff;border-color:rgba(239,128,53,0.5);transform:translateY(-50%) scale(1.07);}
         .ing-nav-btn:not(:disabled):active{transform:translateY(-50%) scale(0.94);}
-        @media(hover:none),(pointer:coarse){.ing-nav-btn{display:none!important;}.ing-wrap::before,.ing-wrap::after{width:30px;}}
+        @media(hover:none),(pointer:coarse){.ing-nav-btn{display:none!important;}.ing-wrap::before,.ing-wrap::after{width:24px;}}
         @media(max-width:899px){.ing-wrap{max-width:100%!important;}}
+        @media(max-width:480px){
+          .luxury-header{margin-bottom:28px;padding-top:36px;}
+          .luxury-title{font-size:24px;}
+          .luxury-subtitle{font-size:12px;}
+          .ing-section{margin-top:48px;padding-bottom:32px;}
+          .ing-container{gap:12px;}
+        }
         @media(prefers-reduced-motion:reduce){.ing-card,.ing-img-wrap img,.ing-benefit{transition:none!important;}}
       `}</style>
     </section>
   );
 }
 
+/* ── Routine Icons ── */
+const ROUTINE_ICONS: Record<ProductKey, React.ReactElement[]> = {
+  sleep: [
+    <svg key="sl1" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M30 10a14 14 0 1 1-14 20A10 10 0 0 0 30 10z" fill="currentColor" fillOpacity="0.08"/><path d="M30 10a14 14 0 1 1-14 20A10 10 0 0 0 30 10z"/><line x1="36" y1="8" x2="38" y2="6"/><line x1="40" y1="14" x2="43" y2="13"/><line x1="38" y1="18" x2="41" y2="19"/></svg>,
+    <svg key="sl2" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 18h8v20a4 4 0 01-8 0V18z" fill="currentColor" fillOpacity="0.1"/><path d="M20 18h8v20a4 4 0 01-8 0V18z"/><path d="M24 18c0 0-3-4-3-7a3 3 0 016 0c0 3-3 7-3 7z" fill="currentColor" fillOpacity="0.15"/><path d="M24 18c0 0-3-4-3-7a3 3 0 016 0c0 3-3 7-3 7z"/><line x1="16" y1="38" x2="32" y2="38"/></svg>,
+    <svg key="sl3" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="14" y="6" width="20" height="36" rx="4" fill="currentColor" fillOpacity="0.08"/><rect x="14" y="6" width="20" height="36" rx="4"/><line x1="21" y1="38" x2="27" y2="38"/><line x1="10" y1="10" x2="38" y2="38" strokeWidth="2.2"/></svg>,
+    <svg key="sl4" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 6h20M14 42h20M16 6c0 10 10 16 10 20s-10 10-10 20M32 6c0 10-10 16-10 20s10 10 10 20" fill="currentColor" fillOpacity="0.08"/><path d="M14 6h20M14 42h20M16 6c0 10 10 16 10 20s-10 10-10 20M32 6c0 10-10 16-10 20s10 10 10 20"/><ellipse cx="24" cy="26" rx="6" ry="3" fill="currentColor" fillOpacity="0.2"/></svg>,
+    <svg key="sl5" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="10" width="36" height="32" rx="4" fill="currentColor" fillOpacity="0.08"/><rect x="6" y="10" width="36" height="32" rx="4"/><line x1="6" y1="20" x2="42" y2="20"/><line x1="16" y1="6" x2="16" y2="14"/><line x1="32" y1="6" x2="32" y2="14"/><polyline points="15,30 20,35 33,24" strokeWidth="2.2"/></svg>,
+  ],
+  shine: [
+    <svg key="sh1" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="10" y="18" width="28" height="14" rx="7" fill="currentColor" fillOpacity="0.08"/><rect x="10" y="18" width="28" height="14" rx="7"/><line x1="24" y1="18" x2="24" y2="32"/></svg>,
+    <svg key="sh2" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="20" r="6" fill="currentColor" fillOpacity="0.1"/><circle cx="24" cy="20" r="6"/><line x1="24" y1="26" x2="24" y2="38"/><line x1="18" y1="38" x2="30" y2="38"/><line x1="14" y1="14" x2="18" y2="18"/><circle cx="12" cy="12" r="3" fill="currentColor" fillOpacity="0.1"/><circle cx="12" cy="12" r="3"/></svg>,
+    <svg key="sh3" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="26" r="16" fill="currentColor" fillOpacity="0.08"/><circle cx="24" cy="26" r="16"/><polyline points="24,16 24,26 32,34" strokeWidth="2.2"/><line x1="24" y1="10" x2="24" y2="8"/><line x1="14" y1="13" x2="13" y2="11"/><line x1="34" y1="13" x2="35" y2="11"/></svg>,
+    <svg key="sh4" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="24" y1="40" x2="24" y2="20"/><path d="M24 20c0-8-8-12-8-12s0 10 8 12z" fill="currentColor" fillOpacity="0.1"/><path d="M24 20c0-8-8-12-8-12s0 10 8 12z"/><path d="M24 20c0-8 8-12 8-12s0 10-8 12z" fill="currentColor" fillOpacity="0.1"/><path d="M24 20c0-8 8-12 8-12s0 10-8 12z"/><path d="M24 28c0-6-6-10-6-10s0 8 6 10z" fill="currentColor" fillOpacity="0.1"/><path d="M24 28c0-6-6-10-6-10s0 8 6 10z"/></svg>,
+    <svg key="sh5" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="40" x2="40" y2="40"/><line x1="8" y1="8" x2="8" y2="40"/><rect x="12" y="26" width="7" height="14" fill="currentColor" fillOpacity="0.15"/><rect x="12" y="26" width="7" height="14"/><rect x="22" y="18" width="7" height="22" fill="currentColor" fillOpacity="0.15"/><rect x="22" y="18" width="7" height="22"/><rect x="32" y="10" width="7" height="30" fill="currentColor" fillOpacity="0.15"/><rect x="32" y="10" width="7" height="30"/></svg>,
+  ],
+  source: [
+    <svg key="so1" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="24" r="8" fill="currentColor" fillOpacity="0.12"/><circle cx="24" cy="24" r="8"/><line x1="24" y1="8" x2="24" y2="12"/><line x1="24" y1="36" x2="24" y2="40"/><line x1="8" y1="24" x2="12" y2="24"/><line x1="36" y1="24" x2="40" y2="24"/><line x1="13" y1="13" x2="16" y2="16"/><line x1="32" y1="32" x2="35" y2="35"/><line x1="35" y1="13" x2="32" y2="16"/><line x1="16" y1="32" x2="13" y2="35"/></svg>,
+    <svg key="so2" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="26" r="14" fill="currentColor" fillOpacity="0.08"/><circle cx="24" cy="26" r="14"/><path d="M18 30c1.5 3 8.5 3 10 0"/><circle cx="20" cy="23" r="1.5" fill="currentColor"/><circle cx="28" cy="23" r="1.5" fill="currentColor"/></svg>,
+    <svg key="so3" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M16 12l4 28h8l4-28H16z" fill="currentColor" fillOpacity="0.08"/><path d="M16 12l4 28h8l4-28H16z"/><line x1="15" y1="20" x2="33" y2="20"/><path d="M20 26c2-2 6-2 8 0"/></svg>,
+    <svg key="so4" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="24" r="16" fill="currentColor" fillOpacity="0.08"/><circle cx="24" cy="24" r="16"/><line x1="24" y1="32" x2="24" y2="16"/><polyline points="17,23 24,16 31,23" strokeWidth="2.2"/></svg>,
+  ],
+  strength: [
+    <svg key="st1" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="16" x2="40" y2="16"/><line x1="8" y1="24" x2="40" y2="24"/><line x1="8" y1="32" x2="40" y2="32"/><circle cx="18" cy="16" r="4" fill="currentColor" fillOpacity="0.15"/><circle cx="18" cy="16" r="4"/><circle cx="30" cy="24" r="4" fill="currentColor" fillOpacity="0.15"/><circle cx="30" cy="24" r="4"/><circle cx="20" cy="32" r="4" fill="currentColor" fillOpacity="0.15"/><circle cx="20" cy="32" r="4"/></svg>,
+    <svg key="st2" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8h16v14c0 7-4 11-8 11s-8-4-8-11V8z" fill="currentColor" fillOpacity="0.08"/><path d="M16 8h16v14c0 7-4 11-8 11s-8-4-8-11V8z"/><path d="M16 14H10c0 9 4 13 6 13"/><path d="M32 14h6c0 9-4 13-6 13"/><line x1="24" y1="33" x2="24" y2="40"/><line x1="16" y1="40" x2="32" y2="40"/></svg>,
+    <svg key="st3" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="40" x2="40" y2="40"/><line x1="8" y1="8" x2="8" y2="40"/><polyline points="10,36 18,24 26,28 38,12" strokeWidth="2.2"/><circle cx="10" cy="36" r="2.5" fill="currentColor"/><circle cx="18" cy="24" r="2.5" fill="currentColor"/><circle cx="26" cy="28" r="2.5" fill="currentColor"/><circle cx="38" cy="12" r="2.5" fill="currentColor"/></svg>,
+    <svg key="st4" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M28 6L14 26h12l-6 16 20-22H28L34 6z" fill="currentColor" fillOpacity="0.12"/><path d="M28 6L14 26h12l-6 16 20-22H28L34 6z"/></svg>,
+    <svg key="st5" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 6h20M14 42h20M16 6c0 10 10 16 10 20s-10 10-10 20M32 6c0 10-10 16-10 20s10 10 10 20" fill="currentColor" fillOpacity="0.08"/><path d="M14 6h20M14 42h20M16 6c0 10 10 16 10 20s-10 10-10 20M32 6c0 10-10 16-10 20s10 10 10 20"/><ellipse cx="24" cy="26" rx="6" ry="3" fill="currentColor" fillOpacity="0.2"/></svg>,
+  ],
+  soul: [
+    <svg key="soul1" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M24 40C12 32 6 22 6 16a10 10 0 0120-2 10 10 0 0120 2c0 6-6 16-22 24z" fill="currentColor" fillOpacity="0.12"/><path d="M24 40C12 32 6 22 6 16a10 10 0 0120-2 10 10 0 0120 2c0 6-6 16-22 24z"/></svg>,
+    <svg key="soul2" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="24" r="16" fill="currentColor" fillOpacity="0.08"/><circle cx="24" cy="24" r="16"/><line x1="18" y1="16" x2="18" y2="32"/><line x1="30" y1="16" x2="30" y2="32"/></svg>,
+    <svg key="soul3" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="26" r="16" fill="currentColor" fillOpacity="0.08"/><circle cx="24" cy="26" r="16"/><polyline points="24,16 24,26 30,32" strokeWidth="2.2"/><path d="M18 8c2-2 4-2 6 0"/></svg>,
+    <svg key="soul4" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="10" r="5" fill="currentColor" fillOpacity="0.12"/><circle cx="24" cy="10" r="5"/><path d="M24 15v12"/><path d="M12 20l12 7 12-7"/><path d="M16 38l8-11 8 11"/></svg>,
+    <svg key="soul5" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="24" cy="24" r="8" fill="currentColor" fillOpacity="0.12"/><circle cx="24" cy="24" r="8"/><line x1="24" y1="6" x2="24" y2="10"/><line x1="24" y1="38" x2="24" y2="42"/><line x1="6" y1="24" x2="10" y2="24"/><line x1="38" y1="24" x2="42" y2="24"/><line x1="11" y1="11" x2="14" y2="14"/><line x1="34" y1="34" x2="37" y2="37"/><line x1="37" y1="11" x2="34" y2="14"/><line x1="14" y1="34" x2="11" y2="37"/></svg>,
+  ],
+};
+
 /* ── Routine Section ── */
 function ProductRoutineSection({ config, t }: { config: ProductConfig; t: any }) {
-  const { folder, emoji, routineTitle, routineSubtitle, routineIntro, routineSub, routineTips, routineNote } = config;
-  const cleanTitle = routineTitle.replace(/^[\p{Emoji}\s]+/u, "").replace(/Optimiser/i, "Optimisez").replace(/Optimise/i, "Optimise").replace(/Optimaliseer/i, "Optimaliseer");
+  const { folder, routineTitle, routineIntro, routineTips } = config;
+  const cleanTitle = routineTitle
+    .replace(/^[\p{Emoji}\s]+/u, "")
+    .replace(/Optimiser/i, "Optimisez")
+    .replace(/Optimise/i, "Optimise")
+    .replace(/Optimaliseer/i, "Optimaliseer");
+
+  const TIP_ICONS = ROUTINE_ICONS[config.key] ?? ROUTINE_ICONS.sleep;
+
   return (
-    <section className="routine-section">
-      <div className="routine-inner">
-        <div className="routine-left">
-          <p className="routine-eyebrow">{t("ritual_eyebrow")}</p>
-          <h2 className="routine-title">{cleanTitle}</h2>
-          <p className="routine-intro">{routineIntro}</p>
-          {routineSub && <p className="routine-sub">{routineSub}</p>}
-          <div className="routine-img-wrap"><img src={`/image/${folder}/${folder}1.png`} alt="Rituel" className="routine-img" /></div>
-        </div>
-        <div className="routine-right">
-          <div className="routine-card-header">
-            <span className="routine-emoji">{emoji}</span>
-            <div>
-              <p className="routine-card-label">{t("protocol_label")}</p>
-              <p className="routine-card-subtitle">{routineSubtitle}</p>
-            </div>
+    <section className="rs-section">
+      <h2 className="rs-title">{cleanTitle}</h2>
+      <div className="rs-grid">
+        <div className="rs-left">
+          <p className="rs-intro">{routineIntro}</p>
+          <div className="rs-img-wrap">
+            <img src={`/image/${folder}/${folder}1.png`} alt="Produit" className="rs-img" />
           </div>
-          <ol className="routine-tips">
-            {routineTips.map((tip, i) => (
-              <li key={i} className="routine-tip"><p>{tip}</p></li>
-            ))}
-          </ol>
-          {routineNote && <p className="routine-note">"{routineNote}"</p>}
+        </div>
+        <div className="rs-right">
+          {routineTips.map((tip, i) => (
+            <div key={i} className="rs-tip">
+              <div className="rs-icon" aria-hidden="true">
+                {TIP_ICONS[i] ?? TIP_ICONS[0]}
+              </div>
+              <p className="rs-tip-text">{tip}</p>
+            </div>
+          ))}
         </div>
       </div>
       <style jsx>{`
-        .routine-section{padding:80px 24px;background:#fff;}
-        .routine-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
-        .routine-left{position:sticky;top:90px;}
-        .routine-eyebrow{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#b58e58;margin:0 0 16px;font-weight:400;}
-        .routine-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(34px,4vw,52px);font-weight:300;line-height:1.1;color:#1a1a1a;margin:0 0 24px;letter-spacing:-0.01em;}
-        .routine-intro{font-size:15px;line-height:1.75;color:#666;font-weight:300;margin:0 0 16px;}
-        .routine-sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:18px;color:#9a8a78;margin:0;line-height:1.5;font-weight:300;}
-        .routine-img-wrap{margin-top:40px;border-radius:4px;overflow:hidden;aspect-ratio:3/4;max-width:400px;}
-        .routine-img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.7s ease;}
-        .routine-img-wrap:hover .routine-img{transform:scale(1.03);}
-        .routine-card-header{display:flex;align-items:flex-start;gap:14px;padding-bottom:24px;border-bottom:1px solid #e8e0d6;margin-bottom:8px;}
-        .routine-emoji{font-size:22px;flex-shrink:0;margin-top:2px;}
-        .routine-card-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#b58e58;margin:0 0 4px;font-weight:400;}
-        .routine-card-subtitle{font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#1a1a1a;margin:0;font-weight:400;line-height:1.4;}
-        .routine-tips{list-style:none;padding:0;margin:0;}
-        .routine-tip{padding:20px 0;border-bottom:1px solid #f0ece6;}
-        .routine-tip:last-child{border-bottom:none;}
-        .routine-tip p{font-size:14px;line-height:1.75;color:#4a4a4a;margin:0;font-weight:300;}
-        .routine-note{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:16px;font-weight:300;color:#9a8a78;margin:32px 0 0;line-height:1.6;text-align:center;padding-top:24px;border-top:1px solid #e8e0d6;}
-        @media(max-width:768px){
-          .routine-section{padding:48px 20px 56px;}
-          .routine-inner{grid-template-columns:1fr;gap:0;}
-          .routine-left{position:static;}
-          .routine-img-wrap{display:block;max-width:100%;margin-top:28px;border-radius:20px;aspect-ratio:4/3;}
-          .routine-title{font-size:clamp(28px,7vw,36px);margin-bottom:16px;}
-          .routine-right{margin-top:36px;}
-          .routine-tip{padding:16px 0;}
-          .routine-note{font-size:15px;margin-top:24px;padding-top:20px;}
+        .rs-section{padding:72px 24px 88px;background:#fff;max-width:1200px;margin:0 auto;}
+        .rs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,5vw,64px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 56px;letter-spacing:-0.02em;line-height:1.1;}
+        .rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+        .rs-left{display:flex;flex-direction:column;gap:24px;}
+        .rs-intro{font-size:15px;line-height:1.75;color:#555;font-weight:400;text-align:center;margin:0;}
+        .rs-img-wrap{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
+        .rs-img{width:80%;height:80%;object-fit:contain;filter:drop-shadow(0 24px 40px rgba(0,0,0,0.18));transition:transform 0.6s ease;}
+        .rs-img:hover{transform:scale(1.03);}
+        .rs-right{display:flex;flex-direction:column;gap:0;padding-top:8px;}
+        .rs-tip{display:flex;align-items:flex-start;gap:20px;padding:22px 0;border-bottom:1px solid #e8e2d8;}
+        .rs-tip:first-child{border-top:1px solid #e8e2d8;}
+        .rs-icon{flex-shrink:0;width:48px;height:48px;color:#2a1f14;opacity:0.75;}
+        .rs-icon svg{width:100%;height:100%;}
+        .rs-tip-text{font-size:15px;line-height:1.7;color:#3a3228;margin:0;padding-top:10px;font-weight:400;}
+
+        /* ── Tablet ── */
+        @media(max-width:900px){
+          .rs-section{padding:56px 20px 72px;}
+          .rs-grid{grid-template-columns:1fr;gap:40px;}
+          .rs-img-wrap{aspect-ratio:4/3;max-width:400px;margin:0 auto;}
+          .rs-img{width:70%;height:70%;}
         }
-        @media(max-width:480px){.routine-section{padding:40px 20px 48px;}.routine-title{font-size:26px;}}
+
+        /* ── Mobile ── */
+        @media(max-width:640px){
+          .rs-section{padding:48px 20px 60px;}
+          .rs-title{font-size:clamp(24px,7vw,36px);margin-bottom:36px;}
+          .rs-intro{font-size:14px;}
+          .rs-img-wrap{max-width:320px;}
+          .rs-tip{gap:14px;padding:18px 0;}
+          .rs-icon{width:38px;height:38px;}
+          .rs-tip-text{font-size:14px;padding-top:7px;}
+        }
+
+        /* ── Small mobile ── */
+        @media(max-width:400px){
+          .rs-section{padding:36px 16px 48px;}
+          .rs-title{font-size:22px;margin-bottom:28px;}
+          .rs-intro{font-size:13px;}
+          .rs-tip{gap:12px;padding:14px 0;}
+          .rs-icon{width:32px;height:32px;}
+          .rs-tip-text{font-size:13px;padding-top:6px;}
+        }
+        @media(prefers-reduced-motion:reduce){.rs-img{transition:none!important;}}
       `}</style>
     </section>
   );
@@ -440,21 +510,26 @@ function MythAccordion({ id, myth, reality, realityLabel }: { id: number; myth: 
         <p className="a"><strong>{realityLabel}</strong> {reality}</p>
       </div>
       <style jsx>{`
-        .acc-item{border-radius:18px;background:linear-gradient(180deg,#fffdfb 0%,#f9f4ed 100%);border:1.4px solid #e5d8c7;box-shadow:inset 0 0 12px rgba(255,237,220,.45),inset 0 1px 1px rgba(255,255,255,.6);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
+        .acc-item{border-radius:16px;background:linear-gradient(180deg,#fffdfb 0%,#f9f4ed 100%);border:1.4px solid #e5d8c7;box-shadow:inset 0 0 12px rgba(255,237,220,.45),inset 0 1px 1px rgba(255,255,255,.6);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
         @media(hover:hover){.acc-item:hover{box-shadow:0 10px 30px rgba(0,0,0,.10),inset 0 0 14px rgba(255,240,225,.45);transform:translateY(-1px);}}
         .acc-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdf8f3 100%);border-color:#dacbb9;box-shadow:0 10px 22px rgba(0,0,0,.07),inset 0 0 24px rgba(255,235,215,.5);}
-        .acc-btn{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:18px 22px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
+        .acc-btn{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:16px 20px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
         .acc-btn:hover{background:rgba(255,248,236,.7);}
-        .num{width:34px;height:34px;display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:800;font-size:16px;border-radius:50%;background:linear-gradient(135deg,#ffb98f 0%,#ff8d58 100%);box-shadow:0 5px 18px rgba(255,135,90,.42),inset 0 1px 0 rgba(255,255,255,.45);}
-        .q{font-weight:600;color:#3f372f;font-size:15.5px;line-height:1.55;letter-spacing:-0.01em;}
-        .plus{font-size:22px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;}
+        .num{width:32px;height:32px;display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:800;font-size:14px;border-radius:50%;background:linear-gradient(135deg,#ffb98f 0%,#ff8d58 100%);box-shadow:0 5px 18px rgba(255,135,90,.42),inset 0 1px 0 rgba(255,255,255,.45);}
+        .q{font-weight:600;color:#3f372f;font-size:14.5px;line-height:1.55;letter-spacing:-0.01em;}
+        .plus{font-size:20px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;}
         .plus.rot{color:#ff7b42;animation:pop .25s ease-out;}
         @keyframes pop{0%{transform:scale(.85);}60%{transform:scale(1.1);}100%{transform:scale(1);}}
         .acc-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,transform .25s ease;opacity:0;transform:translateY(-4px);}
         .acc-item.open .acc-body{opacity:1;transform:translateY(0);}
-        .a{margin:0;padding:0 22px 18px 74px;color:#6a5f57;font-size:15.3px;line-height:1.72;letter-spacing:-0.005em;}
+        .a{margin:0;padding:0 20px 16px 68px;color:#6a5f57;font-size:14.5px;line-height:1.72;letter-spacing:-0.005em;}
         .a strong{color:#ff7b42;font-weight:600;}
-        @media(max-width:640px){.acc-btn{padding:16px 18px;gap:14px;}.num{width:32px;height:32px;font-size:14px;}.q{font-size:14.5px;}.a{padding:0 18px 16px 18px;font-size:14px;}}
+        @media(max-width:640px){
+          .acc-btn{padding:14px 16px;gap:12px;}
+          .num{width:30px;height:30px;font-size:13px;}
+          .q{font-size:13.5px;}
+          .a{padding:0 16px 14px 16px;font-size:13.5px;}
+        }
         @media(prefers-reduced-motion:reduce){.acc-item,.acc-btn,.acc-body,.plus{transition:none!important;animation:none!important;}}
       `}</style>
     </div>
@@ -483,14 +558,20 @@ function MythAccordionMobile({ id, myth, reality }: { id: number; myth: string; 
       </div>
       <style jsx>{`
         .ma-item{border-bottom:1px solid #e8e2da;}
-        .ma-btn{width:100%;display:flex;align-items:center;gap:16px;padding:20px 0;background:transparent;border:0;cursor:pointer;text-align:left;}
-        .ma-num{width:36px;height:36px;border-radius:50%;border:2px solid #ef8035;display:grid;place-items:center;font-size:15px;font-weight:700;color:#ef8035;flex-shrink:0;transition:background .2s,color .2s;}
+        .ma-btn{width:100%;display:flex;align-items:center;gap:14px;padding:18px 0;background:transparent;border:0;cursor:pointer;text-align:left;}
+        .ma-num{width:34px;height:34px;border-radius:50%;border:2px solid #ef8035;display:grid;place-items:center;font-size:14px;font-weight:700;color:#ef8035;flex-shrink:0;transition:background .2s,color .2s;}
         .ma-num--active{background:#ef8035;color:#fff;}
-        .ma-q{flex:1;font-size:16px;font-weight:500;color:#1a1a1a;line-height:1.45;letter-spacing:-0.01em;}
-        .ma-plus{font-size:22px;color:#9a9a9a;font-weight:300;flex-shrink:0;line-height:1;}
+        .ma-q{flex:1;font-size:15px;font-weight:500;color:#1a1a1a;line-height:1.45;letter-spacing:-0.01em;}
+        .ma-plus{font-size:20px;color:#9a9a9a;font-weight:300;flex-shrink:0;line-height:1;}
         .ma-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;}
         .ma-item.open .ma-body{opacity:1;}
-        .ma-a{margin:0;padding:0 0 20px 52px;font-size:14.5px;line-height:1.75;color:#666;font-weight:300;}
+        .ma-a{margin:0;padding:0 0 18px 48px;font-size:14px;line-height:1.75;color:#666;font-weight:300;}
+        @media(max-width:400px){
+          .ma-btn{gap:12px;padding:16px 0;}
+          .ma-num{width:30px;height:30px;font-size:13px;}
+          .ma-q{font-size:14px;}
+          .ma-a{padding:0 0 16px 42px;font-size:13.5px;}
+        }
         @media(prefers-reduced-motion:reduce){.ma-body{transition:none!important;}}
       `}</style>
     </div>
@@ -531,30 +612,38 @@ function ProductMythsSection({ config, t }: { config: ProductConfig; t: any }) {
       <style jsx>{`
         .myths-section{position:relative;width:100%;background:#ffffff;overflow:hidden;isolation:isolate;}
         .ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.65;background:radial-gradient(1200px 460px at 60% 85%,rgba(255,236,220,.65),transparent 70%),radial-gradient(900px 360px at 80% 30%,rgba(255,240,230,.55),transparent 70%);filter:blur(.3px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
-        .myths-desktop{display:block;padding:clamp(70px,8vw,110px) 20px;}
+        .myths-desktop{display:block;padding:clamp(60px,7vw,100px) 20px;}
         .myths-mobile{display:none;}
         .myths-wrapper{position:relative;max-width:1240px;margin:0 auto;min-height:600px;z-index:1;}
-        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:360px;height:520px;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.4);box-shadow:0 22px 60px rgba(0,0,0,.07),0 10px 30px rgba(0,0,0,.05),0 0 46px rgba(255,230,210,.6);z-index:2;background:#000;margin:0;}
+        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:340px;height:500px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.4);box-shadow:0 22px 60px rgba(0,0,0,.07),0 10px 30px rgba(0,0,0,.05),0 0 46px rgba(255,230,210,.6);z-index:2;background:#000;margin:0;}
         .myths-img img{width:100%;height:100%;object-fit:cover;display:block;}
         .card-stack{position:absolute;right:0;top:50%;background:linear-gradient(135deg,#f4ece2,#efe3d7);filter:blur(.2px);width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.08);z-index:1;}
         .stack-1{opacity:.75;transform:translate(32px,-50%);}
         .stack-2{opacity:.48;transform:translate(60px,-48%);}
-        .myths-card{position:relative;margin-left:260px;padding:54px 56px;border-radius:30px;background:rgba(255,252,248,.82);border:1.6px solid rgba(240,224,210,.9);backdrop-filter:blur(14px) saturate(140%);box-shadow:0 30px 90px rgba(0,0,0,.08),0 12px 42px rgba(0,0,0,.06),0 0 60px rgba(255,230,210,.75);overflow:hidden;z-index:3;}
+        .myths-card{position:relative;margin-left:250px;padding:48px 52px;border-radius:28px;background:rgba(255,252,248,.82);border:1.6px solid rgba(240,224,210,.9);backdrop-filter:blur(14px) saturate(140%);box-shadow:0 30px 90px rgba(0,0,0,.08),0 12px 42px rgba(0,0,0,.06),0 0 60px rgba(255,230,210,.75);overflow:hidden;z-index:3;}
         .myths-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,245,235,.55) 0%,rgba(255,253,250,0) 18%);opacity:.55;mix-blend-mode:screen;pointer-events:none;}
         .card-border{position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 36px rgba(255,236,220,.6),inset 0 2px 4px rgba(255,255,255,.9);}
-        .myths-card.is-compact{padding:36px 40px;}
-        .myths-title{margin:0 0 26px;font-size:28px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
-        .moon{font-size:30px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
-        .myths-accordion{display:flex;flex-direction:column;gap:16px;position:relative;z-index:1;}
+        .myths-card.is-compact{padding:32px 36px;}
+        .myths-title{margin:0 0 24px;font-size:26px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
+        .moon{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
+        .myths-accordion{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;}
+
+        /* ── Mobile (< 900px) ── */
         @media(max-width:900px){
           .myths-desktop{display:none;}
           .myths-mobile{display:block;padding:48px 20px 56px;}
-          .mob-img-wrap{width:100%;border-radius:20px;overflow:hidden;aspect-ratio:4/3;margin-bottom:36px;}
+          .mob-img-wrap{width:100%;border-radius:20px;overflow:hidden;aspect-ratio:4/3;margin-bottom:32px;}
           .mob-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
-          .mob-title{font-size:clamp(28px,7vw,36px);font-weight:700;color:#1a1a1a;letter-spacing:-0.02em;margin:0 0 28px;line-height:1.15;}
+          .mob-title{font-size:clamp(24px,6vw,34px);font-weight:700;color:#1a1a1a;letter-spacing:-0.02em;margin:0 0 24px;line-height:1.15;}
           .mob-list-top-border{border-top:1px solid #e8e2da;}
         }
-        @media(max-width:480px){.myths-mobile{padding:40px 20px 48px;}.mob-img-wrap{border-radius:16px;margin-bottom:28px;}.mob-title{font-size:26px;margin-bottom:24px;}}
+
+        /* ── Small mobile ── */
+        @media(max-width:480px){
+          .myths-mobile{padding:36px 16px 48px;}
+          .mob-img-wrap{border-radius:16px;margin-bottom:24px;aspect-ratio:3/2;}
+          .mob-title{font-size:22px;margin-bottom:20px;}
+        }
       `}</style>
     </section>
   );
@@ -581,19 +670,18 @@ function FAQItem({ id, question, answer }: { id: number; question: string; answe
         <p className="faq-a">{answer}</p>
       </div>
       <style jsx>{`
-        .faq-item{border-radius:16px;background:linear-gradient(180deg,#fffefb 0%,#faf6f0 100%);border:1.4px solid #e8dcc9;box-shadow:inset 0 0 10px rgba(255,240,228,.4),inset 0 1px 1px rgba(255,255,255,.7);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
+        .faq-item{border-radius:14px;background:linear-gradient(180deg,#fffefb 0%,#faf6f0 100%);border:1.4px solid #e8dcc9;box-shadow:inset 0 0 10px rgba(255,240,228,.4),inset 0 1px 1px rgba(255,255,255,.7);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
         @media(hover:hover){.faq-item:hover{box-shadow:0 8px 24px rgba(0,0,0,.08),inset 0 0 12px rgba(255,240,228,.45);transform:translateY(-1px);}}
         .faq-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdfaf5 100%);border-color:#dccebb;box-shadow:0 8px 20px rgba(0,0,0,.06),inset 0 0 20px rgba(255,237,218,.5);}
-        .faq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
+        .faq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
         .faq-btn:hover{background:rgba(255,250,240,.6);}
-        .faq-q{flex:1;font-weight:600;color:#3f372f;font-size:15px;line-height:1.5;letter-spacing:-0.01em;}
-        .faq-plus{flex-shrink:0;width:28px;height:28px;display:grid;place-items:center;font-size:20px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;border-radius:50%;background:rgba(255,250,245,.6);}
+        .faq-q{flex:1;font-weight:600;color:#3f372f;font-size:14px;line-height:1.5;letter-spacing:-0.01em;}
+        .faq-plus{flex-shrink:0;width:26px;height:26px;display:grid;place-items:center;font-size:18px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;border-radius:50%;background:rgba(255,250,245,.6);}
         .faq-plus.rot{color:#ff7b42;background:rgba(255,123,66,.1);animation:popFaq .25s ease-out;}
         @keyframes popFaq{0%{transform:scale(.88);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
         .faq-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;}
         .faq-item.open .faq-body{opacity:1;}
-        .faq-a{margin:0;padding:4px 20px 18px 20px;color:#6a5f57;font-size:14.5px;line-height:1.7;letter-spacing:-0.005em;}
-        @media(max-width:640px){.faq-btn{padding:16px 18px;gap:12px;}.faq-q{font-size:14.5px;}.faq-plus{width:26px;height:26px;font-size:18px;}.faq-a{padding:4px 18px 16px 18px;font-size:14px;}}
+        .faq-a{margin:0;padding:4px 18px 16px 18px;color:#6a5f57;font-size:14px;line-height:1.7;letter-spacing:-0.005em;}
         @media(prefers-reduced-motion:reduce){.faq-item,.faq-btn,.faq-body,.faq-plus{transition:none!important;animation:none!important;}}
       `}</style>
     </div>
@@ -621,12 +709,17 @@ function FAQItemMobile({ id, question, answer }: { id: number; question: string;
       </div>
       <style jsx>{`
         .fmob-item{border-bottom:1px solid #e8e2da;}
-        .fmob-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0;background:transparent;border:0;cursor:pointer;text-align:left;}
-        .fmob-q{flex:1;font-size:16px;font-weight:500;color:#1a1a1a;line-height:1.45;letter-spacing:-0.01em;}
-        .fmob-plus{font-size:22px;color:#9a9a9a;font-weight:300;flex-shrink:0;line-height:1;}
+        .fmob-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:18px 0;background:transparent;border:0;cursor:pointer;text-align:left;}
+        .fmob-q{flex:1;font-size:15px;font-weight:500;color:#1a1a1a;line-height:1.45;letter-spacing:-0.01em;}
+        .fmob-plus{font-size:20px;color:#9a9a9a;font-weight:300;flex-shrink:0;line-height:1;}
         .fmob-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;}
         .fmob-item.open .fmob-body{opacity:1;}
-        .fmob-a{margin:0;padding:0 0 20px 0;font-size:14.5px;line-height:1.75;color:#666;font-weight:300;}
+        .fmob-a{margin:0;padding:0 0 18px 0;font-size:14px;line-height:1.75;color:#666;font-weight:300;}
+        @media(max-width:400px){
+          .fmob-btn{padding:16px 0;gap:12px;}
+          .fmob-q{font-size:14px;}
+          .fmob-a{font-size:13.5px;}
+        }
         @media(prefers-reduced-motion:reduce){.fmob-body{transition:none!important;}}
       `}</style>
     </div>
@@ -663,26 +756,29 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
         </footer>
       </div>
       <style jsx>{`
-        .faq-section{position:relative;width:100%;padding:clamp(70px,8vw,110px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
+        .faq-section{position:relative;width:100%;padding:clamp(56px,7vw,100px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
         .faq-ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.5;background:radial-gradient(1000px 400px at 50% 90%,rgba(255,236,220,.5),transparent 65%),radial-gradient(800px 320px at 50% 10%,rgba(254,240,230,.4),transparent 65%);filter:blur(.4px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
         .faq-container{position:relative;max-width:960px;margin:0 auto;z-index:1;}
-        .faq-header{text-align:center;margin-bottom:clamp(40px,6vw,60px);}
-        .faq-main-title{margin:0 0 12px;font-size:clamp(28px,4vw,36px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:14px;}
-        .faq-icon{font-size:clamp(32px,4.5vw,40px);filter:drop-shadow(0 2px 4px rgba(0,0,0,.06));flex-shrink:0;margin-top:0.1em;}
-        .faq-subtitle{margin:0;font-size:clamp(14px,1.8vw,16px);color:#6a5f57;font-weight:400;letter-spacing:.01em;}
+        .faq-header{text-align:center;margin-bottom:clamp(32px,5vw,56px);}
+        .faq-main-title{margin:0 0 10px;font-size:clamp(24px,4vw,34px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:12px;}
+        .faq-icon{font-size:clamp(28px,4vw,38px);filter:drop-shadow(0 2px 4px rgba(0,0,0,.06));flex-shrink:0;margin-top:0.1em;}
+        .faq-subtitle{margin:0;font-size:clamp(13px,1.8vw,15px);color:#6a5f57;font-weight:400;letter-spacing:.01em;padding:0 16px;}
         .faq-desktop{display:block;}
         .faq-mobile{display:none;}
-        .faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start;}
+        .faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;align-items:start;}
         @media(max-width:767px){
           .faq-desktop{display:none;}
           .faq-mobile{display:block;}
           .fmob-top-border{border-top:1px solid #e8e2da;}
-          .faq-section{padding:48px 20px 56px;}
-          .faq-header{margin-bottom:32px;}
+          .faq-section{padding:44px 20px 52px;}
+          .faq-header{margin-bottom:28px;}
         }
-        @media(max-width:480px){.faq-section{padding:40px 20px 48px;}.faq-main-title{font-size:24px;}}
-        .faq-footer{margin-top:clamp(50px,7vw,70px);text-align:center;padding-top:32px;border-top:1px solid rgba(233,221,205,.6);}
-        .faq-footer-text{margin:0;font-size:15px;color:#6a5f57;}
+        @media(max-width:480px){
+          .faq-section{padding:36px 16px 44px;}
+          .faq-main-title{font-size:22px;gap:10px;}
+        }
+        .faq-footer{margin-top:clamp(40px,6vw,64px);text-align:center;padding-top:28px;border-top:1px solid rgba(233,221,205,.6);}
+        .faq-footer-text{margin:0;font-size:14px;color:#6a5f57;}
         .faq-footer-link{color:#ff7b42;font-weight:600;text-decoration:none;transition:color .2s ease;}
         .faq-footer-link:hover{color:#ff8d58;text-decoration:underline;}
       `}</style>
@@ -695,11 +791,11 @@ function AccordionItem({ title, children }: { title: string; children: React.Rea
   const [open, setOpen] = useState(false);
   return (
     <div className="border border-neutral-200 rounded-xl overflow-hidden bg-white">
-      <button onClick={() => setOpen(!open)} className="w-full flex justify-between items-center px-6 py-4 text-left font-medium text-neutral-900 hover:bg-neutral-50 transition-colors">
+      <button onClick={() => setOpen(!open)} className="w-full flex justify-between items-center px-5 py-4 text-left font-medium text-neutral-900 hover:bg-neutral-50 transition-colors text-[15px]">
         {title}
-        <span className="text-xl text-neutral-600">{open ? "−" : "+"}</span>
+        <span className="text-xl text-neutral-600 ml-4 flex-shrink-0">{open ? "−" : "+"}</span>
       </button>
-      {open && <div className="px-6 pb-6 pt-2 bg-white">{children}</div>}
+      {open && <div className="px-5 pb-5 pt-2 bg-white">{children}</div>}
     </div>
   );
 }
@@ -752,7 +848,6 @@ export default function ProductDetailPage() {
 
   const productKey = useMemo(() => product ? getProductKey(product) : null, [product]);
 
-  // Construit la config depuis les traductions JSON
   const productConfig = useMemo((): ProductConfig | null => {
     if (!productKey) return null;
     const pd = t.raw(`products.${productKey}`) as any;
@@ -794,7 +889,7 @@ export default function ProductDetailPage() {
 
   if (loading) return (
     <div className="min-h-screen bg-white pt-[73px] grid place-items-center">
-      <div className="relative w-16 h-16" role="status">
+      <div className="relative w-12 h-12 sm:w-16 sm:h-16" role="status">
         <div className="absolute inset-0 border-4 border-neutral-200 rounded-full" />
         <div className="absolute inset-0 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin" />
       </div>
@@ -804,10 +899,12 @@ export default function ProductDetailPage() {
 
   return (
     <main className="bg-white min-h-screen text-neutral-900 pt-[73px]">
+
+      {/* ── Subscription banner ── */}
       {subscriptionMode && (
-        <div className="max-w-[1400px] mx-auto w-full px-6 pb-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 pb-3 sm:pb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm font-medium">
+            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             {t("subscription_mode")}
@@ -815,112 +912,143 @@ export default function ProductDetailPage() {
         </div>
       )}
 
+      {/* ── Error ── */}
       {fetchError && (
-        <div className="max-w-[1400px] mx-auto w-full px-6 pb-2">
-          <div className="p-4 rounded-xl bg-red-50 text-red-700 border border-red-200 text-sm">{fetchError}</div>
+        <div className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 pb-2">
+          <div className="p-3 sm:p-4 rounded-xl bg-red-50 text-red-700 border border-red-200 text-sm">{fetchError}</div>
         </div>
       )}
 
-      <section className="max-w-[1400px] mx-auto w-full px-6 pb-20">
-        <div className="grid lg:grid-cols-2 gap-12">
+      {/* ── Hero ── */}
+      <section className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 pb-12 sm:pb-20">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
+
+          {/* Left — Gallery */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <ProductImageGallery images={productImages} />
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-5 md:space-y-6">
+          {/* Right — Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-4 sm:space-y-5 md:space-y-6"
+          >
+            {/* Title + rating */}
             <div>
-              <h1 className="text-4xl md:text-[42px] font-semibold tracking-tight mb-4 text-neutral-800">{product.nom}</h1>
+              <h1 className="text-2xl sm:text-3xl md:text-[42px] font-semibold tracking-tight mb-3 text-neutral-800 leading-tight">
+                {product.nom}
+              </h1>
               {count > 0 && (
-                <div className="flex items-center gap-3 text-sm text-neutral-600">
+                <div className="flex items-center gap-2 sm:gap-3 text-sm text-neutral-600">
                   <RatingStars value={avg} readonly />
-                  <span>({count} {t("verified_reviews")})</span>
+                  <span className="text-xs sm:text-sm">({count} {t("verified_reviews")})</span>
                 </div>
               )}
             </div>
 
-            {(product.story || product.description) && (
+            {/* Story + highlights */}
+            {(productKey || product.story || product.description) && (
               <div>
-                <p className="text-neutral-600 leading-relaxed text-[15px] max-w-prose">{product.story || product.description}</p>
+                <p className="text-neutral-600 leading-relaxed text-[14px] sm:text-[15px] max-w-prose">
+                  {productKey ? t(`products.${productKey}.story`) : (product.story || product.description)}
+                </p>
                 {productConfig && <ProductHighlights highlights={productConfig.highlights} />}
                 {!productKey && (product.benefits?.length ?? 0) > 0 && <BenefitsNoMiddle benefits={product.benefits!} />}
               </div>
             )}
 
-            <div className="grid sm:grid-cols-2 gap-4 py-6">
+            {/* Metadata chips */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 py-3 sm:py-5">
               {product.gummies_per_jar && (
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
                   </svg>
-                  <p className="text-sm text-neutral-700">{product.gummies_per_jar} gummies/potje</p>
+                  <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.gummies_per_jar} gummies/potje</p>
                 </div>
               )}
               {product.flavor && (
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  <p className="text-sm text-neutral-700">{product.flavor}</p>
+                  <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.flavor}</p>
                 </div>
               )}
               {product.shipping_note && (
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-5 h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50 col-span-2 sm:col-span-1">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 01-1 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
                   </svg>
-                  <p className="text-sm text-neutral-700">{product.shipping_note}</p>
+                  <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.shipping_note}</p>
                 </div>
               )}
             </div>
 
-            <fieldset className="space-y-3 mt-1 md:mt-2" aria-label={t("one_time")}>
+            {/* Purchase type selector */}
+            <fieldset className="space-y-2.5 sm:space-y-3 mt-1" aria-label={t("one_time")}>
               {!subscriptionMode && (
-                <label className={`relative flex items-center justify-between p-5 border-2 rounded-2xl transition-colors cursor-pointer ${purchaseType === "unique" ? "border-neutral-900 bg-white shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
+                <label className={`relative flex items-center justify-between p-4 sm:p-5 border-2 rounded-2xl transition-colors cursor-pointer ${purchaseType === "unique" ? "border-neutral-900 bg-white shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
                   <div>
-                    <span className="text-lg font-semibold block">{t("one_time")}</span>
-                    <span className="text-sm text-neutral-600">{t("one_time_sub")}</span>
+                    <span className="text-base sm:text-lg font-semibold block">{t("one_time")}</span>
+                    <span className="text-xs sm:text-sm text-neutral-600">{t("one_time_sub")}</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className="text-lg font-semibold text-neutral-900">{euroFmt.format(unitPrice)}</span>
-                    <input type="radio" name="purchaseType" aria-label={t("one_time")} checked={purchaseType === "unique"} onChange={() => setPurchaseType("unique")} className="w-5 h-5" />
+                  <div className="flex items-center gap-2 sm:gap-4">
+                    <span className="text-base sm:text-lg font-semibold text-neutral-900">{euroFmt.format(unitPrice)}</span>
+                    <input type="radio" name="purchaseType" aria-label={t("one_time")} checked={purchaseType === "unique"} onChange={() => setPurchaseType("unique")} className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </label>
               )}
-              <label className={`relative flex items-center justify-between p-5 border-2 rounded-2xl cursor-pointer transition-colors ${purchaseType === "subscription" ? "border-green-500 bg-green-50 shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
-                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+
+              <label className={`relative flex items-center justify-between p-4 sm:p-5 border-2 rounded-2xl cursor-pointer transition-colors ${purchaseType === "subscription" ? "border-green-500 bg-green-50 shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
+                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full">
                   {subscriptionMode ? t("subscription_mode") : t("recommended")}
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-semibold">{t("subscription")}</span>
-                    <span className="px-2 py-0.5 bg-green-500 text-white text-xs font-bold rounded">-20%</span>
+                    <span className="text-base sm:text-lg font-semibold">{t("subscription")}</span>
+                    <span className="px-1.5 py-0.5 sm:px-2 bg-green-500 text-white text-[10px] sm:text-xs font-bold rounded">-20%</span>
                   </div>
-                  <span className="text-sm text-neutral-600">{t("subscription_sub")}</span>
+                  <span className="text-xs sm:text-sm text-neutral-600">{t("subscription_sub")}</span>
                 </div>
-                <div className="flex items-center gap-4 text-right">
+                <div className="flex items-center gap-2 sm:gap-4 text-right">
                   <div className="leading-tight">
-                    <span className="block text-sm text-neutral-400 line-through">{euroFmt.format(unitPrice)}</span>
-                    <span className="block text-lg font-semibold text-green-700">{euroFmt.format(subPrice)}</span>
+                    <span className="block text-xs sm:text-sm text-neutral-400 line-through">{euroFmt.format(unitPrice)}</span>
+                    <span className="block text-base sm:text-lg font-semibold text-green-700">{euroFmt.format(subPrice)}</span>
                   </div>
-                  <input type="radio" name="purchaseType" aria-label={t("subscription")} checked={purchaseType === "subscription"} onChange={() => setPurchaseType("subscription")} className="w-5 h-5" />
+                  <input type="radio" name="purchaseType" aria-label={t("subscription")} checked={purchaseType === "subscription"} onChange={() => setPurchaseType("subscription")} className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
               </label>
             </fieldset>
 
-            <button onClick={handleAddToCart} className="w-full py-5 bg-gradient-to-b from-neutral-900 to-neutral-800 text-white font-semibold text-lg rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-xl" aria-live="polite">
+            {/* Add to cart CTA */}
+            <button
+              onClick={handleAddToCart}
+              className="w-full py-4 sm:py-5 bg-gradient-to-b from-neutral-900 to-neutral-800 text-white font-semibold text-base sm:text-lg rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-xl"
+              aria-live="polite"
+            >
               {subscriptionMode ? t("add_to_routine") : t("add_to_cart")} — {priceLabel}
             </button>
 
-            {(product.ingredients?.length || product.usage_instructions) && (
-              <div className="mt-10 space-y-3">
+            {/* Ingredients + Usage accordions */}
+            {(product.ingredients?.length || productKey || product.usage_instructions) && (
+              <div className="mt-6 sm:mt-10 space-y-2.5 sm:space-y-3">
                 {(product.ingredients?.length ?? 0) > 0 && (
                   <AccordionItem title={t("ingredients_title")}>
-                    <p className="text-sm text-neutral-600 leading-relaxed font-light">{product.ingredients!.join(", ")}.</p>
+                    <p className="text-sm text-neutral-600 leading-relaxed font-light">
+                      {productKey
+                        ? t(`products.${productKey}.ingredients`)
+                        : product.ingredients!.join(", ") + "."}
+                    </p>
                   </AccordionItem>
                 )}
-                {product.usage_instructions && (
+                {(productKey || product.usage_instructions) && (
                   <AccordionItem title={t("usage_title")}>
-                    <p className="text-neutral-700 leading-relaxed whitespace-pre-line">{product.usage_instructions}</p>
+                    <p className="text-sm sm:text-base text-neutral-700 leading-relaxed whitespace-pre-line">
+                      {productKey ? t(`products.${productKey}.usage_instructions`) : product.usage_instructions}
+                    </p>
                   </AccordionItem>
                 )}
               </div>
@@ -928,8 +1056,10 @@ export default function ProductDetailPage() {
           </motion.div>
         </div>
 
+        {/* ── Ingredients Slider ── */}
         {productKey && <IngredientsSlider productKey={productKey} t={t} />}
 
+        {/* ── Routine / Myths / FAQ ── */}
         {productConfig && (
           <>
             <ProductRoutineSection config={productConfig} t={t} />
@@ -938,8 +1068,11 @@ export default function ProductDetailPage() {
           </>
         )}
 
-        <div className="mt-20 pt-12 border-t border-neutral-300">
-          <h2 className="text-3xl font-light tracking-tight mb-8 text-neutral-800">{t("reviews_title")}</h2>
+        {/* ── Reviews ── */}
+        <div className="mt-12 sm:mt-20 pt-8 sm:pt-12 border-t border-neutral-300">
+          <h2 className="text-xl sm:text-3xl font-light tracking-tight mb-6 sm:mb-8 text-neutral-800">
+            {t("reviews_title")}
+          </h2>
           <ProductReviews productId={product.id} />
         </div>
       </section>
