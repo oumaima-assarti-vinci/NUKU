@@ -96,7 +96,7 @@ export default function Header({ onCartClick }: HeaderProps) {
           <Link href={`/${currentLang}/home`} className="flex items-center h-full">
             <img
               src="/image/logo.png"
-              alt="Nuku Logo"
+              alt="Nuku"
               className="h-40 w-auto md:h-60 md:max-w-[180px] object-contain select-none"
               loading="eager"
               decoding="async"
