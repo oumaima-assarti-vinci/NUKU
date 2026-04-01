@@ -5,6 +5,11 @@ import { CartProvider } from "@/lib/contexts/CartContext"
 import { NextIntlClientProvider } from "next-intl"
 import ClientLayout from "./ClientLayout"
 
+export const metadata = {
+  title: "Nuku – Élevez votre bien-être",
+  description: "Élevez votre bien-être avec des compléments botaniques.",
+};
+
 export default async function LocaleLayout({
   children,
   params,
