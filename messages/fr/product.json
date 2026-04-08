@@ -233,5 +233,10 @@
         { "question": "Que puis-je faire en plus de SOUL pour mieux gérer le stress ?", "answer": "Sommeil régulier, respiration/méditation, activité physique, alimentation équilibrée, hydratation et pauses." }
       ]
     }
-  }
+  },
+  "sub_perk_1": "Profitez de 25 % de réduction sur chacune de vos commandes.",
+"sub_perk_2": "Résiliable à tout moment, après la 2ᵉ livraison.",
+"sub_perk_3": "Choisissez la fréquence de livraison selon votre rythme.",
+"sub_perk_4": "Mettez votre abonnement en pause quand vous le souhaitez.",
+"sub_perk_5": "Gérez votre abonnement en toute liberté depuis votre espace client."
 }

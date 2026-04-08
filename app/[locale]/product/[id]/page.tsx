@@ -453,16 +453,12 @@ function ProductRoutineSection({ config, t }: { config: ProductConfig; t: any })
         .rs-icon{flex-shrink:0;width:48px;height:48px;color:#2a1f14;opacity:0.75;}
         .rs-icon svg{width:100%;height:100%;}
         .rs-tip-text{font-size:15px;line-height:1.7;color:#3a3228;margin:0;padding-top:10px;font-weight:400;}
-
-        /* ── Tablet ── */
         @media(max-width:900px){
           .rs-section{padding:56px 20px 72px;}
           .rs-grid{grid-template-columns:1fr;gap:40px;}
           .rs-img-wrap{aspect-ratio:4/3;max-width:400px;margin:0 auto;}
           .rs-img{width:70%;height:70%;}
         }
-
-        /* ── Mobile ── */
         @media(max-width:640px){
           .rs-section{padding:48px 20px 60px;}
           .rs-title{font-size:clamp(24px,7vw,36px);margin-bottom:36px;}
@@ -472,8 +468,6 @@ function ProductRoutineSection({ config, t }: { config: ProductConfig; t: any })
           .rs-icon{width:38px;height:38px;}
           .rs-tip-text{font-size:14px;padding-top:7px;}
         }
-
-        /* ── Small mobile ── */
         @media(max-width:400px){
           .rs-section{padding:36px 16px 48px;}
           .rs-title{font-size:22px;margin-bottom:28px;}
@@ -510,11 +504,11 @@ function MythAccordion({ id, myth, reality, realityLabel }: { id: number; myth: 
         <p className="a"><strong>{realityLabel}</strong> {reality}</p>
       </div>
       <style jsx>{`
-        .acc-item{border-radius:16px;background:linear-gradient(180deg,#fffdfb 0%,#f9f4ed 100%);border:1.4px solid #e5d8c7;box-shadow:inset 0 0 12px rgba(255,237,220,.45),inset 0 1px 1px rgba(255,255,255,.6);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
-        @media(hover:hover){.acc-item:hover{box-shadow:0 10px 30px rgba(0,0,0,.10),inset 0 0 14px rgba(255,240,225,.45);transform:translateY(-1px);}}
-        .acc-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdf8f3 100%);border-color:#dacbb9;box-shadow:0 10px 22px rgba(0,0,0,.07),inset 0 0 24px rgba(255,235,215,.5);}
+        .acc-item{border-radius:16px;background:#ffffff;border:1.4px solid #e8e2da;box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,transform .2s ease;}
+        @media(hover:hover){.acc-item:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}}
+        .acc-item.open{background:#ffffff;border-color:#d4cdc6;box-shadow:0 8px 20px rgba(0,0,0,.07);}
         .acc-btn{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:16px 20px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
-        .acc-btn:hover{background:rgba(255,248,236,.7);}
+        .acc-btn:hover{background:rgba(0,0,0,.02);}
         .num{width:32px;height:32px;display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:800;font-size:14px;border-radius:50%;background:linear-gradient(135deg,#ffb98f 0%,#ff8d58 100%);box-shadow:0 5px 18px rgba(255,135,90,.42),inset 0 1px 0 rgba(255,255,255,.45);}
         .q{font-weight:600;color:#3f372f;font-size:14.5px;line-height:1.55;letter-spacing:-0.01em;}
         .plus{font-size:20px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;}
@@ -583,14 +577,12 @@ function ProductMythsSection({ config, t }: { config: ProductConfig; t: any }) {
   const fewItems = myths.length <= 2;
   return (
     <section className="myths-section" aria-labelledby={`myths-title-${folder}`}>
-      <div className="ambient" aria-hidden="true" />
       <div className="myths-desktop">
         <div className="myths-wrapper">
           <figure className="myths-img"><img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" decoding="async" /></figure>
           <div className="card-stack stack-1" aria-hidden="true" />
           <div className="card-stack stack-2" aria-hidden="true" />
           <article className={`myths-card ${fewItems ? "is-compact" : ""}`} role="region" aria-labelledby={`myths-title-${folder}`}>
-            <span className="card-border" aria-hidden="true" />
             <h2 id={`myths-title-${folder}`} className="myths-title">
               <span className="moon" aria-hidden="true">🌙</span>
               <span>{mythsTitle}</span>
@@ -611,24 +603,19 @@ function ProductMythsSection({ config, t }: { config: ProductConfig; t: any }) {
       </div>
       <style jsx>{`
         .myths-section{position:relative;width:100%;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.65;background:radial-gradient(1200px 460px at 60% 85%,rgba(255,236,220,.65),transparent 70%),radial-gradient(900px 360px at 80% 30%,rgba(255,240,230,.55),transparent 70%);filter:blur(.3px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
         .myths-desktop{display:block;padding:clamp(60px,7vw,100px) 20px;}
         .myths-mobile{display:none;}
         .myths-wrapper{position:relative;max-width:1240px;margin:0 auto;min-height:600px;z-index:1;}
-        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:340px;height:500px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.4);box-shadow:0 22px 60px rgba(0,0,0,.07),0 10px 30px rgba(0,0,0,.05),0 0 46px rgba(255,230,210,.6);z-index:2;background:#000;margin:0;}
+        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:340px;height:500px;border-radius:24px;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 22px 60px rgba(0,0,0,.10),0 10px 30px rgba(0,0,0,.07);z-index:2;background:#000;margin:0;}
         .myths-img img{width:100%;height:100%;object-fit:cover;display:block;}
-        .card-stack{position:absolute;right:0;top:50%;background:linear-gradient(135deg,#f4ece2,#efe3d7);filter:blur(.2px);width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.08);z-index:1;}
-        .stack-1{opacity:.75;transform:translate(32px,-50%);}
-        .stack-2{opacity:.48;transform:translate(60px,-48%);}
-        .myths-card{position:relative;margin-left:250px;padding:48px 52px;border-radius:28px;background:rgba(255,252,248,.82);border:1.6px solid rgba(240,224,210,.9);backdrop-filter:blur(14px) saturate(140%);box-shadow:0 30px 90px rgba(0,0,0,.08),0 12px 42px rgba(0,0,0,.06),0 0 60px rgba(255,230,210,.75);overflow:hidden;z-index:3;}
-        .myths-card::before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,245,235,.55) 0%,rgba(255,253,250,0) 18%);opacity:.55;mix-blend-mode:screen;pointer-events:none;}
-        .card-border{position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 36px rgba(255,236,220,.6),inset 0 2px 4px rgba(255,255,255,.9);}
+        .card-stack{position:absolute;right:0;top:50%;background:#f0efed;width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.05);z-index:1;}
+        .stack-1{opacity:.6;transform:translate(32px,-50%);}
+        .stack-2{opacity:.35;transform:translate(60px,-48%);}
+        .myths-card{position:relative;margin-left:250px;padding:48px 52px;border-radius:28px;background:#ffffff;border:1.5px solid #e8e2da;box-shadow:0 20px 60px rgba(0,0,0,.07),0 8px 24px rgba(0,0,0,.05);overflow:hidden;z-index:3;}
         .myths-card.is-compact{padding:32px 36px;}
         .myths-title{margin:0 0 24px;font-size:26px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
         .moon{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
         .myths-accordion{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;}
-
-        /* ── Mobile (< 900px) ── */
         @media(max-width:900px){
           .myths-desktop{display:none;}
           .myths-mobile{display:block;padding:48px 20px 56px;}
@@ -637,8 +624,6 @@ function ProductMythsSection({ config, t }: { config: ProductConfig; t: any }) {
           .mob-title{font-size:clamp(24px,6vw,34px);font-weight:700;color:#1a1a1a;letter-spacing:-0.02em;margin:0 0 24px;line-height:1.15;}
           .mob-list-top-border{border-top:1px solid #e8e2da;}
         }
-
-        /* ── Small mobile ── */
         @media(max-width:480px){
           .myths-mobile{padding:36px 16px 48px;}
           .mob-img-wrap{border-radius:16px;margin-bottom:24px;aspect-ratio:3/2;}
@@ -670,13 +655,13 @@ function FAQItem({ id, question, answer }: { id: number; question: string; answe
         <p className="faq-a">{answer}</p>
       </div>
       <style jsx>{`
-        .faq-item{border-radius:14px;background:linear-gradient(180deg,#fffefb 0%,#faf6f0 100%);border:1.4px solid #e8dcc9;box-shadow:inset 0 0 10px rgba(255,240,228,.4),inset 0 1px 1px rgba(255,255,255,.7);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,background .25s ease,transform .2s ease;}
-        @media(hover:hover){.faq-item:hover{box-shadow:0 8px 24px rgba(0,0,0,.08),inset 0 0 12px rgba(255,240,228,.45);transform:translateY(-1px);}}
-        .faq-item.open{background:linear-gradient(180deg,#ffffff 0%,#fdfaf5 100%);border-color:#dccebb;box-shadow:0 8px 20px rgba(0,0,0,.06),inset 0 0 20px rgba(255,237,218,.5);}
+        .faq-item{border-radius:14px;background:#ffffff;border:1.4px solid #e8e2da;box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,transform .2s ease;}
+        @media(hover:hover){.faq-item:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}}
+        .faq-item.open{background:#ffffff;border-color:#d4cdc6;box-shadow:0 8px 20px rgba(0,0,0,.06);}
         .faq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
-        .faq-btn:hover{background:rgba(255,250,240,.6);}
+        .faq-btn:hover{background:rgba(0,0,0,.02);}
         .faq-q{flex:1;font-weight:600;color:#3f372f;font-size:14px;line-height:1.5;letter-spacing:-0.01em;}
-        .faq-plus{flex-shrink:0;width:26px;height:26px;display:grid;place-items:center;font-size:18px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;border-radius:50%;background:rgba(255,250,245,.6);}
+        .faq-plus{flex-shrink:0;width:26px;height:26px;display:grid;place-items:center;font-size:18px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;border-radius:50%;background:rgba(0,0,0,.03);}
         .faq-plus.rot{color:#ff7b42;background:rgba(255,123,66,.1);animation:popFaq .25s ease-out;}
         @keyframes popFaq{0%{transform:scale(.88);}60%{transform:scale(1.08);}100%{transform:scale(1);}}
         .faq-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;}
@@ -730,7 +715,6 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
   const { folder, faqTitle, faqSubtitle, faqs } = config;
   return (
     <section className="faq-section" aria-labelledby={`faq-title-${folder}`}>
-      <div className="faq-ambient" aria-hidden="true" />
       <div className="faq-container">
         <header className="faq-header">
           <h2 id={`faq-title-${folder}`} className="faq-main-title">
@@ -757,7 +741,6 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
       </div>
       <style jsx>{`
         .faq-section{position:relative;width:100%;padding:clamp(56px,7vw,100px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .faq-ambient{position:absolute;inset:-10% -10% -15% -10%;opacity:.5;background:radial-gradient(1000px 400px at 50% 90%,rgba(255,236,220,.5),transparent 65%),radial-gradient(800px 320px at 50% 10%,rgba(254,240,230,.4),transparent 65%);filter:blur(.4px);mix-blend-mode:screen;pointer-events:none;z-index:0;}
         .faq-container{position:relative;max-width:960px;margin:0 auto;z-index:1;}
         .faq-header{text-align:center;margin-bottom:clamp(32px,5vw,56px);}
         .faq-main-title{margin:0 0 10px;font-size:clamp(24px,4vw,34px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:12px;}
@@ -777,7 +760,7 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
           .faq-section{padding:36px 16px 44px;}
           .faq-main-title{font-size:22px;gap:10px;}
         }
-        .faq-footer{margin-top:clamp(40px,6vw,64px);text-align:center;padding-top:28px;border-top:1px solid rgba(233,221,205,.6);}
+        .faq-footer{margin-top:clamp(40px,6vw,64px);text-align:center;padding-top:28px;border-top:1px solid #e8e2da;}
         .faq-footer-text{margin:0;font-size:14px;color:#6a5f57;}
         .faq-footer-link{color:#ff7b42;font-weight:600;text-decoration:none;transition:color .2s ease;}
         .faq-footer-link:hover{color:#ff8d58;text-decoration:underline;}
@@ -920,140 +903,169 @@ export default function ProductDetailPage() {
       )}
 
       {/* ── Hero ── */}
-      <section className="max-w-[1400px] mx-auto w-full px-4 sm:px-6 pb-12 sm:pb-20">
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 pb-20">
 
-          {/* Left — Gallery */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <ProductImageGallery images={productImages} />
-          </motion.div>
+        <div className="relative">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
 
-          {/* Right — Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="space-y-4 sm:space-y-5 md:space-y-6"
-          >
-            {/* Title + rating */}
-            <div>
-              <h1 className="text-2xl sm:text-3xl md:text-[42px] font-semibold tracking-tight mb-3 text-neutral-800 leading-tight">
-                {product.nom}
-              </h1>
-              {count > 0 && (
-                <div className="flex items-center gap-2 sm:gap-3 text-sm text-neutral-600">
-                  <RatingStars value={avg} readonly />
-                  <span className="text-xs sm:text-sm">({count} {t("verified_reviews")})</span>
-                </div>
-              )}
+            {/* ✅ COLONNE GAUCHE — galerie sticky */}
+            <div className="product-sticky">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <ProductImageGallery images={productImages} />
+              </motion.div>
             </div>
 
-            {/* Story + highlights */}
-            {(productKey || product.story || product.description) && (
-              <div>
-                <p className="text-neutral-600 leading-relaxed text-[14px] sm:text-[15px] max-w-prose">
-                  {productKey ? t(`products.${productKey}.story`) : (product.story || product.description)}
-                </p>
-                {productConfig && <ProductHighlights highlights={productConfig.highlights} />}
-                {!productKey && (product.benefits?.length ?? 0) > 0 && <BenefitsNoMiddle benefits={product.benefits!} />}
-              </div>
-            )}
-
-            {/* Metadata chips */}
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 py-3 sm:py-5">
-              {product.gummies_per_jar && (
-                <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                  </svg>
-                  <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.gummies_per_jar} gummies/potje</p>
-                </div>
-              )}
-              {product.flavor && (
-                <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                  <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.flavor}</p>
-                </div>
-              )}
-              {product.shipping_note && (
-                <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50 col-span-2 sm:col-span-1">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 01-1 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
-                  </svg>
-                  <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.shipping_note}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Purchase type selector */}
-            <fieldset className="space-y-2.5 sm:space-y-3 mt-1" aria-label={t("one_time")}>
-              {!subscriptionMode && (
-                <label className={`relative flex items-center justify-between p-4 sm:p-5 border-2 rounded-2xl transition-colors cursor-pointer ${purchaseType === "unique" ? "border-neutral-900 bg-white shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
-                  <div>
-                    <span className="text-base sm:text-lg font-semibold block">{t("one_time")}</span>
-                    <span className="text-xs sm:text-sm text-neutral-600">{t("one_time_sub")}</span>
-                  </div>
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <span className="text-base sm:text-lg font-semibold text-neutral-900">{euroFmt.format(unitPrice)}</span>
-                    <input type="radio" name="purchaseType" aria-label={t("one_time")} checked={purchaseType === "unique"} onChange={() => setPurchaseType("unique")} className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </div>
-                </label>
-              )}
-
-              <label className={`relative flex items-center justify-between p-4 sm:p-5 border-2 rounded-2xl cursor-pointer transition-colors ${purchaseType === "subscription" ? "border-green-500 bg-green-50 shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
-                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full">
-                  {subscriptionMode ? t("subscription_mode") : t("recommended")}
-                </span>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-base sm:text-lg font-semibold">{t("subscription")}</span>
-                    <span className="px-1.5 py-0.5 sm:px-2 bg-green-500 text-white text-[10px] sm:text-xs font-bold rounded">-20%</span>
-                  </div>
-                  <span className="text-xs sm:text-sm text-neutral-600">{t("subscription_sub")}</span>
-                </div>
-                <div className="flex items-center gap-2 sm:gap-4 text-right">
-                  <div className="leading-tight">
-                    <span className="block text-xs sm:text-sm text-neutral-400 line-through">{euroFmt.format(unitPrice)}</span>
-                    <span className="block text-base sm:text-lg font-semibold text-green-700">{euroFmt.format(subPrice)}</span>
-                  </div>
-                  <input type="radio" name="purchaseType" aria-label={t("subscription")} checked={purchaseType === "subscription"} onChange={() => setPurchaseType("subscription")} className="w-4 h-4 sm:w-5 sm:h-5" />
-                </div>
-              </label>
-            </fieldset>
-
-            {/* Add to cart CTA */}
-            <button
-              onClick={handleAddToCart}
-              className="w-full py-4 sm:py-5 bg-gradient-to-b from-neutral-900 to-neutral-800 text-white font-semibold text-base sm:text-lg rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-xl"
-              aria-live="polite"
+            {/* ✅ COLONNE DROITE */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-4 sm:space-y-5 md:space-y-6"
             >
-              {subscriptionMode ? t("add_to_routine") : t("add_to_cart")} — {priceLabel}
-            </button>
 
-            {/* Ingredients + Usage accordions */}
-            {(product.ingredients?.length || productKey || product.usage_instructions) && (
-              <div className="mt-6 sm:mt-10 space-y-2.5 sm:space-y-3">
-                {(product.ingredients?.length ?? 0) > 0 && (
-                  <AccordionItem title={t("ingredients_title")}>
-                    <p className="text-sm text-neutral-600 leading-relaxed font-light">
-                      {productKey
-                        ? t(`products.${productKey}.ingredients`)
-                        : product.ingredients!.join(", ") + "."}
-                    </p>
-                  </AccordionItem>
-                )}
-                {(productKey || product.usage_instructions) && (
-                  <AccordionItem title={t("usage_title")}>
-                    <p className="text-sm sm:text-base text-neutral-700 leading-relaxed whitespace-pre-line">
-                      {productKey ? t(`products.${productKey}.usage_instructions`) : product.usage_instructions}
-                    </p>
-                  </AccordionItem>
+              {/* Title + rating */}
+              <div>
+                <h1 className="text-2xl sm:text-3xl md:text-[42px] font-semibold tracking-tight mb-3 text-neutral-800 leading-tight">
+                  {product.nom}
+                </h1>
+                {count > 0 && (
+                  <div className="flex items-center gap-2 sm:gap-3 text-sm text-neutral-600">
+                    <RatingStars value={avg} readonly />
+                    <span className="text-xs sm:text-sm">({count} {t("verified_reviews")})</span>
+                  </div>
                 )}
               </div>
-            )}
-          </motion.div>
+
+              {/* Story + highlights */}
+              {(productKey || product.story || product.description) && (
+                <div>
+                  <p className="text-neutral-600 leading-relaxed text-[14px] sm:text-[15px] max-w-prose">
+                    {productKey ? t(`products.${productKey}.story`) : (product.story || product.description)}
+                  </p>
+                  {productConfig && <ProductHighlights highlights={productConfig.highlights} />}
+                  {!productKey && (product.benefits?.length ?? 0) > 0 && <BenefitsNoMiddle benefits={product.benefits!} />}
+                </div>
+              )}
+
+              {/* Metadata chips */}
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 py-3 sm:py-5">
+                {product.gummies_per_jar && (
+                  <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                    </svg>
+                    <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.gummies_per_jar} gummies/potje</p>
+                  </div>
+                )}
+                {product.flavor && (
+                  <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.flavor}</p>
+                  </div>
+                )}
+                {product.shipping_note && (
+                  <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50 col-span-2 sm:col-span-1">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 01-1 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+                    </svg>
+                    <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.shipping_note}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Purchase type selector */}
+              <fieldset className="space-y-2.5 sm:space-y-3 mt-1" aria-label={t("one_time")}>
+                {!subscriptionMode && (
+                  <label className={`relative flex items-center justify-between p-4 sm:p-5 border-2 rounded-2xl transition-colors cursor-pointer ${purchaseType === "unique" ? "border-neutral-900 bg-white shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
+                    <div>
+                      <span className="text-base sm:text-lg font-semibold block">{t("one_time")}</span>
+                      <span className="text-xs sm:text-sm text-neutral-600">{t("one_time_sub")}</span>
+                    </div>
+                    <div className="flex items-center gap-2 sm:gap-4">
+                      <span className="text-base sm:text-lg font-semibold text-neutral-900">{euroFmt.format(unitPrice)}</span>
+                      <input type="radio" name="purchaseType" aria-label={t("one_time")} checked={purchaseType === "unique"} onChange={() => setPurchaseType("unique")} className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </div>
+                  </label>
+                )}
+
+                <label className={`relative flex flex-col p-4 sm:p-5 border-2 rounded-2xl cursor-pointer transition-colors ${purchaseType === "subscription" ? "border-neutral-900 bg-white shadow-lg" : "border-neutral-200 bg-white/60 hover:border-neutral-300 hover:bg-white/80"}`}>
+                  <span className="absolute -top-2 -right-2 bg-neutral-900 text-white text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full">
+                    {subscriptionMode ? t("subscription_mode") : t("recommended")}
+                  </span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base sm:text-lg font-semibold">{t("subscription")}</span>
+                      <span className="px-1.5 py-0.5 sm:px-2 bg-neutral-900 text-white text-[10px] sm:text-xs font-bold rounded">-20%</span>
+                    </div>
+                    <div className="flex items-center gap-2 sm:gap-4 text-right">
+                      <div className="leading-tight">
+                        <span className="block text-xs sm:text-sm text-neutral-400 line-through">{euroFmt.format(unitPrice)}</span>
+                        <span className="block text-base sm:text-lg font-semibold text-neutral-900">{euroFmt.format(subPrice)}</span>
+                      </div>
+                      <input type="radio" name="purchaseType" aria-label={t("subscription")} checked={purchaseType === "subscription"} onChange={() => setPurchaseType("subscription")} className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </div>
+                  </div>
+                  <span className="text-xs sm:text-sm text-neutral-600 mt-0.5">{t("subscription_sub")}</span>
+                  <ul className="mt-3 pt-3 border-t border-neutral-200 space-y-2">
+                    {[
+                      t("sub_perk_1"),
+                      t("sub_perk_2"),
+                      t("sub_perk_3"),
+                      t("sub_perk_4"),
+                      t("sub_perk_5"),
+                    ].map((perk, i) => (
+                      <li key={i} className="flex items-start gap-2 text-xs text-neutral-700">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="mt-0.5 flex-shrink-0">
+                          <circle cx="8" cy="8" r="7.5" stroke="#1a1a1a"/>
+                          <path d="M5 8l2 2 4-4" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        {perk}
+                      </li>
+                    ))}
+                  </ul>
+                </label>
+              </fieldset>
+
+              {/* Add to cart CTA */}
+              <button
+                onClick={handleAddToCart}
+                className="w-full py-4 sm:py-5 bg-gradient-to-b from-neutral-900 to-neutral-800 text-white font-semibold text-base sm:text-lg rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-xl"
+                aria-live="polite"
+              >
+                {subscriptionMode ? t("add_to_routine") : t("add_to_cart")} — {priceLabel}
+              </button>
+
+              {/* Ingrédients + Conseils d'utilisation */}
+              {(product.ingredients?.length || productKey || product.usage_instructions) && (
+                <div className="mt-6 sm:mt-10 space-y-2.5 sm:space-y-3">
+                  {(product.ingredients?.length ?? 0) > 0 && (
+                    <AccordionItem title={t("ingredients_title")}>
+                      <p className="text-sm text-neutral-600 leading-relaxed font-light">
+                        {productKey
+                          ? t(`products.${productKey}.ingredients`)
+                          : product.ingredients!.join(", ") + "."}
+                      </p>
+                    </AccordionItem>
+                  )}
+                  {(productKey || product.usage_instructions) && (
+                    <AccordionItem title={t("usage_title")}>
+                      <p className="text-sm sm:text-base text-neutral-700 leading-relaxed whitespace-pre-line">
+                        {productKey ? t(`products.${productKey}.usage_instructions`) : product.usage_instructions}
+                      </p>
+                    </AccordionItem>
+                  )}
+                </div>
+              )}
+
+            </motion.div>
+
+          </div>
         </div>
 
         {/* ── Ingredients Slider ── */}
@@ -1076,6 +1088,21 @@ export default function ProductDetailPage() {
           <ProductReviews productId={product.id} />
         </div>
       </section>
+
+      {/* ── CSS global sticky ── */}
+      <style jsx global>{`
+        .product-sticky {
+          position: sticky;
+          top: 90px;
+          align-self: flex-start;
+        }
+        @media (max-width: 1023px) {
+          .product-sticky {
+            position: relative;
+            top: auto;
+          }
+        }
+      `}</style>
     </main>
   );
 }

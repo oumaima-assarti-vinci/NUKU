@@ -230,5 +230,10 @@
         { "question": "What else can I do besides SOUL to better manage stress?", "answer": "Regular sleep, breathing/meditation, physical activity, balanced diet, hydration and breaks." }
       ]
     }
-  }
+  }, 
+  "sub_perk_1": "Enjoy 25% off on every order.",
+"sub_perk_2": "Cancel anytime, after the 2nd delivery.",
+"sub_perk_3": "Choose your delivery frequency at your own pace.",
+"sub_perk_4": "Pause your subscription whenever you need.",
+"sub_perk_5": "Manage your subscription freely from your customer account."
 }

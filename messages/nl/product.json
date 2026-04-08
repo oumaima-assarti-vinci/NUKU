@@ -229,5 +229,10 @@
         { "question": "Wat naast SOUL doen om stress beter te beheersen?", "answer": "Regelmatige slaap, ademhaling/meditatie, lichaamsbeweging, evenwichtige voeding, hydratatie en pauzes." }
       ]
     }
-  }
+  },
+  "sub_perk_1": "Geniet van 25% korting op elke bestelling.",
+"sub_perk_2": "Opzegbaar op elk moment, na de 2e levering.",
+"sub_perk_3": "Kies de leveringsfrequentie op uw eigen tempo.",
+"sub_perk_4": "Zet uw abonnement op pauze wanneer u dat wilt.",
+"sub_perk_5": "Beheer uw abonnement volledig vrij via uw klantenruimte."
 }
