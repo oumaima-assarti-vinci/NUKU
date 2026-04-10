@@ -9,9 +9,9 @@ import { usePathname, useRouter } from "next/navigation";
 type HeaderProps = { onCartClick?: () => void };
 
 const languages = [
-  { code: "fr", label: "Français" },
-  { code: "en", label: "English" },
-  { code: "nl", label: "Nederlands" },
+  { code: "fr", label: "fr" },
+  { code: "en", label: "en" },
+  { code: "nl", label: "nl" },
 ];
 
 export default function Header({ onCartClick }: HeaderProps) {
