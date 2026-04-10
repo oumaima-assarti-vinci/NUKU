@@ -718,7 +718,7 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
       <div className="faq-container">
         <header className="faq-header">
           <h2 id={`faq-title-${folder}`} className="faq-main-title">
-            <span className="faq-icon" aria-hidden="true">💬</span>
+           
             <span>{faqTitle}</span>
           </h2>
           {faqSubtitle && <p className="faq-subtitle">{faqSubtitle}</p>}
