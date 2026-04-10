@@ -228,21 +228,7 @@ export default function Header({ onCartClick }: HeaderProps) {
               ))}
 
               {/* Langues mobile */}
-              <div className="flex gap-2 px-4 py-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => { switchLanguage(lang.code); setMobileOpen(false); }}
-                    className={`flex-1 py-2 rounded-xl text-sm font-semibold border transition ${
-                      currentLang === lang.code
-                        ? "border-orange-600 text-orange-600 bg-orange-50"
-                        : "border-neutral-200 text-neutral-600 hover:bg-neutral-50"
-                    }`}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
-              </div>
+             
 
               <div className="h-px bg-neutral-200 my-1" />
               <Link
