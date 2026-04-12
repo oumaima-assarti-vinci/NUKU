@@ -2,11 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 const MAINTENANCE_MODE = process.env.MAINTENANCE_MODE === "true";
-
-const ALLOWED_IPS = [
-  "123.456.789.10", // ton IP
-  "98.76.54.32",    // IP collègue
-];
+const SECRET = process.env.MAINTENANCE_SECRET ?? "motsNuku123";
 
 const intlMiddleware = createMiddleware({
   locales: ["fr", "en", "nl"],
@@ -15,17 +11,32 @@ const intlMiddleware = createMiddleware({
 
 export default function middleware(request: NextRequest) {
   if (MAINTENANCE_MODE) {
-    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "";
     const pathname = request.nextUrl.pathname;
-
-    const isAllowed = ALLOWED_IPS.includes(ip);
     const isMaintenancePage = pathname.includes("/maintenance");
 
-    if (!isAllowed && !isMaintenancePage) {
+    // Accès via ?access=SECRET → stocke un cookie et redirige proprement
+    const accessParam = request.nextUrl.searchParams.get("access");
+    if (accessParam === SECRET) {
       const url = request.nextUrl.clone();
-      url.pathname = "/fr/maintenance"; // ou /en/maintenance selon ta locale par défaut
-      return NextResponse.redirect(url);
+      url.searchParams.delete("access");
+      const response = NextResponse.redirect(url);
+      response.cookies.set("maintenance_access", SECRET, {
+        httpOnly: true,
+        path: "/",
+      });
+      return response;
     }
+
+    // Vérifie le cookie
+    const cookie = request.cookies.get("maintenance_access")?.value;
+    if (cookie === SECRET || isMaintenancePage) {
+      return intlMiddleware(request);
+    }
+
+    // Tout le monde else → page maintenance
+    const url = request.nextUrl.clone();
+    url.pathname = "/fr/maintenance";
+    return NextResponse.redirect(url);
   }
 
   return intlMiddleware(request);
