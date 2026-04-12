@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
-const SECRET = process.env.MAINTENANCE_SECRET ?? "monequipe123";
+const SECRET = process.env.NEXT_PUBLIC_MAINTENANCE_SECRET ?? "monequipe123";
 
 const intlMiddleware = createMiddleware({
   locales: ["fr", "en", "nl"],
@@ -9,8 +9,7 @@ const intlMiddleware = createMiddleware({
 });
 
 export default function middleware(request: NextRequest) {
-  // ✅ Évalué à chaque requête
-  const MAINTENANCE_MODE = process.env.MAINTENANCE_MODE === "true";
+  const MAINTENANCE_MODE = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true";
 
   if (MAINTENANCE_MODE) {
     const pathname = request.nextUrl.pathname;
