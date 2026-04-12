@@ -2,7 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 const MAINTENANCE_MODE = process.env.MAINTENANCE_MODE === "true";
-const SECRET = process.env.MAINTENANCE_SECRET ?? "motsNuku123";
+const SECRET = process.env.MAINTENANCE_SECRET ?? "monequipe123";
 
 const intlMiddleware = createMiddleware({
   locales: ["fr", "en", "nl"],
