@@ -1,8 +1,27 @@
 /* app/globals.css — Tailwind v4 */
 
-/* DM Sans uniquement — Inter est géré par next/font dans layout.tsx */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap');
 @import "tailwindcss";
+
+/* Fonts locales */
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('/fonts/coolvetica.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/nexa-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Nexa';
+  src: url('/fonts/nexa-light.woff2') format('woff2');
+  font-weight: 300;
+  font-display: swap;
+}
 
 /* ========================= 
    VARIABLES
@@ -12,12 +31,14 @@
   --foreground: #1a1a1a;
   --font-display: var(--font-inter), system-ui, -apple-system, sans-serif;
   --font-body: 'DM Sans', Arial, sans-serif;
-  
+
+  /* Nouvelles variables typo */
+  --font-title: 'Coolvetica', sans-serif;
+  --font-heading: 'Nexa', sans-serif;
+
   --brand-accent: #f87171;
   --text-muted: #4b5563;
 }
-
-
 
 /* ========================= 
    BASE
@@ -31,30 +52,44 @@ body {
   overflow-x: hidden;
 }
 
-/* Titres — légers et élégants */
-h1, h2, h3, h4 {
-  font-family: var(--font-display);
+/* Grands titres → Coolvetica */
+h1, h2, h3 {
+  font-family: var(--font-title);
   font-weight: 400;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
   color: var(--foreground);
 }
 
-/* Texte d'introduction sous le titre */
+/* Petits titres / labels → Nexa Bold */
+h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--foreground);
+}
+
+/* Paragraphes → Nexa Light */
+p, li, span, label {
+  font-family: var(--font-heading);
+  font-weight: 300;
+}
+
 .intro-text {
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
+  font-weight: 300;
   color: var(--text-muted);
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
 }
 
-/* Style des numéros (1, 2, 3) */
 .step-number {
   color: var(--brand-accent);
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-size: 2rem;
-  font-weight: 500;
+  font-weight: 400;
   margin-bottom: 1rem;
 }
 
@@ -63,45 +98,20 @@ h1, h2, h3, h4 {
    ========================= */
 @keyframes slideUp {
   from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0);   opacity: 1; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
-
-.animate-slideUp { 
-  animation: slideUp 0.25s ease-out; 
-}
+.animate-slideUp { animation: slideUp 0.25s ease-out; }
 
 @keyframes fade-in {
-  from { 
-    opacity: 0; 
-    transform: translateY(10px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-.animate-fade-in {
-  animation: fade-in 0.4s ease-out;
-}
+.animate-fade-in { animation: fade-in 0.4s ease-out; }
 
 /* ========================= 
    UTILITAIRES SCROLLBAR
    ========================= */
-section div[style*="overflow-x-auto"]::-webkit-scrollbar {
-  height: 6px;
-}
-
-section div[style*="overflow-x-auto"]::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-section div[style*="overflow-x-auto"]::-webkit-scrollbar-thumb {
-  background: #d1d5db;
-  border-radius: 10px;
-}
-
-section div[style*="overflow-x-auto"] {
-  scrollbar-width: thin;
-  scrollbar-color: #d1d5db transparent;
-}
+section div[style*="overflow-x-auto"]::-webkit-scrollbar { height: 6px; }
+section div[style*="overflow-x-auto"]::-webkit-scrollbar-track { background: transparent; }
+section div[style*="overflow-x-auto"]::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+section div[style*="overflow-x-auto"] { scrollbar-width: thin; scrollbar-color: #d1d5db transparent; }

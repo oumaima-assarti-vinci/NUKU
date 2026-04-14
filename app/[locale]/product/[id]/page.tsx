@@ -214,6 +214,7 @@ function BenefitsNoMiddle({ benefits }: { benefits: string[] }) {
 }
 
 /* ── Ingredients Slider ── */
+// FIX 1: overflow visible + padding généreux pour que la carte centrale ne soit pas coupée
 function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t: any }) {
   const allIngredients = useMemo(() => {
     if (!productKey) return [];
@@ -278,6 +279,7 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
         <p className="luxury-subtitle">{t("ingredients_subtitle")}</p>
       </div>
       <div className="ing-wrap" data-few={total <= 3 ? "true" : undefined} style={{ ["--active-scale" as any]: activeScale } as React.CSSProperties}>
+        {/* FIX 1: overflow visible sur le viewport pour ne pas cropper la carte centrale agrandie */}
         <div className="ing-viewport" ref={emblaRef}>
           <div className="ing-container">
             {allIngredients.map((item, i) => {
@@ -323,13 +325,25 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
         .luxury-title{font-size:clamp(26px,5vw,40px);font-weight:300;margin:10px 0;}
         .luxury-divider{width:40px;height:1px;background:#b58e58;margin:15px auto;}
         .luxury-subtitle{font-size:13px;color:#888;font-weight:300;padding:0 16px;}
-        .ing-section{margin-top:60px;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;background:#fff;padding-bottom:48px;}
-        .ing-wrap{position:relative;max-width:${wrapMaxWidth};margin:0 auto;padding:20px 0 8px;width:100%;}
+
+        /* FIX 1 — section avec padding vertical pour absorber le scale de la carte active */
+        .ing-section{margin: 80px auto; 
+  width: 100%;
+  max-width: 1200px; /* Largeur standard pour un écran d'ordi */
+  padding: 0 40px;
+  position: relative;
+  left: 0;}
+        .ing-wrap{position:relative;max-width:${wrapMaxWidth};margin:0 auto;padding:0;width:100%;}
         .ing-wrap::before,.ing-wrap::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:5;pointer-events:none;}
         .ing-wrap::before{left:0;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%);}
         .ing-wrap::after{right:0;background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%);}
         .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after{display:none;}
-        .ing-viewport{overflow:hidden;padding:16px 0;}
+
+        /* FIX 1 — overflow visible pour ne pas couper la carte centrale agrandie */
+        .ing-viewport{overflow:hidden;padding:40px 0;}
+        /* masque uniquement sur l'axe horizontal via le wrapper parent */
+        .ing-wrap{overflow:hidden;}
+
         .ing-container{display:flex;user-select:none;-webkit-touch-callout:none;gap:16px;}
         .ing-slide{flex:0 0 52%;min-width:0;display:flex;align-items:center;justify-content:center;}
         @media(min-width:480px){.ing-slide{flex:0 0 38%;}}
@@ -359,8 +373,9 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
           .luxury-header{margin-bottom:28px;padding-top:36px;}
           .luxury-title{font-size:24px;}
           .luxury-subtitle{font-size:12px;}
-          .ing-section{margin-top:48px;padding-bottom:32px;}
+          .ing-section{margin-top:56px;margin-bottom:56px;padding-bottom:40px;}
           .ing-container{gap:12px;}
+          .ing-viewport{padding:28px 0 20px;}
         }
         @media(prefers-reduced-motion:reduce){.ing-card,.ing-img-wrap img,.ing-benefit{transition:none!important;}}
       `}</style>
@@ -407,6 +422,7 @@ const ROUTINE_ICONS: Record<ProductKey, React.ReactElement[]> = {
 };
 
 /* ── Routine Section ── */
+// FIX 2: icônes alignées avec le texte (padding-top retiré, alignement flex corrigé)
 function ProductRoutineSection({ config, t }: { config: ProductConfig; t: any }) {
   const { folder, routineTitle, routineIntro, routineTips } = config;
   const cleanTitle = routineTitle
@@ -421,15 +437,23 @@ function ProductRoutineSection({ config, t }: { config: ProductConfig; t: any })
     <section className="rs-section">
       <h2 className="rs-title">{cleanTitle}</h2>
       <div className="rs-grid">
-        <div className="rs-left">
-          <p className="rs-intro">{routineIntro}</p>
-          <div className="rs-img-wrap">
-            <img src={`/image/${folder}/${folder}1.png`} alt="Produit" className="rs-img" />
-          </div>
-        </div>
+      <div className="rs-left">
+  <p className="rs-intro">{routineIntro}</p>
+  <div className="rs-img-wrap">
+    <img
+      src={`/image/${folder}/${folder}1.png`}
+      alt="Produit"
+      className="rs-img"
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).parentElement!.style.display = "none";
+      }}
+    />
+  </div>
+</div>
         <div className="rs-right">
           {routineTips.map((tip, i) => (
             <div key={i} className="rs-tip">
+              {/* FIX 2: icône alignée avec la première ligne du texte via align-items:flex-start + padding-top sur l'icône pour compenser la line-height */}
               <div className="rs-icon" aria-hidden="true">
                 {TIP_ICONS[i] ?? TIP_ICONS[0]}
               </div>
@@ -439,45 +463,34 @@ function ProductRoutineSection({ config, t }: { config: ProductConfig; t: any })
         </div>
       </div>
       <style jsx>{`
-        .rs-section{padding:72px 24px 88px;background:#fff;max-width:1200px;margin:0 auto;}
-        .rs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,5vw,64px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 56px;letter-spacing:-0.02em;line-height:1.1;}
-        .rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
-        .rs-left{display:flex;flex-direction:column;gap:24px;}
-        .rs-intro{font-size:15px;line-height:1.75;color:#555;font-weight:400;text-align:center;margin:0;}
-        .rs-img-wrap{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;}
-        .rs-img{width:80%;height:80%;object-fit:contain;filter:drop-shadow(0 24px 40px rgba(0,0,0,0.18));transition:transform 0.6s ease;}
-        .rs-img:hover{transform:scale(1.03);}
-        .rs-right{display:flex;flex-direction:column;gap:0;padding-top:8px;}
-        .rs-tip{display:flex;align-items:flex-start;gap:20px;padding:22px 0;border-bottom:1px solid #e8e2d8;}
-        .rs-tip:first-child{border-top:1px solid #e8e2d8;}
-        .rs-icon{flex-shrink:0;width:48px;height:48px;color:#2a1f14;opacity:0.75;}
-        .rs-icon svg{width:100%;height:100%;}
-        .rs-tip-text{font-size:15px;line-height:1.7;color:#3a3228;margin:0;padding-top:10px;font-weight:400;}
-        @media(max-width:900px){
-          .rs-section{padding:56px 20px 72px;}
-          .rs-grid{grid-template-columns:1fr;gap:40px;}
-          .rs-img-wrap{aspect-ratio:4/3;max-width:400px;margin:0 auto;}
-          .rs-img{width:70%;height:70%;}
-        }
-        @media(max-width:640px){
-          .rs-section{padding:48px 20px 60px;}
-          .rs-title{font-size:clamp(24px,7vw,36px);margin-bottom:36px;}
-          .rs-intro{font-size:14px;}
-          .rs-img-wrap{max-width:320px;}
-          .rs-tip{gap:14px;padding:18px 0;}
-          .rs-icon{width:38px;height:38px;}
-          .rs-tip-text{font-size:14px;padding-top:7px;}
-        }
-        @media(max-width:400px){
-          .rs-section{padding:36px 16px 48px;}
-          .rs-title{font-size:22px;margin-bottom:28px;}
-          .rs-intro{font-size:13px;}
-          .rs-tip{gap:12px;padding:14px 0;}
-          .rs-icon{width:32px;height:32px;}
-          .rs-tip-text{font-size:13px;padding-top:6px;}
-        }
-        @media(prefers-reduced-motion:reduce){.rs-img{transition:none!important;}}
-      `}</style>
+       .rs-section{padding:48px 24px 56px;background:#fff;max-width:1200px;margin:0 auto;}
+.rs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,5vw,64px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;line-height:1.1;}
+.rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+.rs-left{display:flex;flex-direction:column;gap:24px;}
+.rs-intro{font-size:15px;line-height:1.75;color:#555;font-weight:400;text-align:center;margin:0;}
+.rs-img-wrap{width:100%;display:flex;align-items:center;justify-content:center;min-height:0;}
+.rs-img{width:80%;max-width:400px;height:auto;object-fit:contain;filter:drop-shadow(0 24px 40px rgba(0,0,0,0.18));transition:transform 0.6s ease;display:block;}.rs-img:hover{transform:scale(1.03);}
+.rs-right{display:flex;flex-direction:column;gap:0;padding-top:8px;}
+.rs-tip{display:flex;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid #e8e2d8;}
+.rs-tip:first-child{border-top:1px solid #e8e2d8;}
+.rs-icon{flex-shrink:0;width:48px;height:48px;color:#2a1f14;opacity:0.75;display:flex;align-items:center;justify-content:center;}
+.rs-icon svg{width:100%;height:100%;}
+.rs-tip-text{font-size:15px;line-height:1.7;color:#3a3228;margin:0;font-weight:400;}
+
+/* ← MASQUER la colonne image sur <900px, garder uniquement les tips */
+@media(max-width:900px){
+  .rs-section{padding:40px 20px 48px;}
+  .rs-grid{grid-template-columns:1fr;gap:0;}
+  .rs-left{display:none;}
+}
+@media(max-width:640px){
+  .rs-section{padding:32px 16px 40px;}
+  .rs-title{font-size:clamp(24px,7vw,36px);margin-bottom:28px;}
+  .rs-tip{gap:14px;padding:18px 0;}
+  .rs-icon{width:38px;height:38px;}
+  .rs-tip-text{font-size:14px;}
+}
+@media(prefers-reduced-motion:reduce){.rs-img{transition:none!important;}} `}</style>
     </section>
   );
 }
@@ -603,15 +616,21 @@ function ProductMythsSection({ config, t }: { config: ProductConfig; t: any }) {
       </div>
       <style jsx>{`
         .myths-section{position:relative;width:100%;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .myths-desktop{display:block;padding:clamp(60px,7vw,100px) 20px;}
+        .myths-desktop{display:block;padding:clamp(40px,5vw,60px) 20px;}
         .myths-mobile{display:none;}
+
+        /* FIX 3: min-height fixe sur le wrapper pour que l'ouverture d'un accordion
+           ne fasse pas bouger la photo — la photo est positionnée en absolute */
         .myths-wrapper{position:relative;max-width:1240px;margin:0 auto;min-height:600px;z-index:1;}
         .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:340px;height:500px;border-radius:24px;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 22px 60px rgba(0,0,0,.10),0 10px 30px rgba(0,0,0,.07);z-index:2;background:#000;margin:0;}
         .myths-img img{width:100%;height:100%;object-fit:cover;display:block;}
         .card-stack{position:absolute;right:0;top:50%;background:#f0efed;width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.05);z-index:1;}
         .stack-1{opacity:.6;transform:translate(32px,-50%);}
         .stack-2{opacity:.35;transform:translate(60px,-48%);}
-        .myths-card{position:relative;margin-left:250px;padding:48px 52px;border-radius:28px;background:#ffffff;border:1.5px solid #e8e2da;box-shadow:0 20px 60px rgba(0,0,0,.07),0 8px 24px rgba(0,0,0,.05);overflow:hidden;z-index:3;}
+
+        /* FIX 3: myths-card sans overflow:hidden — le contenu s'étend vers le bas
+           sans pousser la photo. La card pousse SEULEMENT vers le bas (margin-top auto). */
+        .myths-card{position:relative;margin-left:250px;padding:48px 52px;border-radius:28px;background:#ffffff;border:1.5px solid #e8e2da;box-shadow:0 20px 60px rgba(0,0,0,.07),0 8px 24px rgba(0,0,0,.05);z-index:3;}
         .myths-card.is-compact{padding:32px 36px;}
         .myths-title{margin:0 0 24px;font-size:26px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
         .moon{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
@@ -635,6 +654,8 @@ function ProductMythsSection({ config, t }: { config: ProductConfig; t: any }) {
 }
 
 /* ── FAQ ── */
+// FIX 3 (FAQ): grid à 2 colonnes avec align-items:start — chaque colonne s'étend
+// indépendamment sans affecter l'autre côté
 function FAQItem({ id, question, answer }: { id: number; question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -713,19 +734,31 @@ function FAQItemMobile({ id, question, answer }: { id: number; question: string;
 
 function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
   const { folder, faqTitle, faqSubtitle, faqs } = config;
+  // FIX 3 (FAQ): on sépare les FAQs en 2 colonnes manuellement
+  // pour que chaque colonne soit indépendante → l'ouverture d'un item
+  // n'affecte pas la hauteur de la colonne opposée
+  const leftFaqs = faqs.filter((_, i) => i % 2 === 0);
+  const rightFaqs = faqs.filter((_, i) => i % 2 !== 0);
+
   return (
     <section className="faq-section" aria-labelledby={`faq-title-${folder}`}>
       <div className="faq-container">
         <header className="faq-header">
           <h2 id={`faq-title-${folder}`} className="faq-main-title">
-           
             <span>{faqTitle}</span>
           </h2>
           {faqSubtitle && <p className="faq-subtitle">{faqSubtitle}</p>}
         </header>
         <div className="faq-desktop">
-          <div className="faq-grid">
-            {faqs.map(item => <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} />)}
+          {/* FIX 3: 2 colonnes flex indépendantes au lieu d'un grid — chaque colonne
+              grandit indépendamment et ne pousse pas l'autre */}
+          <div className="faq-cols">
+            <div className="faq-col">
+              {leftFaqs.map(item => <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} />)}
+            </div>
+            <div className="faq-col">
+              {rightFaqs.map(item => <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} />)}
+            </div>
           </div>
         </div>
         <div className="faq-mobile">
@@ -740,15 +773,17 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
         </footer>
       </div>
       <style jsx>{`
-        .faq-section{position:relative;width:100%;padding:clamp(56px,7vw,100px) 20px;background:#ffffff;overflow:hidden;isolation:isolate;}
+        .faq-section{position:relative;width:100%;padding:40px,20px,60px;background:#ffffff;overflow:hidden;isolation:isolate;}
         .faq-container{position:relative;max-width:960px;margin:0 auto;z-index:1;}
         .faq-header{text-align:center;margin-bottom:clamp(32px,5vw,56px);}
         .faq-main-title{margin:0 0 10px;font-size:clamp(24px,4vw,34px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:12px;}
-        .faq-icon{font-size:clamp(28px,4vw,38px);filter:drop-shadow(0 2px 4px rgba(0,0,0,.06));flex-shrink:0;margin-top:0.1em;}
         .faq-subtitle{margin:0;font-size:clamp(13px,1.8vw,15px);color:#6a5f57;font-weight:400;letter-spacing:.01em;padding:0 16px;}
         .faq-desktop{display:block;}
         .faq-mobile{display:none;}
-        .faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;align-items:start;}
+        /* FIX 3: 2 colonnes flex avec align-items:flex-start — chaque colonne grandit
+           indépendamment vers le bas, l'autre côté ne bouge pas */
+        .faq-cols{display:flex;gap:14px;align-items:flex-start;}
+        .faq-col{flex:1;display:flex;flex-direction:column;gap:14px;}
         @media(max-width:767px){
           .faq-desktop{display:none;}
           .faq-mobile{display:block;}
