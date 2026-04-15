@@ -687,7 +687,7 @@ export default function HomePage() {
                 className="flex-none snap-start w-[140px] rounded-2xl overflow-hidden border border-neutral-100 shadow-sm active:scale-95 transition-transform"
               >
                 <div className="w-full flex items-end justify-center overflow-hidden" style={{ background: '#f0eeec', height: '140px' }}>
-                  <img src={cat.image} alt={cat.name} className="w-[80%] object-contain" style={{ filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.15))' }} />
+                  <img src={cat.image} alt={cat.name} className="w-[60%] object-contain" style={{ filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.15))' }} />
                 </div>
                 <div className="px-2.5 py-2.5 bg-white">
                   <p className="text-[10px] font-black text-neutral-900 uppercase tracking-wide leading-tight">{cat.name}</p>
@@ -706,7 +706,7 @@ export default function HomePage() {
                   <img
                     src={cat.image}
                     alt={cat.name}
-                    className="w-[78%] object-contain group-hover:scale-105 transition-transform duration-500"
+                    className="w-[58%] object-contain group-hover:scale-105 transition-transform duration-500"
                     style={{ filter: 'drop-shadow(0 16px 32px rgba(0,0,0,0.18))' }}
                   />
                 </div>
@@ -771,7 +771,7 @@ export default function HomePage() {
                   <img
                     src={cat.image}
                     alt={cat.name}
-                    className="w-[82%] object-contain"
+                    className="w-[62%] object-contain"
                     style={{ filter: 'drop-shadow(0 10px 24px rgba(0,0,0,0.15))' }}
                   />
                 </div>
@@ -922,12 +922,12 @@ export default function HomePage() {
                     <img
                       src={slide.image1}
                       className="object-contain drop-shadow-xl"
-                      style={{ width: 'clamp(160px, 45vw, 400px)' }}
+                      style={{ width: 'clamp(100px, 45vw, 300px)' }}
                     />
                     <img
                       src={slide.image2}
                       className="object-contain drop-shadow-xl -ml-10 md:-ml-14 rotate-12"
-                      style={{ width: 'clamp(160px, 45vw, 400px)' }}
+                      style={{ width: 'clamp(100px, 45vw, 300px)' }}
                     />
                   </div>
 
