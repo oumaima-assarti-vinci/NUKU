@@ -535,136 +535,174 @@ export default function HomePage() {
           HERO — mobile: image + texte stacked / desktop: background image
       ══════════════════════════════════════════ */}
 
-      {/* MOBILE HERO */}
-      <section className="md:hidden flex flex-col" style={{ background: '#FDFAF5' }}>
-        {/* Image produit en haut sur fond crème */}
-        <div className="w-full flex items-center justify-center py-8" style={{ background: '#F5EFE0', minHeight: '220px' }}>
-          <img
-            src="/image/nukuJaune.png"
-            alt="NUKU"
-            className="w-[52%] object-contain"
-            style={{ filter: 'drop-shadow(0 16px 32px rgba(0,0,0,0.18))' }}
-          />
-        </div>
-        {/* Texte en dessous */}
-        <div className="px-5 pt-6 pb-8 flex flex-col gap-4">
-          <span
-            className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
-            style={{ background: '#ebebeb', color: '#777' }}
-          >
-            {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
-          </span>
-          <h1
-            className="font-black leading-[1.05]"
-            style={{
-              fontSize: 'clamp(28px, 8vw, 36px)',
-              fontFamily: "'Georgia', serif",
-              color: '#111',
-              whiteSpace: 'pre-line',
-            }}
-          >
-            {lang === 'fr'
-              ? 'Mieux dans ta peau.\nNaturellement.'
-              : lang === 'en'
-              ? 'Feel better.\nNaturally.'
-              : 'Beter in je vel.\nNatuurlijk.'}
-          </h1>
-          <p className="text-xs text-neutral-500 leading-relaxed max-w-xs">
-            {lang === 'fr'
-              ? 'Des gummies simples & clean, conçus pour ton rythme quotidien.'
-              : lang === 'en'
-              ? 'Simple & clean gummies, designed for your daily rhythm.'
-              : 'Eenvoudige & schone gummies, ontworpen voor jouw dagelijks ritme.'}
-          </p>
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <Link
-              href={`/${lang}/shop`}
-              className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wide"
-              style={{ background: '#ED9446', color: '#fff' }}
-            >
-              {lang === 'fr' ? 'Découvrir' : lang === 'en' ? 'Shop now' : 'Ontdekken'}
-            </Link>
-            <Link
-              href={`/${lang}/build-pack`}
-              className="px-5 py-2.5 rounded-full text-xs font-medium border"
-              style={{ borderColor: '#ddd', color: '#555' }}
-            >
-              {lang === 'fr' ? 'Créer ma routine' : lang === 'en' ? 'Create my routine' : 'Mijn routine'}
-            </Link>
-          </div>
-          <div className="flex items-center gap-5 pt-1">
-            {badges.map((b, i) => (
-              <div key={i} className="flex flex-col items-center gap-1">
-                <div style={{ color: '#ccc' }}>{b.icon}</div>
-                <span className="text-[9px] font-bold uppercase tracking-wider text-neutral-400">{b.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ─── MOBILE HERO ─── */}
+{/* ─── MOBILE HERO ─── */}
+<section className="md:hidden relative overflow-hidden" style={{ minHeight: '480px' }}>
 
-      {/* DESKTOP HERO — inchangé */}
-      <section
-        className="hidden md:block relative w-full h-[65vh] bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/image/citronbackround.jpg')" }}
+  {/* Image de fond avec opacité réduite */}
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundImage: "url('/image/fruitbackround.png')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+      opacity: 0.3,
+    }}
+  />
+
+  {/* Fond crème derrière */}
+  <div className="absolute inset-0" style={{ background: '#FDFAF5', zIndex: -1 }} />
+
+  {/* Contenu */}
+  <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4 justify-center" style={{ minHeight: '480px' }}>
+    <span
+      className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
+      style={{ background: '#ebebeb', color: '#777' }}
+    >
+      {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
+    </span>
+
+    <h1
+      className="font-black leading-[1.05]"
+      style={{
+        fontSize: 'clamp(30px, 9vw, 40px)',
+        fontFamily: "'Georgia', serif",
+        color: '#111',
+        whiteSpace: 'pre-line',
+      }}
+    >
+      {lang === 'fr'
+        ? 'Mieux dans ta peau.\nNaturellement.'
+        : lang === 'en'
+        ? 'Feel better.\nNaturally.'
+        : 'Beter in je vel.\nNatuurlijk.'}
+    </h1>
+
+    <p className="text-xs text-neutral-600 leading-relaxed max-w-xs">
+      {lang === 'fr'
+        ? 'Des gummies simples & clean, conçus pour ton rythme quotidien.'
+        : lang === 'en'
+        ? 'Simple & clean gummies, designed for your daily rhythm.'
+        : 'Eenvoudige & schone gummies, ontworpen voor jouw dagelijks ritme.'}
+    </p>
+
+    <div className="flex items-center gap-2.5 flex-wrap">
+      <Link
+        href={`/${lang}/shop`}
+        className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wide"
+        style={{ background: '#ED9446', color: '#fff' }}
       >
-        <div className="relative z-10 max-w-[1400px] mx-auto h-full flex items-center px-6 md:px-16">
-          <div className="w-full md:w-1/2 flex flex-col gap-6">
-            <span
-              className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full"
-              style={{ background: '#ebebeb', color: '#777' }}
-            >
-              {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
-            </span>
-            <h1
-              className="font-black leading-[1.05]"
-              style={{
-                fontSize: 'clamp(38px, 4vw, 62px)',
-                fontFamily: "'Georgia', serif",
-                color: '#111',
-                whiteSpace: 'pre-line',
-              }}
-            >
-              {lang === 'fr'
-                ? 'Mieux dans ta peau.\nNaturellement.'
-                : lang === 'en'
-                ? 'Feel better.\nNaturally.'
-                : 'Beter in je vel.\nNatuurlijk.'}
-            </h1>
-            <p className="text-sm text-neutral-600 leading-relaxed max-w-xs">
-              {lang === 'fr'
-                ? 'Des gummies simples & clean,\nConçus pour ton rythme quotidien.'
-                : lang === 'en'
-                ? 'Simple & clean gummies,\nDesigned for your daily rhythm.'
-                : 'Eenvoudige & schone gummies,\nOntworpen voor jouw dagelijks ritme.'}
-            </p>
-            <div className="flex items-center gap-3 flex-wrap">
-              <Link
-                href={`/${lang}/shop`}
-                className="px-6 py-3 rounded-full text-[13px] font-bold uppercase tracking-wide"
-                style={{ background: '#ED9446', color: '#fff' }}
-              >
-                {lang === 'fr' ? 'Découvrir' : lang === 'en' ? 'Shop now' : 'Ontdekken'}
-              </Link>
-              <Link
-                href={`/${lang}/build-pack`}
-                className="px-6 py-3 rounded-full text-[13px] font-medium border"
-                style={{ borderColor: '#ddd', color: '#444', background: 'transparent' }}
-              >
-                {lang === 'fr' ? 'Créer ma routine' : lang === 'en' ? 'Create my routine' : 'Mijn routine maken'}
-              </Link>
-            </div>
-            <div className="flex items-center gap-8 pt-1">
-              {badges.map((b, i) => (
-                <div key={i} className="flex flex-col items-center gap-1.5">
-                  <div style={{ color: '#bbb' }}>{b.icon}</div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">{b.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+        {lang === 'fr' ? 'Découvrir' : lang === 'en' ? 'Shop now' : 'Ontdekken'}
+      </Link>
+      <Link
+        href={`/${lang}/build-pack`}
+        className="px-5 py-2.5 rounded-full text-xs font-medium border"
+        style={{ borderColor: '#ccc', color: '#555', background: 'rgba(255,255,255,0.7)' }}
+      >
+        {lang === 'fr' ? 'Créer ma routine' : lang === 'en' ? 'Create my routine' : 'Mijn routine'}
+      </Link>
+    </div>
+
+    <div className="flex items-center gap-6 pt-2">
+      {badges.map((b, i) => (
+        <div key={i} className="flex flex-col items-center gap-1">
+          <div style={{ color: '#999' }}>{b.icon}</div>
+          <span className="text-[9px] font-bold uppercase tracking-wider text-neutral-500">{b.label}</span>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* ─── DESKTOP HERO ─── */}
+<section
+  className="hidden md:block relative w-full overflow-hidden"
+  style={{ height: '75vh', minHeight: '560px' }}
+>
+  {/* Image pleine largeur — absolute inset-0, pas de max-w */}
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundImage: "url('/image/fruitbackround.png')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+    }}
+  />
+
+  {/* Gradient gauche → transparent pour lisibilité du texte */}
+  <div
+    className="absolute inset-0"
+    style={{
+      background: 'linear-gradient(to right, rgba(253,250,245,0.92) 0%, rgba(253,250,245,0.75) 30%, rgba(253,250,245,0.15) 55%, transparent 70%)',
+      zIndex: 1,
+    }}
+  />
+
+  {/* Contenu texte — pas de max-w sur le wrapper extérieur */}
+  <div
+    className="relative h-full flex items-center px-6 md:px-16"
+    style={{ zIndex: 2 }}
+  >
+    <div className="flex flex-col gap-6" style={{ maxWidth: '480px' }}>
+      <span
+        className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
+        style={{ background: '#ebebeb', color: '#777' }}
+      >
+        {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
+      </span>
+
+      <h1
+        className="font-black leading-[1.05]"
+        style={{
+          fontSize: 'clamp(38px, 4vw, 62px)',
+          fontFamily: "'Georgia', serif",
+          color: '#111',
+          whiteSpace: 'pre-line',
+        }}
+      >
+        {lang === 'fr'
+          ? 'Mieux dans ta peau.\nNaturellement.'
+          : lang === 'en'
+          ? 'Feel better.\nNaturally.'
+          : 'Beter in je vel.\nNatuurlijk.'}
+      </h1>
+
+      <p className="text-sm text-neutral-600 leading-relaxed" style={{ maxWidth: '340px' }}>
+        {lang === 'fr'
+          ? 'Des gummies simples & clean,\nConçus pour ton rythme quotidien.'
+          : lang === 'en'
+          ? 'Simple & clean gummies,\nDesigned for your daily rhythm.'
+          : 'Eenvoudige & schone gummies,\nOntworpen voor jouw dagelijks ritme.'}
+      </p>
+
+      <div className="flex items-center gap-3 flex-wrap">
+        <Link
+          href={`/${lang}/shop`}
+          className="px-6 py-3 rounded-full text-[13px] font-bold uppercase tracking-wide"
+          style={{ background: '#ED9446', color: '#fff' }}
+        >
+          {lang === 'fr' ? 'Découvrir' : lang === 'en' ? 'Shop now' : 'Ontdekken'}
+        </Link>
+        <Link
+          href={`/${lang}/build-pack`}
+          className="px-6 py-3 rounded-full text-[13px] font-medium border"
+          style={{ borderColor: '#ccc', color: '#444', background: 'rgba(255,255,255,0.65)' }}
+        >
+          {lang === 'fr' ? 'Créer ma routine' : lang === 'en' ? 'Create my routine' : 'Mijn routine maken'}
+        </Link>
+      </div>
+
+      <div className="flex items-center gap-8 pt-1">
+        {badges.map((b, i) => (
+          <div key={i} className="flex flex-col items-center gap-1.5">
+            <div style={{ color: '#aaa' }}>{b.icon}</div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">{b.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ══════════════════════════════════════════
           CHOOSE YOUR GOAL

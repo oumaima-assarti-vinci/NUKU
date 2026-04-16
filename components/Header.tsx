@@ -85,8 +85,7 @@ export default function Header({ onCartClick }: HeaderProps) {
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all ${
         scrolled
-          ? "bg-white/90 backdrop-blur border-b border-neutral-200 shadow-[0_8px_30px_rgba(0,0,0,0.05)]"
-          : "bg-white"
+        
       }`}
     >
       <div className="mx-auto w-full max-w-[1400px] px-6">
