@@ -74,12 +74,12 @@ export default function Header({ onCartClick }: HeaderProps) {
 
   const activeLang = languages.find((l) => l.code === currentLang) ?? languages[0];
 
-  const navLinks = [
-    { href: `/${currentLang}/shop`, label: currentLang === "fr" ? "BOUTIQUE" : currentLang === "en" ? "SHOP" : "WINKEL" },
-    { href: `/${currentLang}/build-pack`, label: currentLang === "fr" ? "COMPOSEZ VOTRE PACK" : currentLang === "en" ? "BUILD YOUR PACK" : "STEL JE PACK SAMEN" },
-    { href: `/${currentLang}/subscription`, label: currentLang === "fr" ? "ABONNEMENT" : currentLang === "en" ? "SUBSCRIPTION" : "ABONNEMENT" },
-    { href: `/${currentLang}/about`, label: currentLang === "fr" ? "NOTRE HISTOIRE" : currentLang === "en" ? "OUR STORY" : "ONS VERHAAL" },
-  ];
+const navLinks = [
+  { href: `/${currentLang}/shop`, label: currentLang === "fr" ? "BOUTIQUE" : currentLang === "en" ? "SHOP" : "WINKEL" },
+ { href: `/${currentLang}/subscription#creer-votre-routine`, label: currentLang === "fr" ? "COMPOSEZ VOTRE PACK" : currentLang === "en" ? "BUILD YOUR PACK" : "STEL JE PACK SAMEN" },
+  { href: `/${currentLang}/subscription`, label: currentLang === "fr" ? "ABONNEMENT" : currentLang === "en" ? "SUBSCRIPTION" : "ABONNEMENT" },
+  { href: `/${currentLang}/about`, label: currentLang === "fr" ? "NOTRE HISTOIRE" : currentLang === "en" ? "OUR STORY" : "ONS VERHAAL" },
+];
 
   return (
     <header
