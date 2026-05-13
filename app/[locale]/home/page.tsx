@@ -26,7 +26,7 @@ export default function HomePage() {
 
   const [showPopup, setShowPopup] = useState(false)
   const [products, setProducts] = useState<Product[]>([])
-  const [routineQty, setRoutineQty] = useState<number[]>([1, 1, 1, 1, 1])
+  const [routineQty, setRoutineQty] = useState<number[]>([0, 0, 0, 0, 0])
   const [aboSlide, setAboSlide] = useState(0)
   const [addedToCart, setAddedToCart] = useState(false)
   const [productSlide, setProductSlide] = useState(0)
@@ -535,15 +535,16 @@ export default function HomePage() {
           HERO — mobile: image + texte stacked / desktop: background image
       ══════════════════════════════════════════ */}
 {/* ─── MOBILE HERO ─── */}
-<section className="md:hidden relative overflow-hidden" style={{ minHeight: '600px' }}>
+<section className="md:hidden relative overflow-hidden" style={{ minHeight: '280px' }}>
 
   {/* Image de fond mobile */}
   <div
     className="absolute inset-0"
     style={{
       backgroundImage: "url('/image/fruitbackroundTel.png')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center',
+      backgroundSize: '150%',
+      backgroundPosition: '70% 10%',
+      backgroundRepeat: 'no-repeat',
     }}
   />
 
@@ -551,12 +552,12 @@ export default function HomePage() {
   <div
     className="absolute inset-0"
     style={{
-      background: 'linear-gradient(to bottom, rgba(253,250,245,0.75) 0%, rgba(253,250,245,0.4) 50%, rgba(253,250,245,0.1) 100%)',
+    background: 'linear-gradient(to bottom, rgba(253,250,245,0.6) 0%, rgba(253,250,245,0.3) 40%, rgba(253,250,245,0.0) 100%)',
     }}
   />
 
   {/* Contenu par-dessus */}
-  <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4" style={{ minHeight: '600px' }}>
+  <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4" style={{ minHeight: '280px' }}>
     <span
       className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
       style={{ background: '#ebebeb', color: '#777' }}
@@ -606,13 +607,13 @@ export default function HomePage() {
     </div>
 
     <div className="flex items-center gap-6 pt-2">
-      {badges.map((b, i) => (
-        <div key={i} className="flex flex-col items-center gap-1">
-          <div style={{ color: '#999' }}>{b.icon}</div>
-          <span className="text-[9px] font-bold uppercase tracking-wider text-neutral-500">{b.label}</span>
-        </div>
-      ))}
+  {badges.map((b, i) => (
+    <div key={i} className="flex flex-col items-center gap-1">
+      <div style={{ color: '#111' }}>{b.icon}</div>
+      <span className="text-[9px] font-bold uppercase tracking-wider text-neutral-900">{b.label}</span>
     </div>
+  ))}
+</div>
   </div>
 </section>
 
@@ -985,11 +986,11 @@ export default function HomePage() {
                     <p className="text-neutral-600 leading-relaxed" style={{ fontSize: 'clamp(12px, 3vw, 14px)' }}>
                       {slide.desc}
                     </p>
-                    <div className="flex gap-5 md:gap-10 text-[10px] md:text-[11px] text-neutral-700 font-semibold uppercase tracking-wider">
-                      <span>NO SUGAR</span>
-                      <span>VEGAN</span>
-                      <span>LOCAL</span>
-                    </div>
+                  <div className="flex gap-5 md:gap-10 font-semibold uppercase tracking-wider" style={{ fontSize: 'clamp(10px, 2vw, 11px)', color: '#5a4a3a' }}>
+  <span>NO SUGAR</span>
+  <span>VEGAN</span>
+  <span>LOCAL</span>
+</div>
                     <div className="flex gap-2.5 md:gap-4 flex-wrap pt-1 md:pt-5">
                       <Link href={`/${lang}/shop`}>
                         <span className="inline-block px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[12px] font-bold text-white uppercase" style={{ background: '#ED9446' }}>
