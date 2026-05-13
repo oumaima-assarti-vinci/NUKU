@@ -67,6 +67,7 @@ function SubProductCard({ p }: { p: typeof PRODUCTS[0] }) {
 
   return (
     <div
+      className="sub-product-card"
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -105,7 +106,7 @@ function SubProductCard({ p }: { p: typeof PRODUCTS[0] }) {
         />
       </div>
 
-      {/* Content — bénéfice + tagline, sans prix ni bouton */}
+      {/* Content */}
       <div style={{ padding: "18px 20px 22px" }}>
         <p style={{
           fontSize: 13,
@@ -156,7 +157,7 @@ export default function AbonnementPage() {
 
       {/* ══ HERO BANNER ══ */}
       <section style={{ background: "#f5f3f0", padding: "56px 48px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 40 }}>
+        <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 40 }}>
           <div>
             <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, color: "#111", margin: "0 0 12px", lineHeight: 1.15 }}>
               Vos compléments,<br />Sans efforts.
@@ -179,7 +180,8 @@ export default function AbonnementPage() {
               Voir les produits
             </button>
           </div>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+          {/* Image cachée sur mobile via className hero-img */}
+          <div className="hero-img" style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
             <img
               src="/image/nukuRouge.png"
               alt="NUKU"
@@ -191,7 +193,7 @@ export default function AbonnementPage() {
 
       {/* ══ UNE ROUTINE BIEN-ÊTRE ══ */}
       <section style={{ padding: "64px 48px", maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "start" }}>
+        <div className="avantages-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "start" }}>
           <div>
             <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 900, color: "#111", margin: "0 0 12px", lineHeight: 1.2 }}>
               Une routine bien-être,<br />sans y penser.
@@ -230,8 +232,8 @@ export default function AbonnementPage() {
             Choisissez votre formule et recevez-la chaque mois avec -20%.
           </p>
 
-          {/* Grille 3 produits seulement */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, maxWidth: 860, margin: "0 auto 40px" }}>
+          {/* Grille produits — 3 desktop, 2 mobile, 1 très petit */}
+          <div className="products-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, maxWidth: 860, margin: "0 auto 40px" }}>
             {PRODUCTS.slice(0, 3).map(p => <SubProductCard key={p.id} p={p} />)}
           </div>
 
@@ -255,7 +257,6 @@ export default function AbonnementPage() {
       </section>
 
       {/* ══ CRÉEZ VOTRE ROUTINE ══ */}
-     {/* ══ CRÉEZ VOTRE ROUTINE ══ */}
       <section id="creer-votre-routine" style={{ background: "white", borderTop: "1px solid #f0f0f0", padding: "56px 48px 64px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#111", margin: "0 0 6px" }}>
@@ -265,86 +266,194 @@ export default function AbonnementPage() {
             Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%
           </p>
 
-          {/* Sélecteur */}
-          <div style={{ display: "flex", gap: 14, marginBottom: 28, overflowX: "auto", paddingBottom: 4 }}>
-            {CATEGORIES.map((cat, i) => (
-              <div key={cat.id} style={{ borderRadius: 12, border: "1px solid #f0f0f0", background: "white", minWidth: 112, overflow: "hidden", flexShrink: 0 }}>
-                <div style={{ background: "#f5f3f0", height: 100, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingTop: 8 }}>
-                  <img src={cat.img} alt={cat.name} style={{ height: "80%", width: "auto", objectFit: "contain", filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.14))" }} />
-                </div>
-                <div style={{ padding: "10px 10px 12px" }}>
-                  <p style={{ fontSize: 9, fontWeight: 900, color: "#111", textTransform: "uppercase", letterSpacing: 0.3, margin: "0 0 3px", lineHeight: 1.3 }}>{cat.name}</p>
-                  <p style={{ fontSize: 8, color: "#aaa", margin: "0 0 8px", lineHeight: 1.4 }}>{cat.sub}</p>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <button onClick={() => changeQty(i, -1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "#111", width: 16, textAlign: "center" }}>{routineQty[i]}</span>
-                    <button onClick={() => changeQty(i, 1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+          {/* Sélecteur — scroll horizontal avec indicateur sur mobile */}
+          <div className="routine-scroll-wrapper" style={{ position: "relative", marginBottom: 28 }}>
+            {/* Indicateur "scroller" visible uniquement mobile via CSS */}
+            <div className="scroll-hint" aria-hidden="true">
+              Glissez pour voir plus →
+            </div>
+            <div
+              className="routine-scroll"
+              style={{ display: "flex", gap: 14, overflowX: "auto", paddingBottom: 4, scrollSnapType: "x mandatory" }}
+            >
+              {CATEGORIES.map((cat, i) => (
+                <div
+                  key={cat.id}
+                  className="routine-card"
+                  style={{ borderRadius: 12, border: "1px solid #f0f0f0", background: "white", minWidth: 112, overflow: "hidden", flexShrink: 0, scrollSnapAlign: "start" }}
+                >
+                  <div style={{ background: "#f5f3f0", height: 100, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingTop: 8 }}>
+                    <img src={cat.img} alt={cat.name} style={{ height: "80%", width: "auto", objectFit: "contain", filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.14))" }} />
+                  </div>
+                  <div style={{ padding: "10px 10px 12px" }}>
+                    <p style={{ fontSize: 9, fontWeight: 900, color: "#111", textTransform: "uppercase", letterSpacing: 0.3, margin: "0 0 3px", lineHeight: 1.3 }}>{cat.name}</p>
+                    <p style={{ fontSize: 8, color: "#aaa", margin: "0 0 8px", lineHeight: 1.4 }}>{cat.sub}</p>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <button onClick={() => changeQty(i, -1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "#111", width: 16, textAlign: "center" }}>{routineQty[i]}</span>
+                      <button onClick={() => changeQty(i, 1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Récapitulatif */}
           <div style={{ border: "1px solid #e5e7eb", borderRadius: 18, padding: "24px 28px" }}>
-  <p style={{ fontSize: 12, fontWeight: 600, color: "#777", margin: "0 0 14px" }}>Mon pack personnalisé</p>
+            <p style={{ fontSize: 12, fontWeight: 600, color: "#777", margin: "0 0 14px" }}>Mon pack personnalisé</p>
 
-  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 20, minHeight: 48 }}>
-    {routineQty.every(q => q === 0) ? (
-      <p style={{ fontSize: 12, color: "#ccc", margin: 0 }}>Ajoutez des produits pour composer votre pack</p>
-    ) : (
-      CATEGORIES.map((cat, i) =>
-        Array.from({ length: routineQty[i] }).map((_, j) => (
-          <div key={`${i}-${j}`} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            {(i > 0 || j > 0) && <span style={{ color: "#ddd", fontSize: 16 }}>+</span>}
-            <img src={cat.img} alt={cat.name} style={{ height: 38, width: "auto", objectFit: "contain", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.12))" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 20, minHeight: 48 }}>
+              {routineQty.every(q => q === 0) ? (
+                <p style={{ fontSize: 12, color: "#ccc", margin: 0 }}>Ajoutez des produits pour composer votre pack</p>
+              ) : (
+                CATEGORIES.map((cat, i) =>
+                  Array.from({ length: routineQty[i] }).map((_, j) => (
+                    <div key={`${i}-${j}`} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      {(i > 0 || j > 0) && <span style={{ color: "#ddd", fontSize: 16 }}>+</span>}
+                      <img src={cat.img} alt={cat.name} style={{ height: 38, width: "auto", objectFit: "contain", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.12))" }} />
+                    </div>
+                  ))
+                )
+              )}
+            </div>
+
+            <div className="pack-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <button
+                onClick={() => handleRoutineAdd(false)}
+                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "1px solid #e5e7eb", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
+              >
+                <span style={{ fontSize: 12, color: "#777" }}>Achat unique</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>{total}€</span>
+              </button>
+              <button
+                onClick={() => handleRoutineAdd(true)}
+                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "2px solid #ED9446", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
+              >
+                <span style={{ fontSize: 12, color: "#777" }}>Abonnement</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 9, fontWeight: 700, background: "#111", color: "white", padding: "2px 6px", borderRadius: 6 }}>-20%</span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{sub}€<span style={{ fontSize: 10, fontWeight: 400, color: "#888" }}>/mois</span></span>
+                </div>
+              </button>
+            </div>
+
+            {routineAdded && (
+              <div style={{ marginTop: 12, background: "#f0faf0", color: "#2d7a2d", border: "1px solid #b6e6b6", borderRadius: 12, padding: "10px 16px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Produits ajoutés au panier !
+              </div>
+            )}
           </div>
-        ))
-      )
-    )}
-  </div>
-
-  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-    <button
-      onClick={() => handleRoutineAdd(false)}
-      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "1px solid #e5e7eb", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
-    >
-      <span style={{ fontSize: 12, color: "#777" }}>Achat unique</span>
-      <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>{total}€</span>
-    </button>
-    <button
-      onClick={() => handleRoutineAdd(true)}
-      style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "2px solid #ED9446", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
-    >
-      <span style={{ fontSize: 12, color: "#777" }}>Abonnement</span>
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <span style={{ fontSize: 9, fontWeight: 700, background: "#111", color: "white", padding: "2px 6px", borderRadius: 6 }}>-20%</span>
-        <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{sub}€<span style={{ fontSize: 10, fontWeight: 400, color: "#888" }}>/mois</span></span>
-      </div>
-    </button>
-  </div>
-
-  {routineAdded && (
-    <div style={{ marginTop: 12, background: "#f0faf0", color: "#2d7a2d", border: "1px solid #b6e6b6", borderRadius: 12, padding: "10px 16px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
-      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-      </svg>
-      Produits ajoutés au panier !
-    </div>
-  )}
-</div>
         </div>
       </section>
 
       <style jsx global>{`
+
         @media (max-width: 768px) {
-          section { padding-left: 20px !important; padding-right: 20px !important; }
-          .hero-grid { grid-template-columns: 1fr !important; }
-          .avantages-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-          .pack-grid { grid-template-columns: 1fr !important; }
+
+         
+          section {
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+          }
+
+          /* ── HERO : masquer l'image, laisser le texte ── */
+          .hero-img {
+            display: none !important;
+          }
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* ── AVANTAGES : empiler les 2 colonnes ── */
+          .avantages-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+
+          /* ── PRODUITS : 2 colonnes au lieu de 3 ── */
+          .products-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            max-width: 100% !important;
+            gap: 16px !important;
+          }
+
+          /* ── Sub product card : image moins haute ── */
+          .sub-product-card > div:first-child {
+            height: 140px !important;
+          }
+
+          /* ── SCROLL HINT : visible seulement mobile ── */
+          .scroll-hint {
+            display: block !important;
+            font-size: 11px;
+            color: #bbb;
+            margin-bottom: 8px;
+            text-align: right;
+            font-style: italic;
+            letter-spacing: 0.3px;
+          }
+
+          /* ── ROUTINE SCROLL : snap + fade droite ── */
+          .routine-scroll-wrapper {
+            position: relative;
+          }
+          .routine-scroll-wrapper::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 4px;
+            width: 40px;
+            background: linear-gradient(to left, white, transparent);
+            pointer-events: none;
+            border-radius: 0 12px 12px 0;
+          }
+          .routine-scroll {
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+          }
+          .routine-scroll::-webkit-scrollbar {
+            display: none;
+          }
+
+          /* ── ROUTINE CARDS : légèrement plus larges ── */
+          .routine-card {
+            min-width: 130px !important;
+          }
+
+          /* ── PACK GRID : une colonne ── */
+          .pack-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* ── PACK BUTTONS : meilleure lisibilité ── */
+          .pack-grid button {
+            padding: 16px 18px !important;
+          }
+
+          /* ── SECTION ROUTINE padding ── */
+          #creer-votre-routine > div {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+          }
         }
-        @media (max-width: 600px) {
-          .products-grid { grid-template-columns: 1fr !important; }
+
+        /* ══════════════════════════════════════════════
+           TRÈS PETIT MOBILE — max 400px
+        ══════════════════════════════════════════════ */
+        @media (max-width: 400px) {
+          .products-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        /* scroll hint caché par défaut (desktop) */
+        .scroll-hint {
+          display: none;
         }
       `}</style>
     </div>
