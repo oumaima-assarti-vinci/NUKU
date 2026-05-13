@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/lib/contexts/CartContext";
 
@@ -44,6 +44,17 @@ function useLocale() {
   return ["fr", "en", "nl"].includes(seg[0]) ? seg[0] : "fr";
 }
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
 function StarRating({ value = 4 }: { value?: number }) {
   return (
     <div style={{ display: "flex", gap: 2 }}>
@@ -58,7 +69,7 @@ function StarRating({ value = 4 }: { value?: number }) {
 
 // ─── ProductCard ─────────────────────────────────────────────────────────────
 
-function ProductCard({ p }: { p: typeof PRODUCTS[0] }) {
+function ProductCard({ p, compact = false }: { p: typeof PRODUCTS[0]; compact?: boolean }) {
   const router = useRouter();
   const locale = useLocale();
   const { addToCart } = useCart();
@@ -99,7 +110,15 @@ function ProductCard({ p }: { p: typeof PRODUCTS[0] }) {
       }}
     >
       {/* Image */}
-      <div style={{ background: "#f0eeec", height: 210, display: "flex", alignItems: "flex-end", justifyContent: "center", position: "relative", paddingTop: 16 }}>
+      <div style={{
+        background: "#f0eeec",
+        height: compact ? 160 : 210,
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "center",
+        position: "relative",
+        paddingTop: 16,
+      }}>
         <img
           src={p.img}
           alt={p.nom}
@@ -110,16 +129,21 @@ function ProductCard({ p }: { p: typeof PRODUCTS[0] }) {
             transition: "transform 0.3s",
           }}
         />
-        <div style={{ position: "absolute", top: 10, right: 10, background: p.accent, color: "white", fontSize: 9, fontWeight: 900, padding: "2px 8px", borderRadius: 20 }}>
+        <div style={{
+          position: "absolute", top: 10, right: 10,
+          background: p.accent, color: "white",
+          fontSize: 9, fontWeight: 900,
+          padding: "2px 8px", borderRadius: 20,
+        }}>
           -20% ABO
         </div>
       </div>
 
       {/* Content */}
-      <div style={{ padding: "16px 18px", display: "flex", flexDirection: "column", flex: 1, gap: 10 }}>
+      <div style={{ padding: compact ? "12px 12px" : "16px 18px", display: "flex", flexDirection: "column", flex: 1, gap: compact ? 8 : 10 }}>
         <div>
-          <p style={{ fontSize: 12, fontWeight: 900, color: "#111", textTransform: "uppercase", letterSpacing: 0.5, margin: 0 }}>{p.nom}</p>
-          <p style={{ fontSize: 10, color: "#aaa", lineHeight: 1.4, margin: "4px 0 0" }}>{p.tagline}</p>
+          <p style={{ fontSize: compact ? 10 : 12, fontWeight: 900, color: "#111", textTransform: "uppercase", letterSpacing: 0.5, margin: 0 }}>{p.nom}</p>
+          <p style={{ fontSize: compact ? 9 : 10, color: "#aaa", lineHeight: 1.4, margin: "4px 0 0" }}>{p.tagline}</p>
           <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 6 }}>
             <StarRating value={4} />
             <span style={{ fontSize: 9, color: "#bbb" }}>(12)</span>
@@ -127,13 +151,15 @@ function ProductCard({ p }: { p: typeof PRODUCTS[0] }) {
         </div>
 
         {/* Toggle unique / abonnement */}
-        <div style={{ display: "flex", gap: 6 }}>
+        <div style={{ display: "flex", gap: 4 }}>
           {(["unique", "subscription"] as const).map(tp => (
             <button
               key={tp}
               onClick={e => { e.stopPropagation(); setType(tp); }}
               style={{
-                flex: 1, fontSize: 9, fontWeight: 700, padding: "6px 4px", borderRadius: 10,
+                flex: 1, fontSize: 8, fontWeight: 700,
+                padding: compact ? "5px 2px" : "6px 4px",
+                borderRadius: 10,
                 border: `1px solid ${type === tp ? p.accent : "#e5e7eb"}`,
                 background: type === tp ? p.light : "transparent",
                 color: type === tp ? p.accent : "#aaa", cursor: "pointer",
@@ -149,16 +175,19 @@ function ProductCard({ p }: { p: typeof PRODUCTS[0] }) {
           {type === "subscription" && (
             <div style={{ fontSize: 10, color: "#ccc", textDecoration: "line-through" }}>{p.prix}€</div>
           )}
-          <div style={{ fontSize: 16, fontWeight: 900, color: "#111" }}>{price}€</div>
+          <div style={{ fontSize: compact ? 14 : 16, fontWeight: 900, color: "#111" }}>{price}€</div>
         </div>
 
         {/* CTA */}
         <button
           onClick={handleAdd}
           style={{
-            width: "100%", padding: "11px 0", borderRadius: 30, border: "none",
+            width: "100%",
+            padding: compact ? "9px 0" : "11px 0",
+            borderRadius: 30, border: "none",
             background: added ? "#22c55e" : "#ED9446", color: "white",
-            fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5,
+            fontSize: compact ? 9 : 11, fontWeight: 700,
+            textTransform: "uppercase", letterSpacing: 0.5,
             cursor: "pointer", transition: "background 0.2s",
           }}
         >
@@ -220,6 +249,7 @@ function ComboCard({ item }: { item: typeof COMBOS[0] | typeof CURES[0] }) {
 
 export default function NukuShop() {
   const { addToCart } = useCart();
+  const isMobile = useIsMobile();
   const [routineQty, setRoutineQty] = useState([0, 0, 0, 0, 0]);
   const [routineAdded, setRoutineAdded] = useState(false);
 
@@ -239,12 +269,26 @@ export default function NukuShop() {
     setTimeout(() => setRoutineAdded(false), 2000);
   };
 
+  // ── Responsive values ──
+  const sectionPadding = isMobile ? "32px 16px 28px" : "48px 48px 40px";
+  const sectionPaddingLg = isMobile ? "32px 16px 40px" : "48px 48px 56px";
+
+  // Products: 5 en une ligne desktop, 2 colonnes mobile
+  const productsGrid = isMobile
+    ? { gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }
+    : { gridTemplateColumns: "repeat(5, 1fr)", gap: 16 };
+
+  // Combos/Cures: 3 colonnes desktop, 1 colonne mobile
+  const threeColGrid = isMobile
+    ? { gridTemplateColumns: "1fr", gap: 12 }
+    : { gridTemplateColumns: "repeat(3, 1fr)", gap: 20 };
+
   return (
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "white", minHeight: "100vh" }}>
 
       {/* ══ BUILD YOUR BALANCE ══ */}
-      <section style={{ padding: "48px 48px 40px", maxWidth: 1200, margin: "0 auto" }}>
-        <h1 style={{ fontFamily: "Georgia, serif", fontSize: 40, fontWeight: 900, color: "#111", margin: "0 0 8px" }}>
+      <section style={{ padding: sectionPadding, maxWidth: 1200, margin: "0 auto" }}>
+        <h1 style={{ fontFamily: "Georgia, serif", fontSize: isMobile ? 28 : 40, fontWeight: 900, color: "#111", margin: "0 0 8px" }}>
           Build your balance
         </h1>
         <p style={{ fontSize: 13, color: "#aaa", margin: "0 0 6px" }}>
@@ -253,15 +297,17 @@ export default function NukuShop() {
         <p style={{ fontSize: 13, color: "#777", margin: "0 0 32px", maxWidth: 560, lineHeight: 1.6 }}>
           Chaque formule Nuku est pensée pour un besoin précis — sommeil, énergie, beauté, récupération ou équilibre.
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
-          {PRODUCTS.map(p => <ProductCard key={p.id} p={p} />)}
+
+        {/* 5 produits en 1 ligne desktop / 2 colonnes mobile */}
+        <div style={{ display: "grid", ...productsGrid }}>
+          {PRODUCTS.map(p => <ProductCard key={p.id} p={p} compact={!isMobile} />)}
         </div>
       </section>
 
       {/* ══ NOS COMBOS ══ */}
-      <section style={{ background: "#FDFAF5", borderTop: "1px solid #f0f0f0", padding: "48px 48px 40px" }}>
+      <section style={{ background: "#FDFAF5", borderTop: "1px solid #f0f0f0", padding: sectionPadding }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: 34, fontWeight: 900, color: "#111", margin: "0 0 6px" }}>
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: isMobile ? 24 : 34, fontWeight: 900, color: "#111", margin: "0 0 6px" }}>
             Nos combos
           </h2>
           <p style={{ fontSize: 12, color: "#aaa", margin: "0 0 28px" }}>
@@ -269,108 +315,108 @@ export default function NukuShop() {
           </p>
 
           {/* Combos */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 20 }}>
+          <div style={{ display: "grid", ...threeColGrid, marginBottom: isMobile ? 12 : 20 }}>
             {COMBOS.map(c => <ComboCard key={c.key} item={c} />)}
           </div>
 
           {/* Cures row 1 */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 20 }}>
+          <div style={{ display: "grid", ...threeColGrid, marginBottom: isMobile ? 12 : 20 }}>
             {CURES.slice(0, 3).map(c => <ComboCard key={c.key} item={c} />)}
           </div>
 
           {/* Cures row 2 */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          <div style={{ display: "grid", ...threeColGrid }}>
             {CURES.slice(3).map(c => <ComboCard key={c.key} item={c} />)}
           </div>
         </div>
       </section>
 
       {/* ══ PERSONNALISEZ VOTRE PACK ══ */}
-      <section style={{ background: "white", borderTop: "1px solid #f0f0f0", padding: "48px 48px 56px" }}>
-  <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-    <h2 style={{ fontFamily: "Georgia, serif", fontSize: 34, fontWeight: 900, color: "#111", margin: "0 0 4px" }}>
-      Personnalisez votre pack
-    </h2>
-    <p style={{ fontSize: 12, color: "#aaa", margin: "0 0 28px" }}>
-      Choisissez vos produits et composez la routine qui vous ressemble jusqu&apos;à -30%
-    </p>
+      <section style={{ background: "white", borderTop: "1px solid #f0f0f0", padding: sectionPaddingLg }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: isMobile ? 24 : 34, fontWeight: 900, color: "#111", margin: "0 0 4px" }}>
+            Personnalisez votre pack
+          </h2>
+          <p style={{ fontSize: 12, color: "#aaa", margin: "0 0 28px" }}>
+            Choisissez vos produits et composez la routine qui vous ressemble jusqu&apos;à -30%
+          </p>
 
-    {/* Sélecteur de produits */}
-    <div style={{ display: "flex", gap: 14, marginBottom: 28, overflowX: "auto" }}>
-      {CATEGORIES.map((cat, i) => (
-        <div key={cat.id} style={{ borderRadius: 12, border: "1px solid #f0f0f0", background: "white", minWidth: 112, overflow: "hidden", flexShrink: 0 }}>
-          <div style={{ background: "#f0eeec", height: 100, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingTop: 8 }}>
-            <img src={cat.img} alt={cat.name} style={{ height: "80%", width: "auto", objectFit: "contain", filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.14))" }} />
-          </div>
-          <div style={{ padding: "10px 10px 12px" }}>
-            <p style={{ fontSize: 9, fontWeight: 900, color: "#111", textTransform: "uppercase", letterSpacing: 0.3, margin: "0 0 3px", lineHeight: 1.3 }}>{cat.name}</p>
-            <p style={{ fontSize: 8, color: "#aaa", margin: "0 0 8px", lineHeight: 1.4 }}>{cat.sub}</p>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <button onClick={() => changeQty(i, -1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#111", width: 16, textAlign: "center" }}>{routineQty[i]}</span>
-              <button onClick={() => changeQty(i, 1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-
-    {/* Récapitulatif */}
-    <div style={{ border: "1px solid #e5e7eb", borderRadius: 18, padding: "24px 28px" }}>
-      <p style={{ fontSize: 12, fontWeight: 600, color: "#777", margin: "0 0 14px" }}>Mon pack personnalisé</p>
-
-      {/* Aperçu des images */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 20, minHeight: 48 }}>
-        {routineQty.every(q => q === 0) ? (
-          <p style={{ fontSize: 12, color: "#ccc", margin: 0 }}>Ajoutez des produits pour composer votre pack</p>
-        ) : (
-          CATEGORIES.map((cat, i) =>
-            Array.from({ length: routineQty[i] }).map((_, j) => (
-              <div key={`${i}-${j}`} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                {(i > 0 || j > 0) && <span style={{ color: "#ddd", fontSize: 16 }}>+</span>}
-                <img src={cat.img} alt={cat.name} style={{ height: 38, width: "auto", objectFit: "contain", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.12))" }} />
+          {/* Sélecteur de produits */}
+          <div style={{ display: "flex", gap: 12, marginBottom: 28, overflowX: "auto", paddingBottom: 4, WebkitOverflowScrolling: "touch" }}>
+            {CATEGORIES.map((cat, i) => (
+              <div key={cat.id} style={{ borderRadius: 12, border: "1px solid #f0f0f0", background: "white", minWidth: isMobile ? 96 : 112, overflow: "hidden", flexShrink: 0 }}>
+                <div style={{ background: "#f0eeec", height: isMobile ? 84 : 100, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingTop: 8 }}>
+                  <img src={cat.img} alt={cat.name} style={{ height: "80%", width: "auto", objectFit: "contain", filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.14))" }} />
+                </div>
+                <div style={{ padding: "10px 8px 12px" }}>
+                  <p style={{ fontSize: 9, fontWeight: 900, color: "#111", textTransform: "uppercase", letterSpacing: 0.3, margin: "0 0 3px", lineHeight: 1.3 }}>{cat.name}</p>
+                  <p style={{ fontSize: 8, color: "#aaa", margin: "0 0 8px", lineHeight: 1.4 }}>{cat.sub}</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <button onClick={() => changeQty(i, -1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: "#111", width: 16, textAlign: "center" }}>{routineQty[i]}</span>
+                    <button onClick={() => changeQty(i, 1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+                  </div>
+                </div>
               </div>
-            ))
-          )
-        )}
-      </div>
-
-      {/* Boutons achat */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-        <button
-          onClick={() => handleRoutineAdd(false)}
-          style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "1px solid #e5e7eb", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
-        >
-          <span style={{ fontSize: 12, color: "#777" }}>Achat unique</span>
-          <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>{total}€</span>
-        </button>
-
-        <button
-          onClick={() => handleRoutineAdd(true)}
-          style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "2px solid #ED9446", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
-        >
-          <span style={{ fontSize: 12, color: "#777" }}>Abonnement</span>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 9, fontWeight: 700, background: "#111", color: "white", padding: "2px 6px", borderRadius: 6 }}>-5%</span>
-            <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
-              {sub}€<span style={{ fontSize: 10, fontWeight: 400, color: "#888" }}>/mois</span>
-            </span>
+            ))}
           </div>
-        </button>
-      </div>
 
-      {/* Confirmation ajout */}
-      {routineAdded && (
-        <div style={{ marginTop: 12, background: "#f0faf0", color: "#2d7a2d", border: "1px solid #b6e6b6", borderRadius: 12, padding: "10px 16px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-          Produits ajoutés au panier !
+          {/* Récapitulatif */}
+          <div style={{ border: "1px solid #e5e7eb", borderRadius: 18, padding: isMobile ? "20px 16px" : "24px 28px" }}>
+            <p style={{ fontSize: 12, fontWeight: 600, color: "#777", margin: "0 0 14px" }}>Mon pack personnalisé</p>
+
+            {/* Aperçu des images */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 20, minHeight: 48 }}>
+              {routineQty.every(q => q === 0) ? (
+                <p style={{ fontSize: 12, color: "#ccc", margin: 0 }}>Ajoutez des produits pour composer votre pack</p>
+              ) : (
+                CATEGORIES.map((cat, i) =>
+                  Array.from({ length: routineQty[i] }).map((_, j) => (
+                    <div key={`${i}-${j}`} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      {(i > 0 || j > 0) && <span style={{ color: "#ddd", fontSize: 16 }}>+</span>}
+                      <img src={cat.img} alt={cat.name} style={{ height: 38, width: "auto", objectFit: "contain", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.12))" }} />
+                    </div>
+                  ))
+                )
+              )}
+            </div>
+
+            {/* Boutons achat */}
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 12 }}>
+              <button
+                onClick={() => handleRoutineAdd(false)}
+                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "1px solid #e5e7eb", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
+              >
+                <span style={{ fontSize: 12, color: "#777" }}>Achat unique</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>{total}€</span>
+              </button>
+
+              <button
+                onClick={() => handleRoutineAdd(true)}
+                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "2px solid #ED9446", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
+              >
+                <span style={{ fontSize: 12, color: "#777" }}>Abonnement</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 9, fontWeight: 700, background: "#111", color: "white", padding: "2px 6px", borderRadius: 6 }}>-5%</span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>
+                    {sub}€<span style={{ fontSize: 10, fontWeight: 400, color: "#888" }}>/mois</span>
+                  </span>
+                </div>
+              </button>
+            </div>
+
+            {/* Confirmation ajout */}
+            {routineAdded && (
+              <div style={{ marginTop: 12, background: "#f0faf0", color: "#2d7a2d", border: "1px solid #b6e6b6", borderRadius: 12, padding: "10px 16px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Produits ajoutés au panier !
+              </div>
+            )}
+          </div>
         </div>
-      )}
-    </div>
-  </div>
-</section>
+      </section>
     </div>
   );
 }
