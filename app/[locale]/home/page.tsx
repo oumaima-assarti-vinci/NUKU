@@ -537,24 +537,11 @@ export default function HomePage() {
 
       {/* ─── MOBILE HERO ─── */}
 {/* ─── MOBILE HERO ─── */}
-<section className="md:hidden relative overflow-hidden" style={{ minHeight: '560px' }}>
+{/* ─── MOBILE HERO ─── */}
+<section className="md:hidden flex flex-col" style={{ background: '#FDFAF5' }}>
 
-  {/* Image de fond avec opacité réduite */}
-  <div
-    className="absolute inset-0"
-    style={{
-      backgroundImage: "url('/image/fruitbackround.png')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center top',
-      opacity: 0.25,
-    }}
-  />
-
-  {/* Fond crème derrière */}
-  <div className="absolute inset-0" style={{ background: '#FDFAF5', zIndex: -1 }} />
-
-  {/* Contenu */}
-  <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4 justify-center" style={{ minHeight: '560px' }}>
+  {/* Texte en haut */}
+  <div className="px-5 pt-10 pb-6 flex flex-col gap-4">
     <span
       className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
       style={{ background: '#ebebeb', color: '#777' }}
@@ -603,7 +590,7 @@ export default function HomePage() {
       </Link>
     </div>
 
-    <div className="flex items-center gap-6 pt-2">
+    <div className="flex items-center gap-6">
       {badges.map((b, i) => (
         <div key={i} className="flex flex-col items-center gap-1">
           <div style={{ color: '#999' }}>{b.icon}</div>
@@ -611,6 +598,17 @@ export default function HomePage() {
         </div>
       ))}
     </div>
+  </div>
+
+  {/* Image en bas — pleine largeur, visible complètement */}
+  <div className="w-full" style={{ background: '#f5f0ea' }}>
+    <img
+      src="/image/fruitbackround.png"
+      alt="Hero"
+      className="w-full object-cover"
+      style={{ maxHeight: '280px', objectPosition: 'center top' }}
+      fetchPriority="high"
+    />
   </div>
 </section>
 
