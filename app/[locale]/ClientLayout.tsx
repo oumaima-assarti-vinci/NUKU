@@ -12,7 +12,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
-      <main className={isAdmin ? "" : "pt-16 overflow-x-hidden"}>
+      <main className={isAdmin ? "" : "pt-24 overflow-x-hidden"}>
         {children}
       </main>
       {!isAdmin && <Footer />}
