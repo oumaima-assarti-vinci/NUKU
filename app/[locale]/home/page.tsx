@@ -534,14 +534,29 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════
           HERO — mobile: image + texte stacked / desktop: background image
       ══════════════════════════════════════════ */}
-
-      {/* ─── MOBILE HERO ─── */}
 {/* ─── MOBILE HERO ─── */}
-{/* ─── MOBILE HERO ─── */}
-<section className="md:hidden flex flex-col" style={{ background: '#FDFAF5' }}>
+<section className="md:hidden relative overflow-hidden" style={{ minHeight: '600px' }}>
 
-  {/* Texte en haut */}
-  <div className="px-5 pt-10 pb-6 flex flex-col gap-4">
+  {/* Image de fond mobile */}
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundImage: "url('/image/fruitbackroundTel.png')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+    }}
+  />
+
+  {/* Overlay crème pour lisibilité du texte */}
+  <div
+    className="absolute inset-0"
+    style={{
+      background: 'linear-gradient(to bottom, rgba(253,250,245,0.75) 0%, rgba(253,250,245,0.4) 50%, rgba(253,250,245,0.1) 100%)',
+    }}
+  />
+
+  {/* Contenu par-dessus */}
+  <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4" style={{ minHeight: '600px' }}>
     <span
       className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
       style={{ background: '#ebebeb', color: '#777' }}
@@ -565,7 +580,7 @@ export default function HomePage() {
         : 'Beter in je vel.\nNatuurlijk.'}
     </h1>
 
-    <p className="text-xs text-neutral-600 leading-relaxed max-w-xs">
+    <p className="text-xs text-neutral-700 leading-relaxed max-w-xs">
       {lang === 'fr'
         ? 'Des gummies simples & clean, conçus pour ton rythme quotidien.'
         : lang === 'en'
@@ -590,7 +605,7 @@ export default function HomePage() {
       </Link>
     </div>
 
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-6 pt-2">
       {badges.map((b, i) => (
         <div key={i} className="flex flex-col items-center gap-1">
           <div style={{ color: '#999' }}>{b.icon}</div>
@@ -598,17 +613,6 @@ export default function HomePage() {
         </div>
       ))}
     </div>
-  </div>
-
-  {/* Image en bas — pleine largeur, visible complètement */}
-  <div className="w-full" style={{ background: '#f5f0ea' }}>
-    <img
-      src="/image/fruitbackround.png"
-      alt="Hero"
-      className="w-full object-cover"
-      style={{ maxHeight: '280px', objectPosition: 'center top' }}
-      fetchPriority="high"
-    />
   </div>
 </section>
 
