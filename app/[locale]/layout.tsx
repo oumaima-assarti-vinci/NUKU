@@ -21,6 +21,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="preload" as="image" href="/image/fruitbackround.png" />
+      </head>
       <body>
         <NextIntlClientProvider locale={locale}>
           <CartProvider>

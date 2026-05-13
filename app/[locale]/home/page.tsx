@@ -537,7 +537,7 @@ export default function HomePage() {
 
       {/* ─── MOBILE HERO ─── */}
 {/* ─── MOBILE HERO ─── */}
-<section className="md:hidden relative overflow-hidden" style={{ minHeight: '480px' }}>
+<section className="md:hidden relative overflow-hidden" style={{ minHeight: '560px' }}>
 
   {/* Image de fond avec opacité réduite */}
   <div
@@ -545,8 +545,8 @@ export default function HomePage() {
     style={{
       backgroundImage: "url('/image/fruitbackround.png')",
       backgroundSize: 'cover',
-      backgroundPosition: 'center center',
-      opacity: 0.3,
+      backgroundPosition: 'center top',
+      opacity: 0.25,
     }}
   />
 
@@ -554,7 +554,7 @@ export default function HomePage() {
   <div className="absolute inset-0" style={{ background: '#FDFAF5', zIndex: -1 }} />
 
   {/* Contenu */}
-  <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4 justify-center" style={{ minHeight: '480px' }}>
+  <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4 justify-center" style={{ minHeight: '560px' }}>
     <span
       className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
       style={{ background: '#ebebeb', color: '#777' }}
