@@ -4,6 +4,7 @@ import Footer from "@/components/Footer"
 import { CartProvider } from "@/lib/contexts/CartContext"
 import { NextIntlClientProvider } from "next-intl"
 import ClientLayout from "./ClientLayout"
+import {PackProvider} from "@/lib/contexts/PackContext"
 
 export const metadata = {
   title: "Nuku – Élevez votre bien-être",
@@ -27,7 +28,9 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider locale={locale}>
           <CartProvider>
-            <ClientLayout>{children}</ClientLayout>
+            <PackProvider>
+              <ClientLayout>{children}</ClientLayout>
+            </PackProvider>
           </CartProvider>
         </NextIntlClientProvider>
       </body>

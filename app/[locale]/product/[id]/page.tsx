@@ -39,6 +39,27 @@ const PRODUCT_EMOJIS: Record<ProductKey, string> = {
   sleep: "🌙", shine: "✨", source: "🌿", strength: "💪", soul: "🕊️",
 };
 
+const PLAN_IMAGES: Record<ProductKey, string | undefined> = {
+  sleep:    "/image/PlanBleu.png",
+  soul:     "/image/plan/PlanViolet.png",
+  strength: "/image/PlanRouge.png",
+  shine:    "/image/PlanJaune.png",
+  source:   "/image/PlanVert.png",
+};
+// ── Other products static config ──
+const OTHER_PRODUCTS_CONFIG: Record<ProductKey, {
+  label: string;
+  labelFr: string;
+  ingredients: string;
+  color: string;
+}> = {
+  sleep:    { label: "SOMMEIL",           labelFr: "SOMMEIL",           ingredients: "Mélatonine · L-théanine · Magnésium", color: "#7B9EC4" },
+  soul:     { label: "RELAX & ÉQUILIBRE", labelFr: "RELAX & ÉQUILIBRE", ingredients: "Ashwagandha · Rhodiola · Safran",       color: "#9B7BB8" },
+  strength: { label: "FORCE & ENDURANCE", labelFr: "FORCE & ENDURANCE", ingredients: "Créatine · Vitamine B12 · Vitamine D3",  color: "#C0392B" },
+  shine:    { label: "CHEVEUX & BEAUTÉ",  labelFr: "CHEVEUX & BEAUTÉ",  ingredients: "Biotine · Zinc · MSM",                  color: "#C8B84A" },
+  source:   { label: "DIGESTION",         labelFr: "DIGESTION",         ingredients: "Matcha · Artichaut · Pissenlit",          color: "#4A7C59" },
+};
+
 const INGREDIENT_IMAGES: Record<string, { path: string; label: string; benefit: string }> = {
   "sleep-melatonine":  { path: "/image/sleep/melatonin.jpg",    label: "Mélatonine",   benefit: "Aide à réduire le temps d'endormissement et à réguler le rythme veille-sommeil." },
   "sleep-theanine":    { path: "/image/sleep/l-theanine.jpg",   label: "L-théanine",   benefit: "Favorise la détente et la relaxation sans provoquer de somnolence." },
@@ -69,6 +90,14 @@ const INGREDIENT_IMAGES: Record<string, { path: string; label: string; benefit: 
   "soul-rhodiola":     { path: "/image/soul/Rhodiola.jpg",           label: "Rhodiola",           benefit: "Contribue à réduire la fatigue et soutient l'équilibre émotionnel." },
   "soul-safran":       { path: "/image/soul/Safran.jpg",             label: "Safran",             benefit: "Contribue à l'équilibre de l'humeur et favorise un état émotionnel positif." },
   "soul-vitb6":        { path: "/image/soul/Vitamine b6.jpg",        label: "Vitamine B6",        benefit: "Contribue au fonctionnement normal du système nerveux." },
+};
+
+const PRODUCT_MAIN_IMAGES: Record<ProductKey, string> = {
+  sleep:    "/image/nukuBleu.png",
+  soul:     "/image/nukuViolet.png",
+  strength: "/image/nukuRouge.png",
+  shine:    "/image/nukuJaune.png",
+  source:   "/image/nukuVert.png",
 };
 
 const euroFmt = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 2 });
@@ -214,7 +243,6 @@ function BenefitsNoMiddle({ benefits }: { benefits: string[] }) {
 }
 
 /* ── Ingredients Slider ── */
-// FIX 1: overflow visible + padding généreux pour que la carte centrale ne soit pas coupée
 function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t: any }) {
   const allIngredients = useMemo(() => {
     if (!productKey) return [];
@@ -222,11 +250,7 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
     Object.entries(INGREDIENT_IMAGES).forEach(([key, value]) => {
       if (key.startsWith(productKey + "-")) {
         let benefit: string;
-        try {
-          benefit = t(`ingredient_benefits.${key}`);
-        } catch {
-          benefit = value.benefit;
-        }
+        try { benefit = t(`ingredient_benefits.${key}`); } catch { benefit = value.benefit; }
         out.push({ label: value.label, image: value.path, benefit });
       }
     });
@@ -279,7 +303,6 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
         <p className="luxury-subtitle">{t("ingredients_subtitle")}</p>
       </div>
       <div className="ing-wrap" data-few={total <= 3 ? "true" : undefined} style={{ ["--active-scale" as any]: activeScale } as React.CSSProperties}>
-        {/* FIX 1: overflow visible sur le viewport pour ne pas cropper la carte centrale agrandie */}
         <div className="ing-viewport" ref={emblaRef}>
           <div className="ing-container">
             {allIngredients.map((item, i) => {
@@ -325,25 +348,14 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
         .luxury-title{font-size:clamp(26px,5vw,40px);font-weight:300;margin:10px 0;}
         .luxury-divider{width:40px;height:1px;background:#b58e58;margin:15px auto;}
         .luxury-subtitle{font-size:13px;color:#888;font-weight:300;padding:0 16px;}
-
-        /* FIX 1 — section avec padding vertical pour absorber le scale de la carte active */
-        .ing-section{margin: 80px auto; 
-  width: 100%;
-  max-width: 1200px; /* Largeur standard pour un écran d'ordi */
-  padding: 0 40px;
-  position: relative;
-  left: 0;}
+        .ing-section{margin:80px auto;width:100%;max-width:1200px;padding:0 40px;position:relative;left:0;}
         .ing-wrap{position:relative;max-width:${wrapMaxWidth};margin:0 auto;padding:0;width:100%;}
         .ing-wrap::before,.ing-wrap::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:5;pointer-events:none;}
         .ing-wrap::before{left:0;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%);}
         .ing-wrap::after{right:0;background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%);}
         .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after{display:none;}
-
-        /* FIX 1 — overflow visible pour ne pas couper la carte centrale agrandie */
         .ing-viewport{overflow:hidden;padding:40px 0;}
-        /* masque uniquement sur l'axe horizontal via le wrapper parent */
         .ing-wrap{overflow:hidden;}
-
         .ing-container{display:flex;user-select:none;-webkit-touch-callout:none;gap:16px;}
         .ing-slide{flex:0 0 52%;min-width:0;display:flex;align-items:center;justify-content:center;}
         @media(min-width:480px){.ing-slide{flex:0 0 38%;}}
@@ -422,240 +434,157 @@ const ROUTINE_ICONS: Record<ProductKey, React.ReactElement[]> = {
 };
 
 /* ── Routine Section ── */
-// FIX 2: icônes alignées avec le texte (padding-top retiré, alignement flex corrigé)
-function ProductRoutineSection({ config, t }: { config: ProductConfig; t: any }) {
-  const { folder, routineTitle, routineIntro, routineTips } = config;
-  const cleanTitle = routineTitle
-    .replace(/^[\p{Emoji}\s]+/u, "")
-    .replace(/Optimiser/i, "Optimisez")
-    .replace(/Optimise/i, "Optimise")
-    .replace(/Optimaliseer/i, "Optimaliseer");
-
+function ProductRoutineSection({ config, productImages }: { config: ProductConfig; productImages: string[] }) {
+  const { routineIntro, routineTips } = config;
+  const FIXED_TITLE = "Optimisez votre routine";
   const TIP_ICONS = ROUTINE_ICONS[config.key] ?? ROUTINE_ICONS.sleep;
+
+  // Use plan image if available, otherwise fall back to the product pot photo
+  const leftImage = PLAN_IMAGES[config.key] ?? productImages[0] ?? `/image/${config.folder}/${config.folder}1.png`;
 
   return (
     <section className="rs-section">
-      <h2 className="rs-title">{cleanTitle}</h2>
+      <h2 className="rs-title">{FIXED_TITLE}</h2>
       <div className="rs-grid">
-      <div className="rs-left">
-  <p className="rs-intro">{routineIntro}</p>
-  <div className="rs-img-wrap">
-    <img
-      src={`/image/${folder}/${folder}1.png`}
-      alt="Produit"
-      className="rs-img"
-      onError={(e) => {
-        (e.currentTarget as HTMLImageElement).parentElement!.style.display = "none";
-      }}
-    />
-  </div>
-</div>
+        {/* LEFT: plan image */}
+        <div className="rs-img-col">
+          <div className="rs-img-wrap">
+            <img
+              src={leftImage}
+              alt="Plan routine"
+              className="rs-product-img"
+              onError={(e) => { (e.currentTarget as HTMLImageElement).parentElement!.style.display = "none"; }}
+            />
+          </div>
+          {routineIntro && <p className="rs-intro">{routineIntro}</p>}
+        </div>
+        {/* RIGHT: tips */}
         <div className="rs-right">
           {routineTips.map((tip, i) => (
             <div key={i} className="rs-tip">
-              {/* FIX 2: icône alignée avec la première ligne du texte via align-items:flex-start + padding-top sur l'icône pour compenser la line-height */}
-              <div className="rs-icon" aria-hidden="true">
-                {TIP_ICONS[i] ?? TIP_ICONS[0]}
-              </div>
+              <div className="rs-icon" aria-hidden="true">{TIP_ICONS[i] ?? TIP_ICONS[0]}</div>
               <p className="rs-tip-text">{tip}</p>
             </div>
           ))}
         </div>
       </div>
       <style jsx>{`
-       .rs-section{padding:48px 24px 56px;background:#fff;max-width:1200px;margin:0 auto;}
-.rs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,5vw,64px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;line-height:1.1;}
-.rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
-.rs-left{display:flex;flex-direction:column;gap:24px;}
-.rs-intro{font-size:15px;line-height:1.75;color:#555;font-weight:400;text-align:center;margin:0;}
-.rs-img-wrap{width:100%;display:flex;align-items:center;justify-content:center;min-height:0;}
-.rs-img{width:80%;max-width:400px;height:auto;object-fit:contain;filter:drop-shadow(0 24px 40px rgba(0,0,0,0.18));transition:transform 0.6s ease;display:block;}.rs-img:hover{transform:scale(1.03);}
-.rs-right{display:flex;flex-direction:column;gap:0;padding-top:8px;}
-.rs-tip{display:flex;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid #e8e2d8;}
-.rs-tip:first-child{border-top:1px solid #e8e2d8;}
-.rs-icon{flex-shrink:0;width:48px;height:48px;color:#2a1f14;opacity:0.75;display:flex;align-items:center;justify-content:center;}
-.rs-icon svg{width:100%;height:100%;}
-.rs-tip-text{font-size:15px;line-height:1.7;color:#3a3228;margin:0;font-weight:400;}
-
-/* ← MASQUER la colonne image sur <900px, garder uniquement les tips */
-@media(max-width:900px){
-  .rs-section{padding:40px 20px 48px;}
-  .rs-grid{grid-template-columns:1fr;gap:0;}
-  .rs-left{display:none;}
-}
-@media(max-width:640px){
-  .rs-section{padding:32px 16px 40px;}
-  .rs-title{font-size:clamp(24px,7vw,36px);margin-bottom:28px;}
-  .rs-tip{gap:14px;padding:18px 0;}
-  .rs-icon{width:38px;height:38px;}
-  .rs-tip-text{font-size:14px;}
-}
-@media(prefers-reduced-motion:reduce){.rs-img{transition:none!important;}} `}</style>
+        .rs-section{padding:48px 24px 56px;background:#fff;max-width:1200px;margin:0 auto;}
+        .rs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,5vw,64px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;line-height:1.1;}
+        .rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
+        .rs-img-col{display:flex;flex-direction:column;align-items:center;gap:20px;}
+        .rs-img-wrap{width:100%;display:flex;align-items:center;justify-content:center;}
+        .rs-product-img{width:100%;max-width:460px;height:auto;object-fit:contain;filter:drop-shadow(0 24px 40px rgba(0,0,0,0.12));transition:transform 0.6s ease;display:block;border-radius:16px;}
+        .rs-product-img:hover{transform:scale(1.02);}
+        .rs-intro{font-size:15px;line-height:1.75;color:#555;font-weight:400;text-align:center;margin:0;}
+        .rs-right{display:flex;flex-direction:column;gap:0;padding-top:8px;}
+        .rs-tip{display:flex;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid #e8e2d8;}
+        .rs-tip:first-child{border-top:1px solid #e8e2d8;}
+        .rs-icon{flex-shrink:0;width:48px;height:48px;color:#2a1f14;opacity:0.75;display:flex;align-items:center;justify-content:center;}
+        .rs-icon svg{width:100%;height:100%;}
+        .rs-tip-text{font-size:15px;line-height:1.7;color:#3a3228;margin:0;font-weight:400;}
+        @media(max-width:900px){
+          .rs-section{padding:40px 20px 48px;}
+          .rs-grid{grid-template-columns:1fr;gap:32px;}
+          .rs-img-col{display:flex;}
+        }
+        @media(max-width:640px){
+          .rs-section{padding:32px 16px 40px;}
+          .rs-title{font-size:clamp(24px,7vw,36px);margin-bottom:28px;}
+          .rs-tip{gap:14px;padding:18px 0;}
+          .rs-icon{width:38px;height:38px;}
+          .rs-tip-text{font-size:14px;}
+        }
+        @media(prefers-reduced-motion:reduce){.rs-product-img{transition:none!important;}}
+      `}</style>
     </section>
   );
 }
 
-/* ── Myth Accordions ── */
-function MythAccordion({ id, myth, reality, realityLabel }: { id: number; myth: string; reality: string; realityLabel: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => { const el = ref.current; if (!el) return; el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px"; }, [isOpen]);
-  useEffect(() => {
-    if (!ref.current || !isOpen) return;
-    const el = ref.current;
-    const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; });
-    ro.observe(el); return () => ro.disconnect();
-  }, [isOpen]);
-  return (
-    <div className={`acc-item ${isOpen ? "open" : ""}`}>
-      <button className="acc-btn" onClick={() => setIsOpen(v => !v)} aria-expanded={isOpen} aria-controls={`reality-${id}`}>
-        <span className="num" aria-hidden="true">{id}</span>
-        <span className="q">{myth}</span>
-        <span className={`plus ${isOpen ? "rot" : ""}`} aria-hidden="true">{isOpen ? "×" : "+"}</span>
-      </button>
-      <div id={`reality-${id}`} className="acc-body" ref={ref} role="region" aria-live="polite">
-        <p className="a"><strong>{realityLabel}</strong> {reality}</p>
-      </div>
-      <style jsx>{`
-        .acc-item{border-radius:16px;background:#ffffff;border:1.4px solid #e8e2da;box-shadow:0 2px 8px rgba(0,0,0,0.04);overflow:hidden;transition:box-shadow .25s ease,border-color .25s ease,transform .2s ease;}
-        @media(hover:hover){.acc-item:hover{box-shadow:0 8px 24px rgba(0,0,0,.08);transform:translateY(-1px);}}
-        .acc-item.open{background:#ffffff;border-color:#d4cdc6;box-shadow:0 8px 20px rgba(0,0,0,.07);}
-        .acc-btn{width:100%;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:16px 20px;background:transparent;border:0;cursor:pointer;text-align:left;transition:background .18s ease;}
-        .acc-btn:hover{background:rgba(0,0,0,.02);}
-        .num{width:32px;height:32px;display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:800;font-size:14px;border-radius:50%;background:linear-gradient(135deg,#ffb98f 0%,#ff8d58 100%);box-shadow:0 5px 18px rgba(255,135,90,.42),inset 0 1px 0 rgba(255,255,255,.45);}
-        .q{font-weight:600;color:#3f372f;font-size:14.5px;line-height:1.55;letter-spacing:-0.01em;}
-        .plus{font-size:20px;color:#9f9f9f;line-height:1;transition:transform .28s ease,color .2s ease;font-weight:300;}
-        .plus.rot{color:#ff7b42;animation:pop .25s ease-out;}
-        @keyframes pop{0%{transform:scale(.85);}60%{transform:scale(1.1);}100%{transform:scale(1);}}
-        .acc-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease,transform .25s ease;opacity:0;transform:translateY(-4px);}
-        .acc-item.open .acc-body{opacity:1;transform:translateY(0);}
-        .a{margin:0;padding:0 20px 16px 68px;color:#6a5f57;font-size:14.5px;line-height:1.72;letter-spacing:-0.005em;}
-        .a strong{color:#ff7b42;font-weight:600;}
-        @media(max-width:640px){
-          .acc-btn{padding:14px 16px;gap:12px;}
-          .num{width:30px;height:30px;font-size:13px;}
-          .q{font-size:13.5px;}
-          .a{padding:0 16px 14px 16px;font-size:13.5px;}
-        }
-        @media(prefers-reduced-motion:reduce){.acc-item,.acc-btn,.acc-body,.plus{transition:none!important;animation:none!important;}}
-      `}</style>
-    </div>
-  );
-}
+/* ── Other Products Section ── */
+function OtherProductsSection({
+  currentKey,
+  products,
+  onAddToCart,
+  onNavigate,
+}: {
+  currentKey: ProductKey | null;
+  products: DbProduct[];
+  onAddToCart: (product: DbProduct) => void;
+  onNavigate: (id: number) => void;
+}) {
+  const otherProducts = products.filter(p => getProductKey(p) !== currentKey);
+  if (!otherProducts.length) return null;
 
-function MythAccordionMobile({ id, myth, reality }: { id: number; myth: string; reality: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => { const el = ref.current; if (!el) return; el.style.maxHeight = isOpen ? `${el.scrollHeight}px` : "0px"; }, [isOpen]);
-  useEffect(() => {
-    if (!ref.current || !isOpen) return;
-    const el = ref.current;
-    const ro = new ResizeObserver(() => { el.style.maxHeight = `${el.scrollHeight}px`; });
-    ro.observe(el); return () => ro.disconnect();
-  }, [isOpen]);
   return (
-    <div className={`ma-item ${isOpen ? "open" : ""}`}>
-      <button className="ma-btn" onClick={() => setIsOpen(v => !v)} aria-expanded={isOpen} aria-controls={`ma-reality-${id}`}>
-        <span className={`ma-num ${isOpen ? "ma-num--active" : ""}`}>{id}</span>
-        <span className="ma-q">{myth}</span>
-        <span className="ma-plus" aria-hidden="true">{isOpen ? "−" : "+"}</span>
-      </button>
-      <div id={`ma-reality-${id}`} className="ma-body" ref={ref} role="region">
-        <p className="ma-a">{reality}</p>
-      </div>
-      <style jsx>{`
-        .ma-item{border-bottom:1px solid #e8e2da;}
-        .ma-btn{width:100%;display:flex;align-items:center;gap:14px;padding:18px 0;background:transparent;border:0;cursor:pointer;text-align:left;}
-        .ma-num{width:34px;height:34px;border-radius:50%;border:2px solid #ef8035;display:grid;place-items:center;font-size:14px;font-weight:700;color:#ef8035;flex-shrink:0;transition:background .2s,color .2s;}
-        .ma-num--active{background:#ef8035;color:#fff;}
-        .ma-q{flex:1;font-size:15px;font-weight:500;color:#1a1a1a;line-height:1.45;letter-spacing:-0.01em;}
-        .ma-plus{font-size:20px;color:#9a9a9a;font-weight:300;flex-shrink:0;line-height:1;}
-        .ma-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;}
-        .ma-item.open .ma-body{opacity:1;}
-        .ma-a{margin:0;padding:0 0 18px 48px;font-size:14px;line-height:1.75;color:#666;font-weight:300;}
-        @media(max-width:400px){
-          .ma-btn{gap:12px;padding:16px 0;}
-          .ma-num{width:30px;height:30px;font-size:13px;}
-          .ma-q{font-size:14px;}
-          .ma-a{padding:0 0 16px 42px;font-size:13.5px;}
-        }
-        @media(prefers-reduced-motion:reduce){.ma-body{transition:none!important;}}
-      `}</style>
-    </div>
-  );
-}
-
-function ProductMythsSection({ config, t }: { config: ProductConfig; t: any }) {
-  const { folder, mythsTitle, myths } = config;
-  const fewItems = myths.length <= 2;
-  return (
-    <section className="myths-section" aria-labelledby={`myths-title-${folder}`}>
-      <div className="myths-desktop">
-        <div className="myths-wrapper">
-          <figure className="myths-img"><img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" decoding="async" /></figure>
-          <div className="card-stack stack-1" aria-hidden="true" />
-          <div className="card-stack stack-2" aria-hidden="true" />
-          <article className={`myths-card ${fewItems ? "is-compact" : ""}`} role="region" aria-labelledby={`myths-title-${folder}`}>
-            <h2 id={`myths-title-${folder}`} className="myths-title">
-              <span className="moon" aria-hidden="true">🌙</span>
-              <span>{mythsTitle}</span>
-            </h2>
-            <div className="myths-accordion">
-              {myths.map(item => <MythAccordion key={item.id} id={item.id} myth={item.myth} reality={item.reality} realityLabel={t("reality_label")} />)}
+    <section className="op-section">
+      <h2 className="op-title">Nos autres compléments</h2>
+      <div className="op-grid">
+        {otherProducts.map((product) => {
+          const key = getProductKey(product);
+          const config = key ? OTHER_PRODUCTS_CONFIG[key] : null;
+          // Use DB images first (real pot photos), fallback to static map
+          const mainImage = product.images?.[0] ?? (key ? PRODUCT_MAIN_IMAGES[key] : "");
+          return (
+            <div
+              key={product.id}
+              className="op-card"
+              onClick={() => onNavigate(product.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onNavigate(product.id); }}
+              aria-label={`Voir ${product.nom}`}
+            >
+              <div className="op-img-wrap">
+                <img src={mainImage} alt={product.nom} loading="lazy" draggable={false} />
+              </div>
+              <div className="op-info">
+                <h3 className="op-label">{config?.label ?? product.nom}</h3>
+                <p className="op-ingredients">{config?.ingredients ?? ""}</p>
+                <p className="op-price">{euroFmt.format(product.prix)}</p>
+              </div>
+              <button
+                className="op-btn"
+                onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}
+                aria-label={`Ajouter ${product.nom} au panier`}
+              >
+                AJOUTER AU PANIER
+              </button>
             </div>
-          </article>
-        </div>
-      </div>
-      <div className="myths-mobile">
-        <div className="mob-img-wrap"><img src={`/image/${folder}/${folder}3.jpg`} alt={`Photo ${folder}`} loading="lazy" /></div>
-        <h2 className="mob-title">{mythsTitle}</h2>
-        <div className="mob-list">
-          <div className="mob-list-top-border" />
-          {myths.map(item => <MythAccordionMobile key={item.id} id={item.id} myth={item.myth} reality={item.reality} />)}
-        </div>
+          );
+        })}
       </div>
       <style jsx>{`
-        .myths-section{position:relative;width:100%;background:#ffffff;overflow:hidden;isolation:isolate;}
-        .myths-desktop{display:block;padding:clamp(40px,5vw,60px) 20px;}
-        .myths-mobile{display:none;}
-
-        /* FIX 3: min-height fixe sur le wrapper pour que l'ouverture d'un accordion
-           ne fasse pas bouger la photo — la photo est positionnée en absolute */
-        .myths-wrapper{position:relative;max-width:1240px;margin:0 auto;min-height:600px;z-index:1;}
-        .myths-img{position:absolute;left:0;top:50%;transform:translateY(-50%);width:340px;height:500px;border-radius:24px;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 22px 60px rgba(0,0,0,.10),0 10px 30px rgba(0,0,0,.07);z-index:2;background:#000;margin:0;}
-        .myths-img img{width:100%;height:100%;object-fit:cover;display:block;}
-        .card-stack{position:absolute;right:0;top:50%;background:#f0efed;width:72%;height:74%;border-radius:28px;box-shadow:0 20px 50px rgba(0,0,0,.05);z-index:1;}
-        .stack-1{opacity:.6;transform:translate(32px,-50%);}
-        .stack-2{opacity:.35;transform:translate(60px,-48%);}
-
-        /* FIX 3: myths-card sans overflow:hidden — le contenu s'étend vers le bas
-           sans pousser la photo. La card pousse SEULEMENT vers le bas (margin-top auto). */
-        .myths-card{position:relative;margin-left:250px;padding:48px 52px;border-radius:28px;background:#ffffff;border:1.5px solid #e8e2da;box-shadow:0 20px 60px rgba(0,0,0,.07),0 8px 24px rgba(0,0,0,.05);z-index:3;}
-        .myths-card.is-compact{padding:32px 36px;}
-        .myths-title{margin:0 0 24px;font-size:26px;font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
-        .moon{font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.08));}
-        .myths-accordion{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1;}
+        .op-section{padding:56px 24px;max-width:1400px;margin:0 auto;border-top:1px solid #e8e2d8;}
+        .op-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(28px,4vw,48px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;}
+        .op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;}
+        .op-card{background:#fff;border-radius:20px;border:1px solid #e8e2d8;padding:20px 16px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:0;cursor:pointer;transition:box-shadow 0.25s ease,transform 0.25s ease;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+        .op-card:hover{box-shadow:0 10px 32px rgba(0,0,0,0.10);transform:translateY(-3px);}
+        .op-img-wrap{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;margin-bottom:14px;overflow:hidden;border-radius:12px;}
+        .op-img-wrap img{width:90%;height:90%;object-fit:contain;transition:transform 0.3s ease;}
+        .op-card:hover .op-img-wrap img{transform:scale(1.05);}
+        .op-info{width:100%;flex:1;}
+        .op-label{font-size:14px;font-weight:700;color:#1a1a1a;margin:0 0 4px;letter-spacing:0.02em;}
+        .op-ingredients{font-size:12px;color:#888;margin:0 0 10px;line-height:1.4;}
+        .op-price{font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 14px;}
+        .op-btn{width:100%;padding:12px 0;background:#ef8035;color:#fff;font-size:12px;font-weight:700;letter-spacing:0.08em;border:none;border-radius:12px;cursor:pointer;transition:background 0.2s ease,transform 0.15s ease;}
+        .op-btn:hover{background:#d96d22;}
+        .op-btn:active{transform:scale(0.97);}
         @media(max-width:900px){
-          .myths-desktop{display:none;}
-          .myths-mobile{display:block;padding:48px 20px 56px;}
-          .mob-img-wrap{width:100%;border-radius:20px;overflow:hidden;aspect-ratio:4/3;margin-bottom:32px;}
-          .mob-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
-          .mob-title{font-size:clamp(24px,6vw,34px);font-weight:700;color:#1a1a1a;letter-spacing:-0.02em;margin:0 0 24px;line-height:1.15;}
-          .mob-list-top-border{border-top:1px solid #e8e2da;}
+          .op-section{padding:40px 16px;}
+          .op-grid{grid-template-columns:repeat(2,1fr);gap:14px;}
         }
         @media(max-width:480px){
-          .myths-mobile{padding:36px 16px 48px;}
-          .mob-img-wrap{border-radius:16px;margin-bottom:24px;aspect-ratio:3/2;}
-          .mob-title{font-size:22px;margin-bottom:20px;}
+          .op-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+          .op-card{padding:14px 12px 12px;}
+          .op-btn{font-size:11px;padding:10px 0;}
         }
       `}</style>
     </section>
   );
 }
 
-/* ── FAQ ── */
-// FIX 3 (FAQ): grid à 2 colonnes avec align-items:start — chaque colonne s'étend
-// indépendamment sans affecter l'autre côté
+/* ── FAQ Item ── */
 function FAQItem({ id, question, answer }: { id: number; question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -721,24 +650,26 @@ function FAQItemMobile({ id, question, answer }: { id: number; question: string;
         .fmob-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s ease;opacity:0;}
         .fmob-item.open .fmob-body{opacity:1;}
         .fmob-a{margin:0;padding:0 0 18px 0;font-size:14px;line-height:1.75;color:#666;font-weight:300;}
-        @media(max-width:400px){
-          .fmob-btn{padding:16px 0;gap:12px;}
-          .fmob-q{font-size:14px;}
-          .fmob-a{font-size:13.5px;}
-        }
         @media(prefers-reduced-motion:reduce){.fmob-body{transition:none!important;}}
       `}</style>
     </div>
   );
 }
 
+/* ── FAQ Section — myths merged as extra FAQ questions ── */
 function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
-  const { folder, faqTitle, faqSubtitle, faqs } = config;
-  // FIX 3 (FAQ): on sépare les FAQs en 2 colonnes manuellement
-  // pour que chaque colonne soit indépendante → l'ouverture d'un item
-  // n'affecte pas la hauteur de la colonne opposée
-  const leftFaqs = faqs.filter((_, i) => i % 2 === 0);
-  const rightFaqs = faqs.filter((_, i) => i % 2 !== 0);
+  const { folder, faqTitle, faqSubtitle, faqs, myths } = config;
+
+  // Convert myths into FAQ-style questions
+  const mythFaqs = myths.map((m, i) => ({
+    id: faqs.length + i + 1,
+    question: m.myth,
+    answer: `${t("reality_label")} ${m.reality}`,
+  }));
+
+  const allFaqs = [...faqs, ...mythFaqs];
+  const leftFaqs = allFaqs.filter((_, i) => i % 2 === 0);
+  const rightFaqs = allFaqs.filter((_, i) => i % 2 !== 0);
 
   return (
     <section className="faq-section" aria-labelledby={`faq-title-${folder}`}>
@@ -750,8 +681,6 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
           {faqSubtitle && <p className="faq-subtitle">{faqSubtitle}</p>}
         </header>
         <div className="faq-desktop">
-          {/* FIX 3: 2 colonnes flex indépendantes au lieu d'un grid — chaque colonne
-              grandit indépendamment et ne pousse pas l'autre */}
           <div className="faq-cols">
             <div className="faq-col">
               {leftFaqs.map(item => <FAQItem key={item.id} id={item.id} question={item.question} answer={item.answer} />)}
@@ -763,7 +692,7 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
         </div>
         <div className="faq-mobile">
           <div className="fmob-top-border" />
-          {faqs.map(item => <FAQItemMobile key={item.id} id={item.id} question={item.question} answer={item.answer} />)}
+          {allFaqs.map(item => <FAQItemMobile key={item.id} id={item.id} question={item.question} answer={item.answer} />)}
         </div>
         <footer className="faq-footer">
           <p className="faq-footer-text">
@@ -773,15 +702,13 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
         </footer>
       </div>
       <style jsx>{`
-        .faq-section{position:relative;width:100%;padding:40px,20px,60px;background:#ffffff;overflow:hidden;isolation:isolate;}
+        .faq-section{position:relative;width:100%;padding:40px 20px 60px;background:#ffffff;overflow:hidden;isolation:isolate;}
         .faq-container{position:relative;max-width:960px;margin:0 auto;z-index:1;}
         .faq-header{text-align:center;margin-bottom:clamp(32px,5vw,56px);}
         .faq-main-title{margin:0 0 10px;font-size:clamp(24px,4vw,34px);font-weight:800;color:#3c3631;letter-spacing:-0.02em;display:flex;align-items:flex-start;justify-content:center;gap:12px;}
         .faq-subtitle{margin:0;font-size:clamp(13px,1.8vw,15px);color:#6a5f57;font-weight:400;letter-spacing:.01em;padding:0 16px;}
         .faq-desktop{display:block;}
         .faq-mobile{display:none;}
-        /* FIX 3: 2 colonnes flex avec align-items:flex-start — chaque colonne grandit
-           indépendamment vers le bas, l'autre côté ne bouge pas */
         .faq-cols{display:flex;gap:14px;align-items:flex-start;}
         .faq-col{flex:1;display:flex;flex-direction:column;gap:14px;}
         @media(max-width:767px){
@@ -830,6 +757,7 @@ export default function ProductDetailPage() {
   const subscriptionMode = searchParams.get("mode") === "subscription";
 
   const [product, setProduct] = useState<DbProduct | null>(null);
+  const [allProducts, setAllProducts] = useState<DbProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [purchaseType, setPurchaseType] = useState<"unique" | "subscription">(subscriptionMode ? "subscription" : "unique");
   const [avg, setAvg] = useState(0);
@@ -851,6 +779,10 @@ export default function ProductDetailPage() {
         if (error || !prod) throw error ?? new Error("Produit introuvable");
         if (!mounted.current) return;
         setProduct(prod as DbProduct);
+
+        const { data: allProds } = await supabase.from("products").select("*");
+        if (mounted.current && allProds) setAllProducts(allProds as DbProduct[]);
+
         const { data: summary, error: sumError } = await supabase.from("reviews_summary").select("*").eq("product_id", numericId).maybeSingle();
         if (sumError) console.warn("reviews_summary error:", sumError.message);
         if (!mounted.current) return;
@@ -900,10 +832,16 @@ export default function ProductDetailPage() {
   const subPrice = unitPrice * 0.8;
   const priceLabel = useMemo(() => euroFmt.format(purchaseType === "subscription" ? subPrice : unitPrice), [purchaseType, subPrice, unitPrice]);
 
-  const handleAddToCart = useCallback(() => {
-    if (!product) return;
-    addToCart({ id: product.id, nom: product.nom, prix: product.prix, images: product.images, purchaseType } as any, purchaseType === "subscription");
+  const handleAddToCart = useCallback((p?: DbProduct, pt?: "unique" | "subscription") => {
+    const targetProduct = p ?? product;
+    const targetType = pt ?? purchaseType;
+    if (!targetProduct) return;
+    addToCart({ id: targetProduct.id, nom: targetProduct.nom, prix: targetProduct.prix, images: targetProduct.images, purchaseType: targetType } as any, targetType === "subscription");
   }, [addToCart, product, purchaseType]);
+
+  const handleNavigateToProduct = useCallback((productId: number) => {
+    router.push(`/shop/${productId}`);
+  }, [router]);
 
   if (loading) return (
     <div className="min-h-screen bg-white pt-[73px] grid place-items-center">
@@ -939,29 +877,23 @@ export default function ProductDetailPage() {
 
       {/* ── Hero ── */}
       <section className="max-w-[1400px] mx-auto px-4 sm:px-6 pb-20">
-
         <div className="relative">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
 
-            {/* ✅ COLONNE GAUCHE — galerie sticky */}
+            {/* Colonne gauche — galerie sticky */}
             <div className="product-sticky">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
                 <ProductImageGallery images={productImages} />
               </motion.div>
             </div>
 
-            {/* ✅ COLONNE DROITE */}
+            {/* Colonne droite */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="space-y-4 sm:space-y-5 md:space-y-6"
             >
-
               {/* Title + rating */}
               <div>
                 <h1 className="text-2xl sm:text-3xl md:text-[42px] font-semibold tracking-tight mb-3 text-neutral-800 leading-tight">
@@ -990,25 +922,19 @@ export default function ProductDetailPage() {
               <div className="grid grid-cols-2 gap-2 sm:gap-3 py-3 sm:py-5">
                 {product.gummies_per_jar && (
                   <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                    </svg>
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                     <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.gummies_per_jar} gummies/potje</p>
                   </div>
                 )}
                 {product.flavor && (
                   <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50">
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.flavor}</p>
                   </div>
                 )}
                 {product.shipping_note && (
                   <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-neutral-50 col-span-2 sm:col-span-1">
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 01-1 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
-                    </svg>
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-neutral-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 01-1 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
                     <p className="text-xs sm:text-sm text-neutral-700 leading-snug">{product.shipping_note}</p>
                   </div>
                 )}
@@ -1048,17 +974,10 @@ export default function ProductDetailPage() {
                   </div>
                   <span className="text-xs sm:text-sm text-neutral-600 mt-0.5">{t("subscription_sub")}</span>
                   <ul className="mt-3 pt-3 border-t border-neutral-200 space-y-2">
-                    {[
-                      t("sub_perk_1"),
-                      t("sub_perk_2"),
-                      t("sub_perk_3"),
-                      t("sub_perk_4"),
-                      t("sub_perk_5"),
-                    ].map((perk, i) => (
+                    {[t("sub_perk_1"), t("sub_perk_2"), t("sub_perk_3"), t("sub_perk_4"), t("sub_perk_5")].map((perk, i) => (
                       <li key={i} className="flex items-start gap-2 text-xs text-neutral-700">
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="mt-0.5 flex-shrink-0">
-                          <circle cx="8" cy="8" r="7.5" stroke="#1a1a1a"/>
-                          <path d="M5 8l2 2 4-4" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <circle cx="8" cy="8" r="7.5" stroke="#1a1a1a"/><path d="M5 8l2 2 4-4" stroke="#1a1a1a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                         {perk}
                       </li>
@@ -1069,7 +988,7 @@ export default function ProductDetailPage() {
 
               {/* Add to cart CTA */}
               <button
-                onClick={handleAddToCart}
+                onClick={() => handleAddToCart()}
                 className="w-full py-4 sm:py-5 bg-gradient-to-b from-neutral-900 to-neutral-800 text-white font-semibold text-base sm:text-lg rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-xl"
                 aria-live="polite"
               >
@@ -1082,9 +1001,7 @@ export default function ProductDetailPage() {
                   {(product.ingredients?.length ?? 0) > 0 && (
                     <AccordionItem title={t("ingredients_title")}>
                       <p className="text-sm text-neutral-600 leading-relaxed font-light">
-                        {productKey
-                          ? t(`products.${productKey}.ingredients`)
-                          : product.ingredients!.join(", ") + "."}
+                        {productKey ? t(`products.${productKey}.ingredients`) : product.ingredients!.join(", ") + "."}
                       </p>
                     </AccordionItem>
                   )}
@@ -1097,22 +1014,29 @@ export default function ProductDetailPage() {
                   )}
                 </div>
               )}
-
             </motion.div>
-
           </div>
         </div>
 
         {/* ── Ingredients Slider ── */}
         {productKey && <IngredientsSlider productKey={productKey} t={t} />}
 
-        {/* ── Routine / Myths / FAQ ── */}
+        {/* ── Routine Section ── */}
         {productConfig && (
-          <>
-            <ProductRoutineSection config={productConfig} t={t} />
-            <ProductMythsSection config={productConfig} t={t} />
-            <ProductFAQSection config={productConfig} t={t} />
-          </>
+          <ProductRoutineSection config={productConfig} productImages={productImages} />
+        )}
+
+        {/* ── Other Products Section ── */}
+        <OtherProductsSection
+          currentKey={productKey}
+          products={allProducts}
+          onAddToCart={(p) => handleAddToCart(p, "unique")}
+          onNavigate={handleNavigateToProduct}
+        />
+
+        {/* ── FAQ (with myths integrated) ── */}
+        {productConfig && (
+          <ProductFAQSection config={productConfig} t={t} />
         )}
 
         {/* ── Reviews ── */}
@@ -1124,7 +1048,6 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
-      {/* ── CSS global sticky ── */}
       <style jsx global>{`
         .product-sticky {
           position: sticky;

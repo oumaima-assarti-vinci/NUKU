@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useCart } from '@/lib/contexts/CartContext'
-
+import PackSection from "@/components/PackSection"
 type Product = {
   id: number
   nom: string
@@ -26,12 +26,12 @@ export default function HomePage() {
 
   const [showPopup, setShowPopup] = useState(false)
   const [products, setProducts] = useState<Product[]>([])
-  const [routineQty, setRoutineQty] = useState<number[]>([0, 0, 0, 0, 0])
   const [aboSlide, setAboSlide] = useState(0)
   const [addedToCart, setAddedToCart] = useState(false)
   const [productSlide, setProductSlide] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
+
 
   const productSlides = [
     {
@@ -465,40 +465,6 @@ export default function HomePage() {
       ),
     },
   ]
-
-  const routineTotal = routineQty.reduce((sum, q, i) => sum + q * categories[i].prix, 0)
-  const routineSub = Math.round(routineTotal * 0.95)
-
-  const changeQty = (i: number, delta: number) => {
-    setRoutineQty((prev) => {
-      const next = [...prev]
-      next[i] = Math.max(0, next[i] + delta)
-      return next
-    })
-  }
-
-  const handleAddToCart = (type: 'one-time' | 'sub') => {
-    const isSubscription = type === 'sub'
-    categories.forEach((cat, i) => {
-      if (routineQty[i] > 0) {
-        const productId = Number(cat.link.split('/').pop())
-        for (let q = 0; q < routineQty[i]; q++) {
-          addToCart(
-            {
-              id: productId,
-              nom: cat.name,
-              prix: cat.prix,
-              images: [cat.image],
-            },
-            isSubscription
-          )
-        }
-      }
-    })
-    setAddedToCart(true)
-    setTimeout(() => setAddedToCart(false), 2000)
-  }
-
   const HEADER_H = 72
 
   return (
@@ -780,133 +746,6 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════
-          CRÉEZ VOTRE ROUTINE
-      ══════════════════════════════════════════ */}
-      <section className="py-8 md:py-12 px-4 md:px-16 bg-white border-t border-neutral-100">
-        <div className="max-w-[1400px] mx-auto">
-          <h2
-            className="text-xl md:text-4xl font-black text-neutral-900 mb-1 md:mb-2"
-            style={{ fontFamily: "'Georgia',serif" }}
-          >
-            {lang === 'fr' ? 'Créez votre routine' : lang === 'en' ? 'Create your routine' : 'Maak je routine'}
-          </h2>
-          <p className="text-[11px] md:text-[13px] text-neutral-400 mb-6 md:mb-10">
-            {lang === 'fr'
-              ? "Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%"
-              : lang === 'en'
-              ? 'Choose your products and build your routine up to -30%'
-              : 'Kies uw producten en stel uw routine samen tot -30%'}
-          </p>
-
-          <div className="flex gap-3 md:gap-4 overflow-x-auto pb-3 snap-x" style={{ scrollbarWidth: 'none' }}>
-            {categories.map((cat, i) => (
-              <div
-                key={i}
-                className="flex-none snap-start rounded-xl md:rounded-2xl border border-neutral-100 overflow-hidden bg-white"
-                style={{ width: 'clamp(130px, 18vw, 220px)' }}
-              >
-                <div
-                  className="w-full flex items-end justify-center overflow-hidden"
-                  style={{ background: '#f0eeec', height: 'clamp(130px, 18vw, 220px)' }}
-                >
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-[62%] object-contain"
-                    style={{ filter: 'drop-shadow(0 10px 24px rgba(0,0,0,0.15))' }}
-                  />
-                </div>
-                <div className="px-2.5 md:px-3 py-2.5 md:py-3">
-                  <p className="text-[9px] md:text-[11px] font-black text-neutral-900 uppercase tracking-wide leading-tight">{cat.name}</p>
-                  <p className="text-[8px] md:text-[9px] text-neutral-400 mt-0.5 leading-tight mb-2 md:mb-3 line-clamp-2">{cat.sub}</p>
-                  <div className="flex items-center gap-1.5 md:gap-2">
-                    <button
-                      onClick={() => changeQty(i, -1)}
-                      className="w-[20px] h-[20px] md:w-[22px] md:h-[22px] rounded-full border border-neutral-300 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 text-xs leading-none"
-                    >
-                      −
-                    </button>
-                    <span className="text-[12px] md:text-[13px] font-semibold text-neutral-800 w-4 text-center">{routineQty[i]}</span>
-                    <button
-                      onClick={() => changeQty(i, 1)}
-                      className="w-[20px] h-[20px] md:w-[22px] md:h-[22px] rounded-full border border-neutral-300 flex items-center justify-center text-neutral-500 hover:bg-neutral-50 text-xs leading-none"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 md:mt-8 border border-neutral-200 rounded-xl md:rounded-2xl p-4 md:p-8">
-            <p className="text-[11px] md:text-[13px] font-semibold text-neutral-600 mb-3 md:mb-5">
-              {lang === 'fr' ? 'Mon pack personnalisé :' : lang === 'en' ? 'My custom pack:' : 'Mijn persoonlijk pakket:'}
-            </p>
-            <div className="flex items-center gap-2 md:gap-3 flex-wrap mb-4 md:mb-6 min-h-[44px] md:min-h-[64px]">
-              {categories.map((cat, i) =>
-                Array.from({ length: routineQty[i] }).map((_, j) => (
-                  <div key={`${i}-${j}`} className="flex items-center gap-2 md:gap-3">
-                    {(i > 0 || j > 0) && <span className="text-neutral-300 text-lg md:text-xl font-light">+</span>}
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="object-contain"
-                      style={{ height: '44px', width: 'auto', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.12))' }}
-                    />
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div className="flex flex-col gap-2.5 sm:grid sm:grid-cols-2">
-              <button
-                onClick={() => handleAddToCart('one-time')}
-                className="flex items-center justify-between border border-neutral-200 rounded-xl md:rounded-2xl px-4 md:px-5 py-3.5 md:py-4 hover:bg-neutral-50 transition-all cursor-pointer w-full text-left"
-              >
-                <span className="text-[12px] md:text-[13px] font-medium text-neutral-600">
-                  {lang === 'fr' ? 'Achat unique' : lang === 'en' ? 'One-time purchase' : 'Eenmalig'}
-                </span>
-                <span className="text-[15px] md:text-[16px] font-bold text-neutral-900">{routineTotal}€</span>
-              </button>
-
-              <button
-                onClick={() => handleAddToCart('sub')}
-                className="flex items-center justify-between border-2 rounded-xl md:rounded-2xl px-4 md:px-5 py-3.5 md:py-4 hover:bg-orange-50 transition-all cursor-pointer w-full text-left"
-                style={{ borderColor: '#ED9446' }}
-              >
-                <span className="text-[12px] md:text-[13px] font-medium text-neutral-600">
-                  {lang === 'fr' ? 'Abonnement' : lang === 'en' ? 'Subscription' : 'Abonnement'}
-                </span>
-                <div className="flex items-center gap-2 md:gap-2.5">
-                  <span className="text-[10px] font-bold px-1.5 md:px-2 py-0.5 rounded-md" style={{ background: '#111', color: '#fff' }}>-5%</span>
-                  <span className="text-[14px] md:text-[16px] font-bold text-neutral-900">
-                    {routineSub}€ / {lang === 'fr' ? 'mois' : lang === 'en' ? 'month' : 'maand'}
-                  </span>
-                </div>
-              </button>
-            </div>
-
-            {addedToCart && (
-              <div
-                className="mt-3 md:mt-4 flex items-center justify-center gap-2 py-2.5 md:py-3 px-4 md:px-5 rounded-xl text-[12px] md:text-[13px] font-semibold"
-                style={{ background: '#f0faf0', color: '#2d7a2d', border: '1px solid #b6e6b6' }}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                {lang === 'fr'
-                  ? 'Produits ajoutés au panier !'
-                  : lang === 'en'
-                  ? 'Products added to cart!'
-                  : 'Producten toegevoegd aan winkelmandje!'}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════
           SLIDER 5 PRODUITS
       ══════════════════════════════════════════ */}
       <section className="w-full py-10 md:py-14" style={{ background: '#efede9' }}>
@@ -1038,6 +877,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      
+      {/* ══════════════════════════════════════════
+          CRÉEZ VOTRE ROUTINE
+      ══════════════════════════════════════════ */}
+     <PackSection
+  title={lang === 'fr' ? 'Créez votre pack' : lang === 'en' ? 'Create your pack' : 'Maak je pack'}
+  subtitle={lang === 'fr' ? "Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%" : lang === 'en' ? 'Choose your products and build your routine up to -30%' : 'Kies uw producten en stel uw routine samen tot -30%'}
+  packLabel={lang === 'fr' ? 'Mon pack personnalisé :' : lang === 'en' ? 'My custom pack:' : 'Mijn persoonlijk pakket:'}
+  oneTimeLabel={lang === 'fr' ? 'Achat unique' : lang === 'en' ? 'One-time purchase' : 'Eenmalig'}
+  subLabel="Abonnement"
+  monthLabel={lang === 'fr' ? 'mois' : lang === 'en' ? 'month' : 'maand'}
+  addedLabel={lang === 'fr' ? 'Produits ajoutés au panier !' : lang === 'en' ? 'Products added to cart!' : 'Producten toegevoegd!'}
+/>
       {/* ══════════════════════════════════════════
           AVIS CLIENTS
       ══════════════════════════════════════════ */}

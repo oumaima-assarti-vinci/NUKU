@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "@/lib/contexts/CartContext";
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-
+import PackSection from "@/components/PackSection";
 const PRODUCTS = [
   { id: 14, nom: "NUKU STRENGTH", benefit: "Force & Performance",    tagline: "Force & endurance",         prix: 18, img: "/image/nukuRouge.png",  accent: "#E05A4E", light: "rgba(224,90,78,0.12)"   },
   { id: 12, nom: "NUKU SLEEP",    benefit: "Sommeil & Récupération", tagline: "Sommeil & récupération",    prix: 18, img: "/image/nukuBleu.png",   accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
@@ -133,24 +131,11 @@ export default function AbonnementPage() {
   const locale = useLocale();
   const { addToCart } = useCart();
 
-  const [routineQty, setRoutineQty] = useState([0, 0, 0, 0, 0]);
   const [routineAdded, setRoutineAdded] = useState(false);
+  const pathname = usePathname()
+  const segments = pathname?.split('/').filter(Boolean) ?? []
+  const lang = ['fr', 'en', 'nl'].includes(segments[0]) ? segments[0] : 'fr'
 
-  const total = routineQty.reduce((s, q, i) => s + q * CATEGORIES[i].prix, 0);
-  const sub = Math.round(total * 0.8);
-
-  const changeQty = (i: number, d: number) =>
-    setRoutineQty(prev => { const next = [...prev]; next[i] = Math.max(0, next[i] + d); return next; });
-
-  const handleRoutineAdd = (isSub: boolean) => {
-    CATEGORIES.forEach((cat, i) => {
-      for (let q = 0; q < routineQty[i]; q++) {
-        addToCart({ id: cat.id, nom: cat.name, prix: cat.prix, images: [cat.img] } as any, isSub);
-      }
-    });
-    setRoutineAdded(true);
-    setTimeout(() => setRoutineAdded(false), 2000);
-  };
 
   return (
     <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "white", minHeight: "100vh", paddingTop: 73 }}>
@@ -255,100 +240,15 @@ export default function AbonnementPage() {
           </div>
         </div>
       </section>
-
-      {/* ══ CRÉEZ VOTRE ROUTINE ══ */}
-      <section id="creer-votre-routine" style={{ background: "white", borderTop: "1px solid #f0f0f0", padding: "56px 48px 64px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#111", margin: "0 0 6px" }}>
-            Créez votre routine
-          </h2>
-          <p style={{ fontSize: 12, color: "#aaa", margin: "0 0 32px" }}>
-            Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%
-          </p>
-
-          {/* Sélecteur — scroll horizontal avec indicateur sur mobile */}
-          <div className="routine-scroll-wrapper" style={{ position: "relative", marginBottom: 28 }}>
-            {/* Indicateur "scroller" visible uniquement mobile via CSS */}
-            <div className="scroll-hint" aria-hidden="true">
-              Glissez pour voir plus →
-            </div>
-            <div
-              className="routine-scroll"
-              style={{ display: "flex", gap: 14, overflowX: "auto", paddingBottom: 4, scrollSnapType: "x mandatory" }}
-            >
-              {CATEGORIES.map((cat, i) => (
-                <div
-                  key={cat.id}
-                  className="routine-card"
-                  style={{ borderRadius: 12, border: "1px solid #f0f0f0", background: "white", minWidth: 112, overflow: "hidden", flexShrink: 0, scrollSnapAlign: "start" }}
-                >
-                  <div style={{ background: "#f5f3f0", height: 100, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingTop: 8 }}>
-                    <img src={cat.img} alt={cat.name} style={{ height: "80%", width: "auto", objectFit: "contain", filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.14))" }} />
-                  </div>
-                  <div style={{ padding: "10px 10px 12px" }}>
-                    <p style={{ fontSize: 9, fontWeight: 900, color: "#111", textTransform: "uppercase", letterSpacing: 0.3, margin: "0 0 3px", lineHeight: 1.3 }}>{cat.name}</p>
-                    <p style={{ fontSize: 8, color: "#aaa", margin: "0 0 8px", lineHeight: 1.4 }}>{cat.sub}</p>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <button onClick={() => changeQty(i, -1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
-                      <span style={{ fontSize: 13, fontWeight: 600, color: "#111", width: 16, textAlign: "center" }}>{routineQty[i]}</span>
-                      <button onClick={() => changeQty(i, 1)} style={{ width: 22, height: 22, borderRadius: "50%", border: "1px solid #ddd", background: "white", cursor: "pointer", fontSize: 14, color: "#555", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Récapitulatif */}
-          <div style={{ border: "1px solid #e5e7eb", borderRadius: 18, padding: "24px 28px" }}>
-            <p style={{ fontSize: 12, fontWeight: 600, color: "#777", margin: "0 0 14px" }}>Mon pack personnalisé</p>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 20, minHeight: 48 }}>
-              {routineQty.every(q => q === 0) ? (
-                <p style={{ fontSize: 12, color: "#ccc", margin: 0 }}>Ajoutez des produits pour composer votre pack</p>
-              ) : (
-                CATEGORIES.map((cat, i) =>
-                  Array.from({ length: routineQty[i] }).map((_, j) => (
-                    <div key={`${i}-${j}`} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      {(i > 0 || j > 0) && <span style={{ color: "#ddd", fontSize: 16 }}>+</span>}
-                      <img src={cat.img} alt={cat.name} style={{ height: 38, width: "auto", objectFit: "contain", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.12))" }} />
-                    </div>
-                  ))
-                )
-              )}
-            </div>
-
-            <div className="pack-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              <button
-                onClick={() => handleRoutineAdd(false)}
-                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "1px solid #e5e7eb", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
-              >
-                <span style={{ fontSize: 12, color: "#777" }}>Achat unique</span>
-                <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>{total}€</span>
-              </button>
-              <button
-                onClick={() => handleRoutineAdd(true)}
-                style={{ display: "flex", alignItems: "center", justifyContent: "space-between", border: "2px solid #ED9446", borderRadius: 12, padding: "14px 18px", background: "white", cursor: "pointer" }}
-              >
-                <span style={{ fontSize: 12, color: "#777" }}>Abonnement</span>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 9, fontWeight: 700, background: "#111", color: "white", padding: "2px 6px", borderRadius: 6 }}>-20%</span>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: "#111" }}>{sub}€<span style={{ fontSize: 10, fontWeight: 400, color: "#888" }}>/mois</span></span>
-                </div>
-              </button>
-            </div>
-
-            {routineAdded && (
-              <div style={{ marginTop: 12, background: "#f0faf0", color: "#2d7a2d", border: "1px solid #b6e6b6", borderRadius: 12, padding: "10px 16px", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Produits ajoutés au panier !
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      <PackSection
+  title={lang === 'fr' ? 'Créez votre pack' : lang === 'en' ? 'Create your pack' : 'Maak je pack'}
+  subtitle={lang === 'fr' ? "Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%" : lang === 'en' ? 'Choose your products and build your routine up to -30%' : 'Kies uw producten en stel uw routine samen tot -30%'}
+  packLabel={lang === 'fr' ? 'Mon pack personnalisé :' : lang === 'en' ? 'My custom pack:' : 'Mijn persoonlijk pakket:'}
+  oneTimeLabel={lang === 'fr' ? 'Achat unique' : lang === 'en' ? 'One-time purchase' : 'Eenmalig'}
+  subLabel="Abonnement"
+  monthLabel={lang === 'fr' ? 'mois' : lang === 'en' ? 'month' : 'maand'}
+  addedLabel={lang === 'fr' ? 'Produits ajoutés au panier !' : lang === 'en' ? 'Products added to cart!' : 'Producten toegevoegd!'}
+/>
 
       <style jsx global>{`
 
@@ -445,11 +345,11 @@ export default function AbonnementPage() {
         /* ══════════════════════════════════════════════
            TRÈS PETIT MOBILE — max 400px
         ══════════════════════════════════════════════ */
-        @media (max-width: 400px) {
-          .products-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
+        @media (max-width: 100px) {
+  .products-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
 
         /* scroll hint caché par défaut (desktop) */
         .scroll-hint {
