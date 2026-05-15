@@ -468,7 +468,7 @@ export default function HomePage() {
   const HEADER_H = 72
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div className="min-h-screen bg-white">
 
       {/* ── POPUP ── */}
       {showPopup && (
@@ -535,7 +535,6 @@ export default function HomePage() {
       className="font-black leading-[1.05]"
       style={{
         fontSize: 'clamp(30px, 9vw, 40px)',
-        fontFamily: "'Georgia', serif",
         color: '#111',
         whiteSpace: 'pre-line',
       }}
@@ -624,7 +623,6 @@ export default function HomePage() {
         className="font-black leading-[1.05]"
         style={{
           fontSize: 'clamp(38px, 4vw, 62px)',
-          fontFamily: "'Georgia', serif",
           color: '#111',
           whiteSpace: 'pre-line',
         }}
@@ -818,7 +816,7 @@ export default function HomePage() {
                     </div>
                     <h2
                       className="font-black text-neutral-800 whitespace-pre-line"
-                      style={{ fontSize: 'clamp(22px, 4vw, 42px)', fontFamily: "'Georgia', serif", lineHeight: 1.05 }}
+                      style={{ fontSize: 'clamp(22px, 4vw, 42px)', lineHeight: 1.05 }}
                     >
                       {slide.title}
                     </h2>

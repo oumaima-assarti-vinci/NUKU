@@ -32,7 +32,7 @@
   --font-display: var(--font-inter), system-ui, -apple-system, sans-serif;
   --font-body: 'DM Sans', Arial, sans-serif;
 
-  /* Nouvelles variables typo */
+  /* Typo unifiée */
   --font-title: 'Coolvetica', sans-serif;
   --font-heading: 'Nexa', sans-serif;
 
@@ -46,16 +46,16 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-body);
-  font-weight: 400;
+  font-family: var(--font-heading);
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 /* Grands titres → Coolvetica */
 h1, h2, h3 {
-  font-family: var(--font-title);
-  font-weight: 400;
+  font-family: var(--font-title) !important;
+  font-weight: 400 !important;
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: var(--foreground);
@@ -63,8 +63,8 @@ h1, h2, h3 {
 
 /* Petits titres / labels → Nexa Bold */
 h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 700;
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
   letter-spacing: -0.01em;
   line-height: 1.2;
   color: var(--foreground);
@@ -72,6 +72,18 @@ h4, h5, h6 {
 
 /* Paragraphes → Nexa Light */
 p, li, span, label {
+  font-family: var(--font-heading);
+  font-weight: 300;
+}
+
+/* Boutons → Nexa Bold */
+button {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+/* Inputs → Nexa Light */
+input, textarea, select {
   font-family: var(--font-heading);
   font-weight: 300;
 }

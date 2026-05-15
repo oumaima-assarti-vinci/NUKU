@@ -138,13 +138,13 @@ export default function AbonnementPage() {
 
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "white", minHeight: "100vh", paddingTop: 73 }}>
+    <div style={{background: "white", minHeight: "100vh", paddingTop: 73 }}>
 
       {/* ══ HERO BANNER ══ */}
       <section style={{ background: "#f5f3f0", padding: "56px 48px" }}>
         <div className="hero-grid" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 40 }}>
           <div>
-            <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, color: "#111", margin: "0 0 12px", lineHeight: 1.15 }}>
+            <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 900, color: "#111", margin: "0 0 12px", lineHeight: 1.15 }}>
               Vos compléments,<br />Sans efforts.
             </h1>
             <p style={{ fontSize: 14, color: "#777", margin: "0 0 28px", lineHeight: 1.6 }}>
@@ -180,7 +180,7 @@ export default function AbonnementPage() {
       <section style={{ padding: "64px 48px", maxWidth: 1200, margin: "0 auto" }}>
         <div className="avantages-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 72, alignItems: "start" }}>
           <div>
-            <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 900, color: "#111", margin: "0 0 12px", lineHeight: 1.2 }}>
+            <h2 style={{ fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 900, color: "#111", margin: "0 0 12px", lineHeight: 1.2 }}>
               Une routine bien-être,<br />sans y penser.
             </h2>
             <p style={{ fontSize: 13, color: "#888", margin: 0, lineHeight: 1.7 }}>
@@ -210,7 +210,7 @@ export default function AbonnementPage() {
       {/* ══ COMMENCEZ DÈS MAINTENANT ══ */}
       <section style={{ background: "#fafaf9", borderTop: "1px solid #f0f0f0", padding: "56px 48px 64px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#111", margin: "0 0 8px", textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 900, color: "#111", margin: "0 0 8px", textAlign: "center" }}>
             Commencez dès maintenant
           </h2>
           <p style={{ fontSize: 13, color: "#aaa", textAlign: "center", margin: "0 0 40px" }}>

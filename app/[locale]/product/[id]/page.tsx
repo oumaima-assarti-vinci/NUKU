@@ -159,8 +159,8 @@ function ProductImageGallery({ images }: { images: string[] }) {
       )}
       <style jsx>{`
         .pg-wrap{display:flex;flex-direction:column;gap:12px;width:100%;user-select:none;}
-        .pg-main{position:relative;width:100%;aspect-ratio:1/1;max-height:520px;border-radius:24px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent;}
-        .pg-img{height:90%;width:90%;max-height:360px;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 20px 35px rgba(0,0,0,0.22));animation:pgFade 0.22s ease;}
+        .pg-main{position:relative;width:100%;aspect-ratio:3/4;max-height:340px;border-radius:24px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:transparent;}
+        .pg-img{height:90%;width:90%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 20px 35px rgba(0,0,0,0.22));animation:pgFade 0.22s ease;}
         @keyframes pgFade{from{opacity:0.4;transform:scale(0.97);}to{opacity:1;transform:scale(1);}}
         .pg-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,0.90);color:#1a1a1a;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 14px rgba(0,0,0,0.13);transition:background 0.2s,box-shadow 0.2s,transform 0.2s;}
         .pg-arrow:hover{background:#fff;box-shadow:0 4px 20px rgba(0,0,0,0.18);}
@@ -347,15 +347,14 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
       <style jsx>{`
         .luxury-header{text-align:center;margin-bottom:40px;padding-top:48px;}
         .luxury-badge{text-transform:uppercase;letter-spacing:3px;font-size:11px;color:#b58e58;font-weight:700;}
-        .luxury-title{font-size:clamp(26px,5vw,40px);font-weight:300;margin:10px 0;}
+       .luxury-title{font-size:clamp(26px,5vw,40px);font-weight:400;margin:10px 0;font-family:'Coolvetica',sans-serif !important}
         .luxury-divider{width:40px;height:1px;background:#b58e58;margin:15px auto;}
         .luxury-subtitle{font-size:13px;color:#888;font-weight:300;padding:0 16px;}
         .ing-section{margin:80px auto;width:100%;max-width:1200px;padding:0 40px;position:relative;left:0;}
         .ing-wrap{position:relative;max-width:${wrapMaxWidth};margin:0 auto;padding:0;width:100%;}
         .ing-wrap::before,.ing-wrap::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:5;pointer-events:none;}
-        .ing-wrap::before{left:0;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%);}
-        .ing-wrap::after{right:0;background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%);}
-        .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after{display:none;}
+       .ing-wrap::before{left:0;width:80px;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%);}
+.ing-wrap::after{right:0;width:80px;background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%);} .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after{display:none;}
         .ing-viewport{overflow:hidden;padding:40px 0;}
         .ing-wrap{overflow:hidden;}
         .ing-container{display:flex;user-select:none;-webkit-touch-callout:none;gap:16px;}
@@ -472,7 +471,7 @@ function ProductRoutineSection({ config, productImages }: { config: ProductConfi
       {routineIntro && <p className="rs-intro-bottom">{routineIntro}</p>}
       <style jsx>{`
         .rs-section{padding:48px 24px 56px;background:#fff;max-width:1200px;margin:0 auto;}
-        .rs-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,5vw,64px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;line-height:1.1;}
+       .rs-title{font-size:clamp(32px,5vw,64px);font-weight:400;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;line-height:1.1;font-family:'Coolvetica',sans-serif !important;}
         .rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;}
         .rs-img-col{display:flex;flex-direction:column;align-items:center;gap:20px;}
         .rs-img-wrap{width:100%;display:flex;align-items:center;justify-content:center;}
@@ -520,6 +519,14 @@ function OtherProductsSection({
   const otherProducts = products.filter(p => getProductKey(p) !== currentKey);
   if (!otherProducts.length) return null;
 
+  const ACCENTS: Record<ProductKey, { accent: string; light: string }> = {
+    sleep:    { accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
+    soul:     { accent: "#9B8EC4", light: "rgba(155,142,196,0.12)" },
+    strength: { accent: "#E05A4E", light: "rgba(224,90,78,0.12)" },
+    shine:    { accent: "#E8B84B", light: "rgba(232,184,75,0.12)" },
+    source:   { accent: "#5BA85A", light: "rgba(91,168,90,0.12)" },
+  };
+
   return (
     <section className="op-section">
       <h2 className="op-title">Nos autres compléments</h2>
@@ -527,69 +534,148 @@ function OtherProductsSection({
         {otherProducts.map((product) => {
           const key = getProductKey(product);
           const config = key ? OTHER_PRODUCTS_CONFIG[key] : null;
-          // Use DB images first (real pot photos), fallback to static map
           const mainImage = product.images?.[0] ?? (key ? PRODUCT_MAIN_IMAGES[key] : "");
+          const colors = key ? ACCENTS[key] : { accent: "#ef8035", light: "rgba(239,128,53,0.12)" };
           return (
-            <div
+            <OtherProductCard
               key={product.id}
-              className="op-card"
-              onClick={() => onNavigate(product.id)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onNavigate(product.id); }}
-              aria-label={`Voir ${product.nom}`}
-            >
-              <div className="op-img-wrap">
-                <img src={mainImage} alt={product.nom} loading="lazy" draggable={false} />
-              </div>
-              <div className="op-info">
-                <h3 className="op-label">{config?.label ?? product.nom}</h3>
-                <p className="op-ingredients">{config?.ingredients ?? ""}</p>
-                <p className="op-price">{euroFmt.format(product.prix)}</p>
-              </div>
-              <button
-                className="op-btn"
-                onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}
-                aria-label={`Ajouter ${product.nom} au panier`}
-              >
-                AJOUTER AU PANIER
-              </button>
-            </div>
+              product={product}
+              mainImage={mainImage}
+              label={config?.label ?? product.nom}
+              ingredients={config?.ingredients ?? ""}
+              accent={colors.accent}
+              light={colors.light}
+              onNavigate={onNavigate}
+              onAddToCart={onAddToCart}
+            />
           );
         })}
       </div>
       <style jsx>{`
         .op-section{padding:56px 24px;max-width:1400px;margin:0 auto;border-top:1px solid #e8e2d8;}
-        .op-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(28px,4vw,48px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;}
+        .op-title{font-size:clamp(28px,4vw,48px);font-weight:700;color:#1a1009;text-align:center;margin:0 0 40px;letter-spacing:-0.02em;}
         .op-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
-        .op-card{width:220px;flex-shrink:0;}
-        .op-card{background:#fff;border-radius:20px;border:1px solid #e8e2d8;padding:20px 16px 16px;display:flex;flex-direction:column;align-items:flex-start;gap:0;cursor:pointer;transition:box-shadow 0.25s ease,transform 0.25s ease;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
-        .op-card:hover{box-shadow:0 10px 32px rgba(0,0,0,0.10);transform:translateY(-3px);}
-        .op-img-wrap{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;margin-bottom:14px;overflow:hidden;border-radius:12px;}
-        .op-img-wrap img{width:90%;height:90%;object-fit:contain;transition:transform 0.3s ease;}
-        .op-card:hover .op-img-wrap img{transform:scale(1.05);}
-        .op-info{width:100%;flex:1;}
-        .op-label{font-size:14px;font-weight:700;color:#1a1a1a;margin:0 0 4px;letter-spacing:0.02em;}
-        .op-ingredients{font-size:12px;color:#888;margin:0 0 10px;line-height:1.4;}
-        .op-price{font-size:15px;font-weight:600;color:#1a1a1a;margin:0 0 14px;}
-        .op-btn{width:100%;padding:12px 0;background:#ef8035;color:#fff;font-size:12px;font-weight:700;letter-spacing:0.08em;border:none;border-radius:12px;cursor:pointer;transition:background 0.2s ease,transform 0.15s ease;}
-        .op-btn:hover{background:#d96d22;}
-        .op-btn:active{transform:scale(0.97);}
-        @media(max-width:900px){
-          .op-section{padding:40px 16px;}
-          .op-grid{gap:14px;}
-        }
+        @media(max-width:900px){.op-section{padding:40px 16px;}.op-grid{gap:14px;}}
         @media(max-width:768px){
           .op-grid{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding-bottom:12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
           .op-grid::-webkit-scrollbar{display:none;}
-          .op-card{width:160px;scroll-snap-align:start;}
-        }
-        @media(max-width:480px){
-          .op-card{padding:14px 12px 12px;}
-          .op-btn{font-size:11px;padding:10px 0;}
         }
       `}</style>
     </section>
+  );
+}
+
+function OtherProductCard({
+  product, mainImage, label, ingredients, accent, light, onNavigate, onAddToCart,
+}: {
+  product: DbProduct; mainImage: string; label: string; ingredients: string;
+  accent: string; light: string;
+  onNavigate: (id: number) => void; onAddToCart: (p: DbProduct) => void;
+}) {
+  const [type, setType] = useState<"unique" | "subscription">("unique");
+  const [added, setAdded] = useState(false);
+  const [hov, setHov] = useState(false);
+  const price = type === "subscription" ? Math.round(product.prix * 0.8) : product.prix;
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onAddToCart(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1800);
+  };
+
+  return (
+    <div
+      onClick={() => onNavigate(product.id)}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      className="opc-card"
+      style={{
+        boxShadow: hov ? "0 8px 24px rgba(0,0,0,0.11)" : "0 1px 4px rgba(0,0,0,0.06)",
+        transform: hov ? "translateY(-3px)" : "translateY(0)",
+      }}
+      role="button" tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") onNavigate(product.id); }}
+    >
+      {/* Image zone */}
+      <div className="opc-img-zone">
+        <img
+          src={mainImage} alt={product.nom} draggable={false}
+          style={{ transform: hov ? "scale(1.05) translateY(-4px)" : "scale(1)" }}
+        />
+        <div className="opc-badge">-20% ABO</div>
+      </div>
+
+      {/* Content */}
+      <div className="opc-body">
+        <p className="opc-name">{label}</p>
+        <p className="opc-sub">{ingredients}</p>
+
+        {/* Stars */}
+        <div className="opc-stars">
+          {[1,2,3,4,5].map(i => (
+            <svg key={i} width="11" height="11" fill={i <= 4 ? "#f97316" : "#e5e7eb"} viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+            </svg>
+          ))}
+          <span className="opc-review-count">(12)</span>
+        </div>
+
+        {/* Toggle */}
+        <div className="opc-toggle">
+          {(["unique", "subscription"] as const).map(tp => (
+            <button
+              key={tp}
+              onClick={e => { e.stopPropagation(); setType(tp); }}
+              className="opc-toggle-btn"
+              style={{
+                border: `1px solid ${type === tp ? accent : "#e5e7eb"}`,
+                background: type === tp ? light : "transparent",
+                color: type === tp ? accent : "#aaa",
+              }}
+            >
+              {tp === "unique" ? "Unique" : "Abonnement"}
+            </button>
+          ))}
+        </div>
+
+        {/* Price */}
+        <div className="opc-price-wrap">
+          {type === "subscription" && (
+            <span className="opc-price-old">{euroFmt.format(product.prix)}</span>
+          )}
+          <span className="opc-price">{euroFmt.format(price)}</span>
+        </div>
+
+        {/* CTA */}
+        <button
+          className="opc-btn"
+          onClick={handleAdd}
+          style={{ background: added ? "#22c55e" : "#ef8035" }}
+        >
+          {added ? "✓ Ajouté !" : "AJOUTER AU PANIER"}
+        </button>
+      </div>
+
+      <style jsx>{`
+        .opc-card{width:220px;flex-shrink:0;scroll-snap-align:start;border-radius:16px;border:1px solid #f0f0f0;background:#fff;display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:box-shadow 0.25s,transform 0.25s;}
+        .opc-img-zone{background:#f0eeec;height:200px;display:flex;align-items:flex-end;justify-content:center;position:relative;padding-top:16px;}
+        .opc-img-zone img{height:65%;width:auto;object-fit:contain;filter:drop-shadow(0 12px 20px rgba(0,0,0,0.13));transition:transform 0.3s;}
+        .opc-badge{position:absolute;top:10px;right:10px;background:#111;color:#fff;font-size:9px;font-weight:900;padding:2px 8px;border-radius:20px;}
+        .opc-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:8px;flex:1;}
+        .opc-name{font-size:11px;font-weight:900;color:#111;text-transform:uppercase;letter-spacing:0.5px;margin:0;}
+        .opc-sub{font-size:10px;color:#aaa;margin:0;line-height:1.4;}
+        .opc-stars{display:flex;align-items:center;gap:2px;}
+        .opc-review-count{font-size:9px;color:#bbb;margin-left:3px;}
+        .opc-toggle{display:flex;gap:4px;}
+        .opc-toggle-btn{flex:1;font-size:8px;font-weight:700;padding:5px 2px;border-radius:10px;cursor:pointer;transition:all 0.15s;}
+        .opc-price-wrap{display:flex;flex-direction:column;gap:1px;margin-top:auto;}
+        .opc-price-old{font-size:10px;color:#ccc;text-decoration:line-through;}
+        .opc-price{font-size:16px;font-weight:900;color:#111;}
+        .opc-btn{width:100%;padding:10px 0;border-radius:30px;border:none;color:#fff;font-size:10px;font-weight:700;letter-spacing:0.5px;cursor:pointer;transition:background 0.2s;}
+        @media(max-width:768px){.opc-card{width:170px;}.opc-img-zone{height:160px;}}
+      `}</style>
+    </div>
   );
 }
 
@@ -670,15 +756,13 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
   const { folder, faqTitle, faqSubtitle, faqs, myths } = config;
 
   // Convert myths into FAQ-style questions
-  const mythFaqs = myths
-  .filter(m => m.myth && m.myth.trim() !== "")
-  .map((m, i) => ({
+  const mythFaqs = myths.map((m, i) => ({
     id: faqs.length + i + 1,
     question: m.myth,
     answer: `${t("reality_label")} ${m.reality}`,
   }));
 
-  const allFaqs = [...faqs, ...mythFaqs].filter(f => f.question && f.question.trim() !== "" && f.answer && f.answer.trim() !== "");
+  const allFaqs = [...faqs, ...mythFaqs];
   const leftFaqs = allFaqs.filter((_, i) => i % 2 === 0);
   const rightFaqs = allFaqs.filter((_, i) => i % 2 !== 0);
 
@@ -728,16 +812,17 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
           .fmob-top-border{display:none;}
           .faq-section{padding:44px 20px 52px;}
           .faq-header{margin-bottom:28px;}
+          .faq-footer{border-top:none;padding-top:12px;}
         }
         @media(max-width:480px){
           .faq-section{padding:36px 16px 44px;}
           .faq-main-title{font-size:22px;gap:10px;}
         }
-       .faq-footer{margin-top:clamp(24px,4vw,40px);text-align:center;padding-top:20px;border-top:1px solid #e8e2da;}
+          .faq-footer{border-top:none;padding-top:12px;}
+        .faq-footer{margin-top:clamp(40px,6vw,64px);text-align:center;padding-top:28px;border-top:1px solid #e8e2da;}
         .faq-footer-text{margin:0;font-size:14px;color:#6a5f57;}
         .faq-footer-link{color:#ff7b42;font-weight:600;text-decoration:none;transition:color .2s ease;}
         .faq-footer-link:hover{color:#ff8d58;text-decoration:underline;}
-       .faq-footer{border-top:none;padding-top:12px;}
       `}</style>
     </section>
   );
@@ -1052,7 +1137,7 @@ export default function ProductDetailPage() {
         )}
 
         {/* ── Reviews ── */}
-<div className="mt-8 sm:mt-12 pt-6 sm:pt-8">
+        <div className="mt-12 sm:mt-20 pt-8 sm:pt-12 border-t border-neutral-300">
           <h2 className="text-xl sm:text-3xl font-light tracking-tight mb-6 sm:mb-8 text-neutral-800">
             {t("reviews_title")}
           </h2>

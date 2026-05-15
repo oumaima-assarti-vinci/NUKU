@@ -106,7 +106,6 @@ function ProductCard({ p, compact = false }: { p: typeof PRODUCTS[0]; compact?: 
         cursor: "pointer",
         transform: hov ? "translateY(-3px)" : "translateY(0)",
         transition: "box-shadow 0.25s, transform 0.25s",
-        fontFamily: "'Inter', system-ui, sans-serif",
       }}
     >
       {/* Image */}
@@ -205,7 +204,7 @@ function ComboCard({ item }: { item: typeof COMBOS[0] | typeof CURES[0] }) {
   const triple = item.imgs.length === 3;
 
   return (
-    <div style={{ borderRadius: 16, border: "1px solid #f0f0f0", background: "white", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", overflow: "hidden", fontFamily: "'Inter', system-ui, sans-serif" }}>
+    <div style={{ borderRadius: 16, border: "1px solid #f0f0f0", background: "white", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", overflow: "hidden" }}>
       {/* Images */}
       <div style={{ background: "#f0eeec", height: 190, position: "relative", overflow: "hidden" }}>
         {triple ? (
@@ -267,11 +266,11 @@ export default function NukuShop() {
     : { gridTemplateColumns: "repeat(3, 1fr)", gap: 20 };
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "white", minHeight: "100vh" }}>
+    <div style={{ background: "white", minHeight: "100vh" }}>
 
       {/* ══ BUILD YOUR BALANCE ══ */}
       <section style={{ padding: sectionPadding, maxWidth: 1200, margin: "0 auto" }}>
-        <h1 style={{ fontFamily: "Georgia, serif", fontSize: isMobile ? 28 : 40, fontWeight: 900, color: "#111", margin: "0 0 8px" }}>
+        <h1 style={{ fontSize: isMobile ? 28 : 40, fontWeight: 900, color: "#111", margin: "0 0 8px" }}>
           Build your balance
         </h1>
         <p style={{ fontSize: 13, color: "#aaa", margin: "0 0 6px" }}>
@@ -290,7 +289,7 @@ export default function NukuShop() {
       {/* ══ NOS COMBOS ══ */}
       <section style={{ background: "#FDFAF5", borderTop: "1px solid #f0f0f0", padding: sectionPadding }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: isMobile ? 24 : 34, fontWeight: 900, color: "#111", margin: "0 0 6px" }}>
+          <h2 style={{ fontSize: isMobile ? 24 : 34, fontWeight: 900, color: "#111", margin: "0 0 6px" }}>
             Nos combos
           </h2>
           <p style={{ fontSize: 12, color: "#aaa", margin: "0 0 28px" }}>
