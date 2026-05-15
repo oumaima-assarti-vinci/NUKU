@@ -40,6 +40,7 @@ export default function HomePage() {
       desc: lang === 'fr' ? "Biotine, zinc et MSM pour soutenir des cheveux forts et une peau rayonnante." : lang === 'en' ? "Biotin, zinc and MSM to support strong hair and glowing skin." : "Biotine, zink en MSM voor sterk haar en stralende huid.",
       image1: "/image/nukuJaune.png",
       image2: "/image/nukuJaune.png",
+      productLink: `/${lang}/product/11`, 
     },
     {
       bg: "#efede9",
@@ -47,6 +48,7 @@ export default function HomePage() {
       desc: lang === 'fr' ? "Mélatonine, L‑théanine & magnésium pour des nuits paisibles." : lang === 'en' ? "Melatonin, L‑theanine & magnesium for peaceful nights." : "Melatonine, L‑theanine & magnesium voor rustige nachten.",
       image1: "/image/nukuBleu.png",
       image2: "/image/nukuBleu.png",
+      productLink: `/${lang}/product/12`,
     },
     {
       bg: "#efede9",
@@ -54,6 +56,7 @@ export default function HomePage() {
       desc: lang === 'fr' ? "Ashwagandha, rhodiola & safran pour la sérénité au quotidien." : lang === 'en' ? "Ashwagandha, saffron & rhodiola for calm and mental balance." : "Ashwagandha, saffraan & rhodiola voor kalmte en mentale balans.",
       image1: "/image/nukuViolet.png",
       image2: "/image/nukuViolet.png",
+       productLink: `/${lang}/product/16`,
     },
     {
       bg: "#efede9",
@@ -61,6 +64,7 @@ export default function HomePage() {
       desc: lang === 'fr' ? "Créatine, B12 & D3 pour des performances naturelles." : lang === 'en' ? "Creatine, B12 & D3 for natural performance." : "Creatine, B12 & D3 voor natuurlijke prestaties.",
       image1: "/image/nukuRouge.png",
       image2: "/image/nukuRouge.png",
+       productLink: `/${lang}/product/14`,
     },
     {
       bg: "#efede9",
@@ -68,6 +72,7 @@ export default function HomePage() {
       desc: lang === 'fr' ? "Matcha, artichaut & pissenlit pour un confort digestif quotidien." : lang === 'en' ? "Matcha, artichoke & dandelion for daily gut balance." : "Matcha, artisjok & paardenbloem voor dagelijks spijsverteringscomfort.",
       image1: "/image/nukuVert.png",
       image2: "/image/nukuVert.png",
+      productLink: `/${lang}/product/13`,
     }
   ]
 
@@ -553,13 +558,6 @@ export default function HomePage() {
       >
         {lang === 'fr' ? 'Découvrir' : lang === 'en' ? 'Shop now' : 'Ontdekken'}
       </Link>
-      <Link
-        href={`/${lang}/build-pack`}
-        className="px-5 py-2.5 rounded-full text-xs font-medium border"
-        style={{ borderColor: '#ccc', color: '#555', background: 'rgba(255,255,255,0.7)' }}
-      >
-        {lang === 'fr' ? 'Créer ma routine' : lang === 'en' ? 'Create my routine' : 'Mijn routine'}
-      </Link>
     </div>
     <div className="flex items-center gap-6 pt-2">
       {badges.map((b, i) => (
@@ -794,14 +792,9 @@ export default function HomePage() {
                       <span>LOCAL</span>
                     </div>
                     <div className="flex gap-2.5 md:gap-4 flex-wrap pt-1 md:pt-5">
-                      <Link href={`/${lang}/shop`}>
+                      <Link href={slide.productLink}>
                         <span className="inline-block px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[12px] font-bold text-white uppercase" style={{ background: '#ED9446' }}>
-                          Shop now
-                        </span>
-                      </Link>
-                      <Link href={`/${lang}/build-pack`}>
-                        <span className="inline-block px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[12px] font-medium border border-neutral-400 text-neutral-700">
-                          {lang === 'fr' ? 'Ma routine' : lang === 'en' ? 'Create your routine' : 'Mijn routine'}
+                           {lang === 'fr' ? 'Découvrir' : lang === 'en' ? 'shop now' : 'Koop nu'}
                         </span>
                       </Link>
                     </div>
@@ -874,7 +867,7 @@ export default function HomePage() {
               ))}
             </div>
             <div className="flex gap-3 flex-wrap pt-2">
-              <Link href={`/${lang}/shop`}
+              <Link href={`/${lang}/subscription`}
                 className="px-6 py-3 rounded-full text-[13px] font-bold text-white uppercase tracking-wide"
                 style={{ background: '#ED9446' }}>
                 {lang === 'fr' ? 'Voir les produits' : lang === 'en' ? 'See products' : 'Bekijken'}
