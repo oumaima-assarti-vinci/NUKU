@@ -502,8 +502,6 @@ export default function HomePage() {
       ══════════════════════════════════════════ */}
 {/* ─── MOBILE HERO ─── */}
 <section className="md:hidden relative overflow-hidden" style={{ minHeight: '280px' }}>
-
-  {/* Image de fond mobile */}
   <div
     className="absolute inset-0"
     style={{
@@ -513,16 +511,12 @@ export default function HomePage() {
       backgroundRepeat: 'no-repeat',
     }}
   />
-
-  {/* Overlay crème pour lisibilité du texte */}
   <div
     className="absolute inset-0"
     style={{
     background: 'linear-gradient(to bottom, rgba(253,250,245,0.6) 0%, rgba(253,250,245,0.3) 40%, rgba(253,250,245,0.0) 100%)',
     }}
   />
-
-  {/* Contenu par-dessus */}
   <div className="relative z-10 px-5 pt-12 pb-10 flex flex-col gap-4" style={{ minHeight: '280px' }}>
     <span
       className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
@@ -530,7 +524,6 @@ export default function HomePage() {
     >
       {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
     </span>
-
     <h1
       className="font-black leading-[1.05]"
       style={{
@@ -545,7 +538,6 @@ export default function HomePage() {
         ? 'Feel better.\nNaturally.'
         : 'Beter in je vel.\nNatuurlijk.'}
     </h1>
-
     <p className="text-xs text-neutral-700 leading-relaxed max-w-xs">
       {lang === 'fr'
         ? 'Des gummies simples & clean, conçus pour ton rythme quotidien.'
@@ -553,7 +545,6 @@ export default function HomePage() {
         ? 'Simple & clean gummies, designed for your daily rhythm.'
         : 'Eenvoudige & schone gummies, ontworpen voor jouw dagelijks ritme.'}
     </p>
-
     <div className="flex items-center gap-2.5 flex-wrap">
       <Link
         href={`/${lang}/shop`}
@@ -570,15 +561,14 @@ export default function HomePage() {
         {lang === 'fr' ? 'Créer ma routine' : lang === 'en' ? 'Create my routine' : 'Mijn routine'}
       </Link>
     </div>
-
     <div className="flex items-center gap-6 pt-2">
-  {badges.map((b, i) => (
-    <div key={i} className="flex flex-col items-center gap-1">
-      <div style={{ color: '#111' }}>{b.icon}</div>
-      <span className="text-[9px] font-bold uppercase tracking-wider text-neutral-900">{b.label}</span>
+      {badges.map((b, i) => (
+        <div key={i} className="flex flex-col items-center gap-1">
+          <div style={{ color: '#111' }}>{b.icon}</div>
+          <span className="text-[9px] font-bold uppercase tracking-wider text-neutral-900">{b.label}</span>
+        </div>
+      ))}
     </div>
-  ))}
-</div>
   </div>
 </section>
 
@@ -587,7 +577,6 @@ export default function HomePage() {
   className="hidden md:block relative w-full overflow-hidden"
   style={{ height: '75vh', minHeight: '560px' }}
 >
-  {/* Image pleine largeur — absolute inset-0, pas de max-w */}
   <div
     className="absolute inset-0"
     style={{
@@ -596,8 +585,6 @@ export default function HomePage() {
       backgroundPosition: 'center center',
     }}
   />
-
-  {/* Gradient gauche → transparent pour lisibilité du texte */}
   <div
     className="absolute inset-0"
     style={{
@@ -605,8 +592,6 @@ export default function HomePage() {
       zIndex: 1,
     }}
   />
-
-  {/* Contenu texte — pas de max-w sur le wrapper extérieur */}
   <div
     className="relative h-full flex items-center px-6 md:px-16"
     style={{ zIndex: 2 }}
@@ -618,7 +603,6 @@ export default function HomePage() {
       >
         {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
       </span>
-
       <h1
         className="font-black leading-[1.05]"
         style={{
@@ -633,7 +617,6 @@ export default function HomePage() {
           ? 'Feel better.\nNaturally.'
           : 'Beter in je vel.\nNatuurlijk.'}
       </h1>
-
       <p className="text-sm text-neutral-600 leading-relaxed" style={{ maxWidth: '340px' }}>
         {lang === 'fr'
           ? 'Des gummies simples & clean,\nConçus pour ton rythme quotidien.'
@@ -641,7 +624,6 @@ export default function HomePage() {
           ? 'Simple & clean gummies,\nDesigned for your daily rhythm.'
           : 'Eenvoudige & schone gummies,\nOntworpen voor jouw dagelijks ritme.'}
       </p>
-
       <div className="flex items-center gap-3 flex-wrap">
         <Link
           href={`/${lang}/shop`}
@@ -658,7 +640,6 @@ export default function HomePage() {
           {lang === 'fr' ? 'Créer ma routine' : lang === 'en' ? 'Create my routine' : 'Mijn routine maken'}
         </Link>
       </div>
-
       <div className="flex items-center gap-8 pt-1">
         {badges.map((b, i) => (
           <div key={i} className="flex flex-col items-center gap-1.5">
@@ -677,21 +658,21 @@ export default function HomePage() {
       <section className="py-8 md:py-12 px-4 md:px-16 bg-white">
         <div className="max-w-[1400px] mx-auto">
           <h2
-            className="text-xl md:text-4xl font-black text-neutral-900 mb-6 md:mb-12"
+            className="text-xl md:text-4xl font-black text-neutral-900 mb-6 md:mb-12 text-center"
             style={{ fontFamily: "'Georgia',serif" }}
           >
             {lang === 'fr' ? 'Choisissez votre objectif' : lang === 'en' ? 'Choose your Goal' : 'Kies jouw doel'}
           </h2>
 
-          {/* Mobile — scroll compact */}
-          <div className="flex md:hidden gap-3 overflow-x-auto pb-3 snap-x" style={{ scrollbarWidth: 'none' }}>
-            {categories.map((cat, i) => (
+          {/* Mobile — 3 produits fixes, pas de scroll */}
+          <div className="grid md:hidden grid-cols-3 gap-3">
+            {categories.slice(0, 3).map((cat, i) => (
               <Link
                 key={i}
                 href={cat.link}
-                className="flex-none snap-start w-[140px] rounded-2xl overflow-hidden border border-neutral-100 shadow-sm active:scale-95 transition-transform"
+                className="rounded-2xl overflow-hidden border border-neutral-100 shadow-sm active:scale-95 transition-transform"
               >
-                <div className="w-full flex items-end justify-center overflow-hidden" style={{ background: '#f0eeec', height: '140px' }}>
+                <div className="w-full flex items-end justify-center overflow-hidden" style={{ background: '#f0eeec', height: '120px' }}>
                   <img src={cat.image} alt={cat.name} className="w-[60%] object-contain" style={{ filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.15))' }} />
                 </div>
                 <div className="px-2.5 py-2.5 bg-white">
@@ -703,31 +684,21 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Desktop — inchangé */}
-          <div className="hidden md:grid grid-cols-5 gap-5">
-            {categories.map((cat, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-lg transition-all duration-300 bg-white group">
+          {/* Desktop — 3 produits */}
+          <div className="hidden md:grid grid-cols-3 gap-5 max-w-3xl mx-auto">
+            {categories.slice(0, 3).map((cat, i) => (
+              <Link key={i} href={cat.link}
+                className="rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-lg transition-all duration-300 bg-white group cursor-pointer">
                 <div className="w-full flex items-end justify-center overflow-hidden" style={{ background: '#f0eeec', height: '240px' }}>
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-[58%] object-contain group-hover:scale-105 transition-transform duration-500"
-                    style={{ filter: 'drop-shadow(0 16px 32px rgba(0,0,0,0.18))' }}
-                  />
+                  <img src={cat.image} alt={cat.name} className="w-[58%] object-contain group-hover:scale-105 transition-transform duration-500"
+                    style={{ filter: 'drop-shadow(0 16px 32px rgba(0,0,0,0.18))' }} />
                 </div>
                 <div className="px-5 py-5">
                   <p className="text-[13px] font-black text-neutral-900 uppercase tracking-wide leading-tight mb-2">{cat.name}</p>
                   <p className="text-[11px] text-neutral-400 mb-4 leading-relaxed">{cat.sub}</p>
-                  <p className="text-[14px] font-bold text-neutral-900 mb-4">{cat.prix}€</p>
-                  <Link
-                    href={cat.link}
-                    className="block w-full text-center py-2.5 rounded-full text-[12px] font-bold text-white uppercase tracking-wide transition-all hover:opacity-90"
-                    style={{ background: '#ED9446' }}
-                  >
-                    {lang === 'fr' ? 'Ajouter au panier' : lang === 'en' ? 'Add to cart' : 'Toevoegen'}
-                  </Link>
+                  <p className="text-[14px] font-bold text-neutral-900">{cat.prix}€</p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -749,7 +720,6 @@ export default function HomePage() {
       <section className="w-full py-10 md:py-14" style={{ background: '#efede9' }}>
         <div className="max-w-[1400px] mx-auto px-4 md:px-5 relative">
 
-          {/* Flèche gauche — desktop only */}
           <button
             onClick={() => setProductSlide((prev) => (prev - 1 + productSlides.length) % productSlides.length)}
             className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow hover:bg-neutral-100 items-center justify-center"
@@ -792,10 +762,7 @@ export default function HomePage() {
                   padding: 'clamp(20px, 5vw, 48px)',
                 }}
               >
-                {/* Mobile: image en haut, texte en bas */}
                 <div className="flex flex-col md:grid md:grid-cols-2 md:gap-10 md:items-center gap-5">
-
-                  {/* Image — en premier sur mobile */}
                   <div className="flex justify-center items-center order-1 md:order-2">
                     <img
                       src={slide.image1}
@@ -808,8 +775,6 @@ export default function HomePage() {
                       style={{ width: 'clamp(100px, 45vw, 300px)' }}
                     />
                   </div>
-
-                  {/* Texte */}
                   <div className="space-y-3 md:space-y-4 order-2 md:order-1 md:pl-5">
                     <div className="text-[10px] md:text-xs font-bold text-neutral-400 uppercase tracking-widest">
                       {LANG_LABEL}
@@ -823,11 +788,11 @@ export default function HomePage() {
                     <p className="text-neutral-600 leading-relaxed" style={{ fontSize: 'clamp(12px, 3vw, 14px)' }}>
                       {slide.desc}
                     </p>
-                  <div className="flex gap-5 md:gap-10 font-semibold uppercase tracking-wider" style={{ fontSize: 'clamp(10px, 2vw, 11px)', color: '#5a4a3a' }}>
-  <span>NO SUGAR</span>
-  <span>VEGAN</span>
-  <span>LOCAL</span>
-</div>
+                    <div className="flex gap-5 md:gap-10 font-semibold uppercase tracking-wider" style={{ fontSize: 'clamp(10px, 2vw, 11px)', color: '#5a4a3a' }}>
+                      <span>NO SUGAR</span>
+                      <span>VEGAN</span>
+                      <span>LOCAL</span>
+                    </div>
                     <div className="flex gap-2.5 md:gap-4 flex-wrap pt-1 md:pt-5">
                       <Link href={`/${lang}/shop`}>
                         <span className="inline-block px-5 md:px-6 py-2.5 md:py-3 rounded-full text-[12px] font-bold text-white uppercase" style={{ background: '#ED9446' }}>
@@ -846,7 +811,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Flèche droite — desktop only */}
           <button
             onClick={() => setProductSlide((prev) => (prev + 1) % productSlides.length)}
             className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-white rounded-full shadow hover:bg-neutral-100 items-center justify-center"
@@ -856,7 +820,6 @@ export default function HomePage() {
             </svg>
           </button>
 
-          {/* Dots */}
           <div className="flex justify-center gap-2 mt-5 md:mt-6">
             {productSlides.map((_, i) => (
               <div
@@ -875,19 +838,89 @@ export default function HomePage() {
         </div>
       </section>
 
-      
       {/* ══════════════════════════════════════════
           CRÉEZ VOTRE ROUTINE
       ══════════════════════════════════════════ */}
-     <PackSection
-  title={lang === 'fr' ? 'Créez votre pack' : lang === 'en' ? 'Create your pack' : 'Maak je pack'}
-  subtitle={lang === 'fr' ? "Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%" : lang === 'en' ? 'Choose your products and build your routine up to -30%' : 'Kies uw producten en stel uw routine samen tot -30%'}
-  packLabel={lang === 'fr' ? 'Mon pack personnalisé :' : lang === 'en' ? 'My custom pack:' : 'Mijn persoonlijk pakket:'}
-  oneTimeLabel={lang === 'fr' ? 'Achat unique' : lang === 'en' ? 'One-time purchase' : 'Eenmalig'}
-  subLabel="Abonnement"
-  monthLabel={lang === 'fr' ? 'mois' : lang === 'en' ? 'month' : 'maand'}
-  addedLabel={lang === 'fr' ? 'Produits ajoutés au panier !' : lang === 'en' ? 'Products added to cart!' : 'Producten toegevoegd!'}
-/>
+      <PackSection
+        title={lang === 'fr' ? 'Créez votre pack' : lang === 'en' ? 'Create your pack' : 'Maak je pack'}
+        subtitle={lang === 'fr' ? "Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%" : lang === 'en' ? 'Choose your products and build your routine up to -30%' : 'Kies uw producten en stel uw routine samen tot -30%'}
+        packLabel={lang === 'fr' ? 'Mon pack personnalisé :' : lang === 'en' ? 'My custom pack:' : 'Mijn persoonlijk pakket:'}
+        oneTimeLabel={lang === 'fr' ? 'Achat unique' : lang === 'en' ? 'One-time purchase' : 'Eenmalig'}
+        subLabel="Abonnement"
+        monthLabel={lang === 'fr' ? 'mois' : lang === 'en' ? 'month' : 'maand'}
+        addedLabel={lang === 'fr' ? 'Produits ajoutés au panier !' : lang === 'en' ? 'Products added to cart!' : 'Producten toegevoegd!'}
+      />
+
+      {/* ══ ABONNEMENT ══ */}
+      <section className="py-10 px-4 md:px-16" style={{ background: '#f5f3ef' }}>
+        <div className="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8">
+            <h2 className="font-black leading-tight text-neutral-900"
+              style={{ fontSize: 'clamp(28px, 4vw, 48px)', whiteSpace: 'pre-line' }}>
+              {lang === 'fr' ? 'Une routine sans efforts ?\nPrenez un abonnement !' : lang === 'en' ? 'Effortless routine?\nGet a subscription!' : 'Routine zonder moeite?\nNeem een abonnement!'}
+            </h2>
+            <p className="text-sm text-neutral-500">
+              {lang === 'fr' ? 'Recevez automatiquement vos formules. À votre rythme. Sans engagement.' : lang === 'en' ? 'Receive your formulas automatically. At your pace. No commitment.' : 'Ontvang automatisch uw formules. Op uw tempo. Zonder engagement.'}
+            </p>
+            <div className="space-y-6">
+              {subBenefits.map((b, i) => (
+                <div key={i} className="flex items-start gap-4">
+                  <div className="text-neutral-400 mt-0.5 flex-shrink-0">{b.icon}</div>
+                  <div>
+                    <p className="font-bold text-neutral-900 text-[15px]">{b.title}</p>
+                    <p className="text-neutral-500 text-[13px]">{b.sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-3 flex-wrap pt-2">
+              <Link href={`/${lang}/shop`}
+                className="px-6 py-3 rounded-full text-[13px] font-bold text-white uppercase tracking-wide"
+                style={{ background: '#ED9446' }}>
+                {lang === 'fr' ? 'Voir les produits' : lang === 'en' ? 'See products' : 'Bekijken'}
+              </Link>
+            </div>
+          </div>
+
+          {/* Pots — mobile : côte à côte en bas, desktop : empilés à droite */}
+
+          {/* Mobile */}
+          <div className="flex justify-center items-end gap-4 mt-4 md:hidden">
+            {[
+              { src: '/image/nukuViolet.png', w: 110, rot: -6, mb: 0 },
+              { src: '/image/nukuRouge.png', w: 130, rot: 0, mb: 10 },
+              { src: '/image/nukuBleu.png', w: 110, rot: 6, mb: 0 },
+            ].map((p, i) => (
+              <img key={i} src={p.src} alt="nuku pot"
+                className="object-contain drop-shadow-lg"
+                style={{
+                  width: `${p.w}px`,
+                  transform: `rotate(${p.rot}deg)`,
+                  marginBottom: `${p.mb}px`,
+                }} />
+            ))}
+          </div>
+
+          {/* Desktop */}
+          <div className="hidden md:flex flex-col items-end gap-3">
+            {[
+              { src: '/image/nukuRouge.png', w: 150, mr: 0, rot: -4 },
+              { src: '/image/nukuViolet.png', w: 135, mr: 20, rot: 4 },
+              { src: '/image/nukuBleu.png', w: 120, mr: 40, rot: -4 },
+            ].map((p, i) => (
+              <img key={i} src={p.src} alt="nuku pot"
+                className="object-contain drop-shadow-lg"
+                style={{
+                  width: `${p.w}px`,
+                  marginRight: `${p.mr}px`,
+                  transform: `rotate(${p.rot}deg)`,
+                }} />
+            ))}
+          </div>
+
+        </div>
+      </section>
+
       {/* ══════════════════════════════════════════
           AVIS CLIENTS
       ══════════════════════════════════════════ */}
@@ -935,7 +968,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Desktop — grid 5 colonnes, inchangé */}
+          {/* Desktop — grid 5 colonnes */}
           <div className="hidden md:grid grid-cols-5 gap-5">
             {reviews.map((r, i) => (
               <div key={i} className="bg-white rounded-2xl border border-neutral-100 shadow-sm p-5 hover:shadow-md transition-all">

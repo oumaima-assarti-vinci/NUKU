@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/lib/contexts/CartContext";
 import { usePack, PACK_CATEGORIES } from "@/lib/contexts/PackContext";
 import PackProgress from "@/components/PackProgress";
@@ -18,36 +20,34 @@ const CATEGORIES = [
 // ─── Props ───────────────────────────────────────────────────────────────────
 
 interface PackSectionProps {
-  /** Titre affiché au-dessus de la section */
   title?: string;
-  /** Sous-titre (ligne grise) */
   subtitle?: string;
-  /** Label du pack dans le récap */
   packLabel?: string;
-  /** Label bouton achat unique */
   oneTimeLabel?: string;
-  /** Label bouton abonnement */
   subLabel?: string;
-  /** Label unité de temps (mois / month / maand) */
   monthLabel?: string;
-  /** Message de confirmation panier */
   addedLabel?: string;
 }
 
 // ─── Composant ───────────────────────────────────────────────────────────────
 
 export default function PackSection({
-  title       = "Créez votre pack",
-  subtitle    = "Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%",
-  packLabel   = "Mon pack personnalisé :",
+  title        = "Créez votre pack",
+  subtitle     = "Choisissez vos produits et composez la routine qui vous ressemble jusqu'à -30%",
+  packLabel    = "Mon pack personnalisé :",
   oneTimeLabel = "Achat unique",
-  subLabel    = "Abonnement",
-  monthLabel  = "mois",
-  addedLabel  = "Produits ajoutés au panier !",
+  subLabel     = "Abonnement",
+  monthLabel   = "mois",
+  addedLabel   = "Produits ajoutés au panier !",
 }: PackSectionProps) {
   const { addToCart } = useCart();
   const { quantities, changeQty, totalPrice, discount, discountedPrice } = usePack();
   const [added, setAdded] = useState(false);
+
+  const router   = useRouter();
+  const pathname = usePathname();
+  const segments = pathname?.split("/").filter(Boolean) ?? [];
+  const lang     = ["fr", "en", "nl"].includes(segments[0]) ? segments[0] : "fr";
 
   const handleAdd = (isSub: boolean) => {
     PACK_CATEGORIES.forEach((cat, i) => {
@@ -73,11 +73,30 @@ export default function PackSection({
     >
       <style>{`
         @media (max-width: 768px) {
-          .pack-section-inner { padding: 32px 16px 40px !important; }
-          .pack-cards-scroll { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
-.pack-card-img { height: 120px !important; }
-          .pack-recap { padding: 16px !important; }
-          .pack-buttons { grid-template-columns: 1fr !important; }
+          .pack-section-inner  { padding: 32px 16px 40px !important; }
+         .pack-cards-scroll {
+  display: flex !important;
+  overflow-x: auto !important;
+  scroll-snap-type: x mandatory !important;
+  -webkit-overflow-scrolling: touch !important;
+  gap: 12px !important;
+  padding-bottom: 8px !important;
+}
+.pack-card {
+  min-width: 140px !important;
+  flex-shrink: 0 !important;
+  scroll-snap-align: start !important;
+}
+          .pack-card-img       { height: 120px !important; }
+          .pack-recap          { padding: 16px !important; }
+          .pack-buttons        { grid-template-columns: 1fr !important; }
+        }
+        .pack-card {
+          transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .pack-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.09);
         }
       `}</style>
 
@@ -102,24 +121,26 @@ export default function PackSection({
         </p>
 
         {/* ── Cartes produits ── */}
-       <div
-  className="pack-cards-scroll"
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(5, 1fr)",
-    gap: 16,
-  }}
->
+        <div
+          className="pack-cards-scroll"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: 16,
+          }}
+        >
           {CATEGORIES.map((cat, i) => (
             <div
               key={cat.id}
               className="pack-card"
+              onClick={() => router.push(`/${lang}/product/${cat.id}`)}
               style={{
-  borderRadius: 14,
-  border: "1px solid #f0f0f0",
-  background: "white",
-  overflow: "hidden",
-}}
+                borderRadius: 14,
+                border: "1px solid #f0f0f0",
+                background: "white",
+                overflow: "hidden",
+                cursor: "pointer",
+              }}
             >
               {/* Image */}
               <div
@@ -170,9 +191,14 @@ export default function PackSection({
                 >
                   {cat.sub}
                 </p>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+
+                {/* Stepper — stopPropagation pour ne pas déclencher la redirection */}
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: 6 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <button
-                    onClick={() => changeQty(i, -1)}
+                    onClick={(e) => { e.stopPropagation(); changeQty(i, -1); }}
                     style={{
                       width: 22,
                       height: 22,
@@ -202,7 +228,7 @@ export default function PackSection({
                     {quantities[i]}
                   </span>
                   <button
-                    onClick={() => changeQty(i, 1)}
+                    onClick={(e) => { e.stopPropagation(); changeQty(i, 1); }}
                     style={{
                       width: 22,
                       height: 22,
