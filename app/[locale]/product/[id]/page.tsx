@@ -670,13 +670,15 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
   const { folder, faqTitle, faqSubtitle, faqs, myths } = config;
 
   // Convert myths into FAQ-style questions
-  const mythFaqs = myths.map((m, i) => ({
+  const mythFaqs = myths
+  .filter(m => m.myth && m.myth.trim() !== "")
+  .map((m, i) => ({
     id: faqs.length + i + 1,
     question: m.myth,
     answer: `${t("reality_label")} ${m.reality}`,
   }));
 
-  const allFaqs = [...faqs, ...mythFaqs];
+  const allFaqs = [...faqs, ...mythFaqs].filter(f => f.question && f.question.trim() !== "" && f.answer && f.answer.trim() !== "");
   const leftFaqs = allFaqs.filter((_, i) => i % 2 === 0);
   const rightFaqs = allFaqs.filter((_, i) => i % 2 !== 0);
 
@@ -723,7 +725,7 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
         @media(max-width:767px){
           .faq-desktop{display:none;}
           .faq-mobile{display:block;}
-          .fmob-top-border{border-top:1px solid #e8e2da;}
+          .fmob-top-border{display:none;}
           .faq-section{padding:44px 20px 52px;}
           .faq-header{margin-bottom:28px;}
         }
@@ -731,10 +733,11 @@ function ProductFAQSection({ config, t }: { config: ProductConfig; t: any }) {
           .faq-section{padding:36px 16px 44px;}
           .faq-main-title{font-size:22px;gap:10px;}
         }
-        .faq-footer{margin-top:clamp(40px,6vw,64px);text-align:center;padding-top:28px;border-top:1px solid #e8e2da;}
+       .faq-footer{margin-top:clamp(24px,4vw,40px);text-align:center;padding-top:20px;border-top:1px solid #e8e2da;}
         .faq-footer-text{margin:0;font-size:14px;color:#6a5f57;}
         .faq-footer-link{color:#ff7b42;font-weight:600;text-decoration:none;transition:color .2s ease;}
         .faq-footer-link:hover{color:#ff8d58;text-decoration:underline;}
+       .faq-footer{border-top:none;padding-top:12px;}
       `}</style>
     </section>
   );
@@ -1049,7 +1052,7 @@ export default function ProductDetailPage() {
         )}
 
         {/* ── Reviews ── */}
-        <div className="mt-12 sm:mt-20 pt-8 sm:pt-12 border-t border-neutral-300">
+<div className="mt-8 sm:mt-12 pt-6 sm:pt-8">
           <h2 className="text-xl sm:text-3xl font-light tracking-tight mb-6 sm:mb-8 text-neutral-800">
             {t("reviews_title")}
           </h2>
