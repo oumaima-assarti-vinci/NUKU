@@ -21,11 +21,8 @@ const COMBOS = [
 ];
 
 const CURES = [
-  { key: "cure-sleep",    name: "3 MONTHS CURE", badge: "-15%", prix: 48, desc: "Un trimestre complet pour ancrer vos habitudes.",       imgs: ["/image/nukuBleu.png",   "/image/nukuBleu.png",   "/image/nukuBleu.png"]   },
   { key: "cure-soul",     name: "3 MONTHS CURE", badge: "-15%", prix: 48, desc: "Profondeur et résultats durables sur 90 jours.",        imgs: ["/image/nukuViolet.png", "/image/nukuViolet.png", "/image/nukuViolet.png"] },
-  { key: "cure-strength", name: "3 MONTHS CURE", badge: "-15%", prix: 48, desc: "La cure recommandée pour des effets visibles.",         imgs: ["/image/nukuRouge.png",  "/image/nukuRouge.png",  "/image/nukuRouge.png"]  },
   { key: "cure-shine",    name: "3 MONTHS CURE", badge: "-15%", prix: 48, desc: "Beauté durable — 3 mois pour des cheveux transformés.", imgs: ["/image/nukuJaune.png",  "/image/nukuJaune.png",  "/image/nukuJaune.png"]  },
-  { key: "cure-source",   name: "3 MONTHS CURE", badge: "-15%", prix: 48, desc: "Digestion optimale sur le long terme.",                 imgs: ["/image/nukuVert.png",   "/image/nukuVert.png",   "/image/nukuVert.png"]   },
 ];
 
 const CATEGORIES = [
