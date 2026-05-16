@@ -354,6 +354,7 @@ export default function AbonnementPage() {
       padding: 2px 5px !important;
       top: 6px !important;
       right: 6px !important;
+      display: none !important;
     }
     .pack-grid {
       grid-template-columns: 1fr !important;
