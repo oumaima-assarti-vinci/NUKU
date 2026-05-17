@@ -7,6 +7,9 @@ import { useTranslations } from 'next-intl'
 import { usePathname } from 'next/navigation'
 import { useCart } from '@/lib/contexts/CartContext'
 import PackSection from "@/components/PackSection"
+import ProductCard from "@/components/ProductCard";
+import type { ProductCardItem } from "@/components/ProductCard";
+
 type Product = {
   id: number
   nom: string
@@ -207,7 +210,7 @@ export default function HomePage() {
           : lang === 'en'
           ? 'Creatine · Vitamin B12 · Vitamin D3'
           : 'Creatine · Vitamine B12 · Vitamine D3',
-      image: '/image/nukuRouge.png',
+      image: '/image/nukuRouge (2).png',
       link: `/${lang}/product/14`,
       prix: 18,
     },
@@ -527,7 +530,6 @@ export default function HomePage() {
       className="inline-block text-[10px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
       style={{ background: '#ebebeb', color: '#777' }}
     >
-      {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
     </span>
     <h1
       className="font-black leading-[1.05]"
@@ -595,12 +597,7 @@ export default function HomePage() {
     style={{ zIndex: 2 }}
   >
     <div className="flex flex-col gap-6" style={{ maxWidth: '480px' }}>
-      <span
-        className="inline-block text-[11px] font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full w-fit"
-        style={{ background: '#ebebeb', color: '#777' }}
-      >
-        {lang === 'fr' ? 'Nouveauté' : lang === 'en' ? 'New' : 'Nieuw'}
-      </span>
+      
       <h1
         className="font-black leading-[1.05]"
         style={{
@@ -631,7 +628,7 @@ export default function HomePage() {
           {lang === 'fr' ? 'Découvrir' : lang === 'en' ? 'Shop now' : 'Ontdekken'}
         </Link>
         <Link
-          href={`/${lang}/build-pack`}
+          href={`/${lang}/subscription`}
           className="px-6 py-3 rounded-full text-[13px] font-medium border"
           style={{ borderColor: '#ccc', color: '#444', background: 'rgba(255,255,255,0.65)' }}
         >
@@ -650,68 +647,59 @@ export default function HomePage() {
   </div>
 </section>
 
-      {/* ══════════════════════════════════════════
-          CHOOSE YOUR GOAL
-      ══════════════════════════════════════════ */}
-      <section className="py-8 md:py-12 px-4 md:px-16 bg-white">
-        <div className="max-w-[1400px] mx-auto">
-          <h2
-            className="text-xl md:text-4xl font-black text-neutral-900 mb-6 md:mb-12 text-center"
-            style={{ fontFamily: "'Georgia',serif" }}
-          >
-            {lang === 'fr' ? 'Choisissez votre objectif' : lang === 'en' ? 'Choose your Goal' : 'Kies jouw doel'}
-          </h2>
+{/* ══════════════════════════════════════════
+    CHOOSE YOUR GOAL
+══════════════════════════════════════════ */}
+<section className="py-8 md:py-12 px-4 md:px-16 bg-white">
+  <div className="max-w-[1400px] mx-auto">
+    <h2
+      className="text-xl md:text-4xl font-black text-neutral-900 mb-6 md:mb-12 text-center"
+      style={{ fontFamily: "'Georgia',serif" }}
+    >
+      {lang === 'fr' ? 'Choisissez votre objectif' : lang === 'en' ? 'Choose your Goal' : 'Kies jouw doel'}
+    </h2>
 
-          {/* Mobile — 3 produits fixes, pas de scroll */}
-          <div className="grid md:hidden grid-cols-3 gap-3">
-            {categories.slice(0, 3).map((cat, i) => (
-              <Link
-                key={i}
-                href={cat.link}
-                className="rounded-2xl overflow-hidden border border-neutral-100 shadow-sm active:scale-95 transition-transform"
-              >
-                <div className="w-full flex items-end justify-center overflow-hidden" style={{ background: '#f0eeec', height: '120px' }}>
-                  <img src={cat.image} alt={cat.name} className="w-[60%] object-contain" style={{ filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.15))' }} />
-                </div>
-                <div className="px-2.5 py-2.5 bg-white">
-                  <p className="text-[10px] font-black text-neutral-900 uppercase tracking-wide leading-tight">{cat.name}</p>
-                  <p className="text-[8px] text-neutral-400 mt-0.5 leading-tight line-clamp-2">{cat.sub}</p>
-                  <p className="text-[12px] font-bold text-neutral-900 mt-1.5">{cat.prix}€</p>
-                </div>
-              </Link>
+    {(() => {
+      const homeProducts: ProductCardItem[] = [
+        { id: 12, nom: "NUKU SLEEP",    tagline: "Sommeil — Mélatonine, L-théanine, Magnésium", prix: 18, img: "/image/nukuBleu2.png",   accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
+        { id: 16, nom: "NUKU SOUL",     tagline: "Relax & équilibre — Ashwagandha, Rhodiola",   prix: 18, img: "/image/nukuViolet2.png", accent: "#9B8EC4", light: "rgba(155,142,196,0.12)" },
+        { id: 14, nom: "NUKU STRENGTH", tagline: "Force & endurance — Créatine, B12, D3",       prix: 18, img: "/image/nukuRouge2.png",  accent: "#E05A4E", light: "rgba(224,90,78,0.12)"  },
+      ];
+      return (
+        <>
+          {/* Mobile — scroll horizontal */}
+          <div
+            className="flex md:hidden gap-3 overflow-x-auto pb-4"
+            style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}
+          >
+            {homeProducts.map(p => (
+              <div key={p.id} style={{ flex: '0 0 30vw', scrollSnapAlign: 'start' }}>
+                <ProductCard p={p} compact={true} />
+              </div>
             ))}
           </div>
 
           {/* Desktop — 3 produits */}
           <div className="hidden md:grid grid-cols-3 gap-5 max-w-3xl mx-auto">
-            {categories.slice(0, 3).map((cat, i) => (
-              <Link key={i} href={cat.link}
-                className="rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-lg transition-all duration-300 bg-white group cursor-pointer">
-                <div className="w-full flex items-end justify-center overflow-hidden" style={{ background: '#f0eeec', height: '240px' }}>
-                  <img src={cat.image} alt={cat.name} className="w-[58%] object-contain group-hover:scale-105 transition-transform duration-500"
-                    style={{ filter: 'drop-shadow(0 16px 32px rgba(0,0,0,0.18))' }} />
-                </div>
-                <div className="px-5 py-5">
-                  <p className="text-[13px] font-black text-neutral-900 uppercase tracking-wide leading-tight mb-2">{cat.name}</p>
-                  <p className="text-[11px] text-neutral-400 mb-4 leading-relaxed">{cat.sub}</p>
-                  <p className="text-[14px] font-bold text-neutral-900">{cat.prix}€</p>
-                </div>
-              </Link>
+            {homeProducts.map(p => (
+              <ProductCard key={p.id} p={p} compact={false} />
             ))}
           </div>
+        </>
+      );
+    })()}
 
-          <div className="mt-8 md:mt-10 text-center">
-            <Link
-              href={`/${lang}/shop`}
-              className="inline-block px-8 md:px-10 py-3 md:py-3.5 rounded-full text-[13px] md:text-[14px] font-bold text-white uppercase tracking-wide hover:opacity-90 transition-all"
-              style={{ background: '#ED9446' }}
-            >
-              {lang === 'fr' ? 'Voir tout' : lang === 'en' ? 'Shop all' : 'Alles bekijken'}
-            </Link>
-          </div>
-        </div>
-      </section>
-
+    <div className="mt-8 md:mt-10 text-center">
+      <Link
+        href={`/${lang}/shop`}
+        className="inline-block px-8 md:px-10 py-3 md:py-3.5 rounded-full text-[13px] md:text-[14px] font-bold text-white uppercase tracking-wide hover:opacity-90 transition-all"
+        style={{ background: '#ED9446' }}
+      >
+        {lang === 'fr' ? 'Voir tout' : lang === 'en' ? 'Shop all' : 'Alles bekijken'}
+      </Link>
+    </div>
+  </div>
+</section>
       {/* ══════════════════════════════════════════
           SLIDER 5 PRODUITS
       ══════════════════════════════════════════ */}

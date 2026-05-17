@@ -24,6 +24,8 @@ interface PackContextType {
   totalPrice: number;
   discount: number;
   discountedPrice: number;
+  aboDiscount: number;
+  aboPrice: number;
 }
 
 const PackContext = createContext<PackContextType | null>(null);
@@ -53,10 +55,11 @@ export function PackProvider({ children }: { children: ReactNode }) {
   const totalItems = quantities.reduce((a, b) => a + b, 0);
   const totalPrice = quantities.reduce((s, q, i) => s + q * PACK_CATEGORIES[i].prix, 0);
   const discount = getDiscount(totalItems);
+  const aboDiscount = Math.min(discount + 5, 100);
   const discountedPrice = Math.round(totalPrice * (1 - discount / 100));
-
+  const aboPrice = Math.round(totalPrice * (1 - aboDiscount / 100));
   return (
-    <PackContext.Provider value={{ quantities, changeQty, totalItems, totalPrice, discount, discountedPrice }}>
+    <PackContext.Provider value={{ quantities, changeQty, totalItems, totalPrice, discount, discountedPrice, aboDiscount, aboPrice }}>
       {children}
     </PackContext.Provider>
   );

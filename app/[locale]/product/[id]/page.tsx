@@ -347,14 +347,14 @@ function IngredientsSlider({ productKey, t }: { productKey: ProductKey | null; t
       <style jsx>{`
         .luxury-header{text-align:center;margin-bottom:40px;padding-top:48px;}
         .luxury-badge{text-transform:uppercase;letter-spacing:3px;font-size:11px;color:#b58e58;font-weight:700;}
-       .luxury-title{font-size:clamp(26px,5vw,40px);font-weight:400;margin:10px 0;font-family:'Coolvetica',sans-serif !important}
+        .luxury-title{font-size:clamp(26px,5vw,40px);font-weight:400;margin:10px 0;font-family:'Coolvetica',sans-serif !important}
         .luxury-divider{width:40px;height:1px;background:#b58e58;margin:15px auto;}
         .luxury-subtitle{font-size:13px;color:#888;font-weight:300;padding:0 16px;}
         .ing-section{margin:80px auto;width:100%;max-width:1200px;padding:0 40px;position:relative;left:0;}
         .ing-wrap{position:relative;max-width:${wrapMaxWidth};margin:0 auto;padding:0;width:100%;}
         .ing-wrap::before,.ing-wrap::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:5;pointer-events:none;}
-       .ing-wrap::before{left:0;width:80px;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%);}
-.ing-wrap::after{right:0;width:80px;background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%);} .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after{display:none;}
+        .ing-wrap::before{left:0;width:80px;background:linear-gradient(to right,#fff 0%,rgba(255,255,255,0) 100%);}
+        .ing-wrap::after{right:0;width:80px;background:linear-gradient(to left,#fff 0%,rgba(255,255,255,0) 100%);} .ing-wrap[data-few="true"]::before,.ing-wrap[data-few="true"]::after{display:none;}
         .ing-viewport{overflow:hidden;padding:40px 0;}
         .ing-wrap{overflow:hidden;}
         .ing-container{display:flex;user-select:none;-webkit-touch-callout:none;gap:16px;}

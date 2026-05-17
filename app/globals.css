@@ -22,7 +22,17 @@
   font-weight: 300;
   font-display: swap;
 }
-
+@media (max-width: 768px) {
+  .product-card-img {
+    height: 140px !important;
+    max-height: 140px !important;
+  }
+  .product-card-img img {
+    height: 140px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+}
 /* ========================= 
    VARIABLES
    ========================= */

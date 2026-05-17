@@ -4,14 +4,16 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/lib/contexts/CartContext";
 import PackSection from "@/components/PackSection"
+import ProducutCard, { ProductCardItem } from "@/components/ProductCard";
+
 // ─── Data ───────────────────────────────────────────────────────────────────
 
-const PRODUCTS = [
-  { id: 11, nom: "NUKU SHINE",    tagline: "Cheveux & beauté — Biotine, Zinc, MSM",        prix: 18, img: "/image/nukuJaune.png",  accent: "#E8B84B", light: "rgba(232,184,75,0.12)"  },
-  { id: 12, nom: "NUKU SLEEP",    tagline: "Sommeil — Mélatonine, L-théanine, Magnésium",  prix: 18, img: "/image/nukuBleu.png",   accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
-  { id: 13, nom: "NUKU SOURCE",   tagline: "Digestion — Matcha, Artichaut, Pissenlit",     prix: 18, img: "/image/nukuVert.png",   accent: "#5BA85A", light: "rgba(91,168,90,0.12)"   },
-  { id: 14, nom: "NUKU STRENGTH", tagline: "Force & endurance — Créatine, B12, D3",        prix: 18, img: "/image/nukuRouge.png",  accent: "#E05A4E", light: "rgba(224,90,78,0.12)"   },
-  { id: 16, nom: "NUKU SOUL",     tagline: "Relax & équilibre — Ashwagandha, Rhodiola",    prix: 18, img: "/image/nukuViolet.png", accent: "#9B8EC4", light: "rgba(155,142,196,0.12)" },
+const PRODUCTS: ProductCardItem[] = [
+  { id: 11, nom: "NUKU SHINE",    tagline: "Cheveux & beauté — Biotine, Zinc, MSM",        prix: 18, img: "/image/nukujaune2.png",  accent: "#E8B84B", light: "rgba(232,184,75,0.12)"  },
+  { id: 12, nom: "NUKU SLEEP",    tagline: "Sommeil — Mélatonine, L-théanine",  prix: 18, img: "/image/nukuBleu2.png",   accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
+  { id: 13, nom: "NUKU SOURCE",   tagline: "Digestion — Matcha, Artichaut, Pissenlit",     prix: 18, img: "/image/nukuVert2.png",   accent: "#5BA85A", light: "rgba(91,168,90,0.12)"   },
+  { id: 14, nom: "NUKU STRENGTH", tagline: "Force & endurance — Créatine, B12, D3",        prix: 18, img: "/image/nukuRouge2.png",  accent: "#E05A4E", light: "rgba(224,90,78,0.12)"   },
+  { id: 16, nom: "NUKU SOUL",     tagline: "Relax & équilibre — Ashwagandha, Rhodiola",    prix: 18, img: "/image/nukuViolet2.png", accent: "#9B8EC4", light: "rgba(155,142,196,0.12)" },
 ];
 
 const COMBOS = [
@@ -106,33 +108,43 @@ function ProductCard({ p, compact = false }: { p: typeof PRODUCTS[0]; compact?: 
       }}
     >
       {/* Image */}
-      <div style={{
-        background: "#f0eeec",
-        height: compact ? 160 : 210,
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "center",
-        position: "relative",
-        paddingTop: 16,
-      }}>
-        <img
-          src={p.img}
-          alt={p.nom}
-          style={{
-            height: "65%", width: "auto", objectFit: "contain",
-            filter: "drop-shadow(0 12px 20px rgba(0,0,0,0.13))",
-            transform: hov ? "scale(1.04) translateY(-4px)" : "scale(1)",
-            transition: "transform 0.3s",
-          }}
-        />
+<div style={{
+  background: "#f0eeec",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "relative",
+  borderRadius: "12px 12px 0 0",
+}}>
+  <img
+    src={p.img}
+    alt={p.nom}
+    style={{
+      width: "100%",
+      height: "auto",
+      display: "block",
+      transform: hov ? "scale(1.04)" : "scale(1)",
+      transition: "transform 0.3s",
+    }}
+  />
         <div style={{
-          position: "absolute", top: 10, right: 10,
-          background: p.accent, color: "white",
-          fontSize: 9, fontWeight: 900,
-          padding: "2px 8px", borderRadius: 20,
-        }}>
-          -20% ABO
-        </div>
+    position: "absolute", top: 10, right: 10,
+    background: "#111", color: "white",
+    fontSize: 9, fontWeight: 900,
+    padding: "2px 8px", borderRadius: 20,
+  }}>
+    -5% ABO
+  </div>
+     {/*   {type === "subscription" && (
+  <div style={{
+    position: "absolute", top: 10, right: 10,
+    background: "#111", color: "white",
+    fontSize: 9, fontWeight: 900,
+    padding: "2px 8px", borderRadius: 20,
+  }}>
+    -5% ABO
+  </div>
+)}*/}
       </div>
 
       {/* Content */}
@@ -148,31 +160,31 @@ function ProductCard({ p, compact = false }: { p: typeof PRODUCTS[0]; compact?: 
 
         {/* Toggle unique / abonnement */}
         <div style={{ display: "flex", gap: 4 }}>
-          {(["unique", "subscription"] as const).map(tp => (
-            <button
-              key={tp}
-              onClick={e => { e.stopPropagation(); setType(tp); }}
-              style={{
-                flex: 1, fontSize: 8, fontWeight: 700,
-                padding: compact ? "5px 2px" : "6px 4px",
-                borderRadius: 10,
-                border: `1px solid ${type === tp ? p.accent : "#e5e7eb"}`,
-                background: type === tp ? p.light : "transparent",
-                color: type === tp ? p.accent : "#aaa", cursor: "pointer",
-              }}
-            >
-              {tp === "unique" ? "Unique" : "Abonnement"}
-            </button>
-          ))}
-        </div>
-
-        {/* Prix */}
-        <div style={{ marginTop: "auto" }}>
-          {type === "subscription" && (
-            <div style={{ fontSize: 10, color: "#ccc", textDecoration: "line-through" }}>{p.prix}€</div>
-          )}
-          <div style={{ fontSize: compact ? 14 : 16, fontWeight: 900, color: "#111" }}>{price}€</div>
-        </div>
+  {(["unique", "subscription"] as const).map(tp => (
+    <button
+      key={tp}
+      onClick={e => { e.stopPropagation(); setType(tp); }}
+      style={{
+        flex: 1, fontSize: 8, fontWeight: 700,
+        padding: compact ? "5px 2px" : "6px 4px",
+        borderRadius: 10,
+        border: `1px solid ${type === tp ? "#111" : "#e5e7eb"}`,
+        background: type === tp ? "#f5f5f5" : "transparent",
+        color: type === tp ? "#111" : "#aaa",
+        cursor: "pointer",
+      }}
+    >
+      {tp === "unique" ? "Unique" : "Abonnement"}
+    </button>
+  ))}
+</div>
+{/* Prix */}
+<div style={{ marginTop: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+  <div style={{ fontSize: compact ? 14 : 16, fontWeight: 900, color: "#111" }}>{price}€</div>
+  {type === "subscription" && (
+    <span style={{ fontSize: 13, color: "#ccc", textDecoration: "line-through" }}>{p.prix}€</span>
+  )}
+</div>
 
         {/* CTA */}
         <button
@@ -253,10 +265,11 @@ export default function NukuShop() {
   const sectionPaddingLg = isMobile ? "32px 16px 40px" : "48px 48px 56px";
 
   // Products: 5 en une ligne desktop, 2 colonnes mobile
-  const productsGrid = isMobile
-    ? { gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }
-    : { gridTemplateColumns: "repeat(5, 1fr)", gap: 16 };
-
+  
+// Products grid
+const productsGridStyle: React.CSSProperties = isMobile
+  ? { display: "flex", overflowX: "auto", gap: 12, scrollSnapType: "x mandatory", paddingBottom: 8, scrollbarWidth: "none" }
+  : { display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 };
   // Combos/Cures: 3 colonnes desktop, 1 colonne mobile
   const threeColGrid = isMobile
     ? { gridTemplateColumns: "1fr", gap: 12 }
@@ -277,14 +290,17 @@ export default function NukuShop() {
           Chaque formule Nuku est pensée pour un besoin précis — sommeil, énergie, beauté, récupération ou équilibre.
         </p>
 
-        {/* 5 produits en 1 ligne desktop / 2 colonnes mobile */}
-        <div style={{ display: "grid", ...productsGrid }}>
-          {PRODUCTS.map(p => <ProductCard key={p.id} p={p} compact={!isMobile} />)}
-        </div>
+       <div style={productsGridStyle}>
+  {PRODUCTS.map(p => (
+    <div key={p.id} style={isMobile ? { flex: "0 0 30vw", scrollSnapAlign: "start" } as React.CSSProperties : {}}>
+      <ProductCard p={p} compact={true} />
+    </div>
+  ))}
+</div>
       </section>
 
       {/* ══ NOS COMBOS ══ */}
-      <section style={{ background: "#FDFAF5", borderTop: "1px solid #f0f0f0", padding: sectionPadding }}>
+      <section style={{ background: "#f5f3ef", borderTop: "1px solid #f0f0f0", padding: sectionPadding }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <h2 style={{ fontSize: isMobile ? 24 : 34, fontWeight: 900, color: "#111", margin: "0 0 6px" }}>
             Nos combos

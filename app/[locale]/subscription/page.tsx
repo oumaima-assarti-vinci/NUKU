@@ -4,13 +4,14 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useCart } from "@/lib/contexts/CartContext";
 import PackSection from "@/components/PackSection";
-
-const PRODUCTS = [
-  { id: 14, nom: "NUKU STRENGTH", benefit: "Force & Performance",    prix: 18, img: "/image/nukuRouge.png",  accent: "#E05A4E", light: "rgba(224,90,78,0.12)"   },
-  { id: 12, nom: "NUKU SLEEP",    benefit: "Sommeil & Récupération", prix: 18, img: "/image/nukuBleu.png",   accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
-  { id: 16, nom: "NUKU SOUL",     benefit: "Relax & Équilibre",      prix: 18, img: "/image/nukuViolet.png", accent: "#9B8EC4", light: "rgba(155,142,196,0.12)" },
-  { id: 11, nom: "NUKU SHINE",    benefit: "Cheveux & Éclat",        prix: 18, img: "/image/nukuJaune.png",  accent: "#E8B84B", light: "rgba(232,184,75,0.12)"  },
-  { id: 13, nom: "NUKU SOURCE",   benefit: "Digestion & Légèreté",   prix: 18, img: "/image/nukuVert.png",   accent: "#5BA85A", light: "rgba(91,168,90,0.12)"   },
+import ProductCard from "@/components/ProductCard";
+import type { ProductCardItem } from "@/components/ProductCard";
+const PRODUCTS: ProductCardItem[] = [
+  { id: 14, nom: "NUKU STRENGTH", tagline: "Force & endurance — Créatine, B12, D3",        prix: 18, img: "/image/nukuRouge2.png",  accent: "#E05A4E", light: "rgba(224,90,78,0.12)"   },
+  { id: 12, nom: "NUKU SLEEP",    tagline: "Sommeil — Mélatonine, L-théanine, Magnésium",  prix: 18, img: "/image/nukuBleu2.png",   accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
+  { id: 16, nom: "NUKU SOUL",     tagline: "Relax & équilibre — Ashwagandha, Rhodiola",    prix: 18, img: "/image/nukuViolet2.png", accent: "#9B8EC4", light: "rgba(155,142,196,0.12)" },
+  { id: 11, nom: "NUKU SHINE",    tagline: "Cheveux & beauté — Biotine, Zinc, MSM",        prix: 18, img: "/image/nukuJaune2.png",  accent: "#E8B84B", light: "rgba(232,184,75,0.12)"  },
+  { id: 13, nom: "NUKU SOURCE",   tagline: "Digestion — Matcha, Artichaut, Pissenlit",     prix: 18, img: "/image/nukuVert2.png",   accent: "#5BA85A", light: "rgba(91,168,90,0.12)"   },
 ];
 
 const AVANTAGES = [
@@ -88,7 +89,7 @@ function SubProductCard({ p }: { p: typeof PRODUCTS[0] }) {
       <div style={{ background: "#f5f3f0", height: 180, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
         <img
           src={p.img}
-          alt={p.benefit}
+          alt={p.tagline}
           style={{
             height: "90%", width: "auto", objectFit: "contain",
             filter: "drop-shadow(0 14px 22px rgba(0,0,0,0.15))",
@@ -104,7 +105,7 @@ function SubProductCard({ p }: { p: typeof PRODUCTS[0] }) {
           {p.nom}
         </p>
         <p style={{ fontSize: 11, color: "#aaa", margin: 0, lineHeight: 1.5 }}>
-          {p.benefit}
+          {p.tagline}
         </p>
 
         {/* Étoiles */}
@@ -182,7 +183,7 @@ export default function AbonnementPage() {
   const lang = ['fr', 'en', 'nl'].includes(segments[0]) ? segments[0] : 'fr';
 
   return (
-    <div style={{ background: "white", minHeight: "100vh", paddingTop: 73 }}>
+    <div style={{ background: "white", minHeight: "100vh", paddingTop: -10 }}>
 
       {/* ══ HERO BANNER ══ */}
       <section style={{ background: "#f5f3f0", padding: "56px 48px" }}>
@@ -280,26 +281,9 @@ export default function AbonnementPage() {
           </p>
 
           {/* Grille produits — 5 colonnes desktop, 1 colonne mobile */}
-          <div className="products-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, maxWidth: 1100, margin: "0 auto 40px" }}>
-            {PRODUCTS.slice(0, 3).map(p => <SubProductCard key={p.id} p={p} />)}
-          </div>
-
-          {/* CTA Shop all */}
-          <div style={{ textAlign: "center" }}>
-            <button
-              onClick={() => router.push(`/${locale}/shop`)}
-              style={{
-                padding: "13px 36px", borderRadius: 30,
-                border: "2px solid #111", background: "transparent", color: "#111",
-                fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.8,
-                cursor: "pointer", transition: "all 0.2s",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "#111"; (e.currentTarget as HTMLElement).style.color = "#fff"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "#111"; }}
-            >
-              Shop all
-            </button>
-          </div>
+         <div className="products-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 20, maxWidth: 1100, margin: "0 auto 40px" }}>
+  {PRODUCTS.map(p => <ProductCard key={p.id} p={p} compact={true} />)}
+</div>      
         </div>
       </section>
 
@@ -337,15 +321,17 @@ export default function AbonnementPage() {
   overflow: hidden !important;
 }
     .products-grid {
-      display: grid !important;
-      grid-template-columns: repeat(3, 1fr) !important;
-      gap: 10px !important;
-      max-width: 100% !important;
-      overflow-x: unset !important;
-    }
-    .products-grid > * {
-      flex: unset !important;
-    }
+  display: flex !important;
+  overflow-x: auto !important;
+  scroll-snap-type: x mandatory !important;
+  gap: 12px !important;
+  padding-bottom: 12px !important;
+  scrollbar-width: none !important;
+}
+.products-grid > * {
+  flex: 0 0 30vw !important;
+  scroll-snap-align: start !important;
+}
     .sub-product-card > div:first-child {
       height: 120px !important;
     }
