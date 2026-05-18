@@ -9,7 +9,7 @@ import ProducutCard, { ProductCardItem } from "@/components/ProductCard";
 // ─── Data ───────────────────────────────────────────────────────────────────
 
 const PRODUCTS: ProductCardItem[] = [
-  { id: 11, nom: "NUKU SHINE",    tagline: "Cheveux & beauté — Biotine, Zinc, MSM",        prix: 18, img: "/image/nukujaune2.png",  accent: "#E8B84B", light: "rgba(232,184,75,0.12)"  },
+  { id: 11, nom: "NUKU SHINE",    tagline: "Cheveux & beauté — Biotine, Zinc, MSM",        prix: 18, img: "/image/nukuJaune2.png",  accent: "#E8B84B", light: "rgba(232,184,75,0.12)"  },
   { id: 12, nom: "NUKU SLEEP",    tagline: "Sommeil — Mélatonine, L-théanine",  prix: 18, img: "/image/nukuBleu2.png",   accent: "#7B9FE0", light: "rgba(123,159,224,0.12)" },
   { id: 13, nom: "NUKU SOURCE",   tagline: "Digestion — Matcha, Artichaut, Pissenlit",     prix: 18, img: "/image/nukuVert2.png",   accent: "#5BA85A", light: "rgba(91,168,90,0.12)"   },
   { id: 14, nom: "NUKU STRENGTH", tagline: "Force & endurance — Créatine, B12, D3",        prix: 18, img: "/image/nukuRouge2.png",  accent: "#E05A4E", light: "rgba(224,90,78,0.12)"   },
